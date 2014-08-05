@@ -42,6 +42,7 @@ docs
 
 VCS
 + moved to svn (last CVS tag: last-CVS-before-svn)
++ and then to git
 
 ********************************************************************************
 
