@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# define VERSION on cmdline
+# VERSION=1.xx-win32 makedist
+
+# script for creating a windows distribution file
+# works on MinGW32/msys platform
+#  additionally installed:
+#  freeglut-2.8.1  ./configure --without-x --prefix=/mingw
+#  jpeg-9a  ./configure --prefix=/mingw
+
+# configure and build (only ogie/src)
+cd .. 
+./configure
+
+cd src 
+make
+
+DOCS_WIN="../ChangeLog ../COPYING README_windows.txt"
+PDFDOC="../doc/GPLIGC_Manual.pdf"
+PERL_BIN="install_windows.pl ../perl/GPLIGC.pl ../perl/GPLIGCfunctions.pm ../perl/gpsp2igc.pl ../perl/gpsp2igcfile.pl ../perl/loopviewer.pl"
+IMG="../images/logo*"
+CONF="../src/.ogierc"
+BIN_WIN="../src/*.exe"
+GNUPLOT_BIN="../../gnuplot-4.2.6/bin/wgnuplot.exe"
+GNUPLOT_HELP="../../gnuplot-4.2.6/bin/wgnuplot.hlp"
+GNUPLOT_LIC="../../gnuplot-4.2.6/Copyright"
+
+# for build platform cygwin17/ jpeglib 9
+DLL="/mingw/bin/libglut-0.dll /mingw/bin/libjpeg-9.dll /mingw/bin/libstdc++-6.dll /mingw/bin/libgcc_s_dw2-1.dll"
+
+# these have to be treated with unix2dos (DOCS_WIN also)
+TRANSL_WIN="*.pm *.pl ogie.ini COPYING ChangeLog *.txt"
+
+cd ../win
+mkdir GPLIGC-$VERSION
+
+cp -v $DOCS_WIN  GPLIGC-$VERSION/
+cp -v $PDFDOC    GPLIGC-$VERSION/
+cp -v $PERL_BIN  GPLIGC-$VERSION/
+cp -v $IMG       GPLIGC-$VERSION/
+cp -v $CONF      GPLIGC-$VERSION/ogie.ini
+cp -v $BIN_WIN   GPLIGC-$VERSION/
+cp -v $DLL       GPLIGC-$VERSION/
+
+#gnuplot
+cp -v $GNUPLOT_BIN  GPLIGC-$VERSION/
+cp -v $GNUPLOT_HELP GPLIGC-$VERSION/
+cp -v $GNUPLOT_LIC  GPLIGC-$VERSION/Copyright-gnuplot
+
+cd GPLIGC-$VERSION ; unix2dos $TRANSL_WIN
+
+cd ..
+perl -p -i.old  -e "s#PREFIX/share/gpligc#C:/GPLIGC#g" GPLIGC-$VERSION/ogie.ini
+rm GPLIGC-$VERSION/*.old
+
+zip -r gpligc-$VERSION.zip GPLIGC-$VERSION/
+rm -rf GPLIGC-$VERSION

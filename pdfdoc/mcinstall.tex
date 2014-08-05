@@ -1,0 +1,83 @@
+\subsection{Mac OS X}
+\label{mac}
+This paragraph is mainly written by Matthew Hoover. Also he was the one, who did the testing while gpligc/ogie was ported to Mac OS X.
+Owing to his efforts, binaries for ppc- and intel-based Mac OSX machines can be provided.
+Thanks a lot, Matthew!
+
+Another section was added by Michael Schlotter, who describes how to install ogie/ogie without using fink.
+For that reason Perl/Tk and Gnuplot have to been build from sources. Thanks Michael!
+
+
+\subsubsection{General}
+In order to get gpligc running, you need Perl with the Perl/Tk module. This usually requires to have X11 installed, since Perl/Tk doesn't work with the native Mac OSX GUI (Aqua).
+As you also have to install gnuplot, I recommend the easy way shown in section~\ref{fink} using the fink platform.
+If you're a more experienced developer (not using fink), you may want to compile Perl/Tk and gnuplot by yourself.
+See section~\ref{schlotter}.
+To compile the ogie binaries on your machine, you'll need some developer tools (as gcc, make, etc.).
+So far, I didn't find a way not to use the jpeglib from fink (if you know, please report).
+
+
+\subsubsection{Matthew's howto, using fink}
+\label{fink}
+\begin{enumerate}
+
+\item  Install X11 from the Tools disk included with the OSX package. \\
+(X11 is the unix X-Window system and is needed for the  Perl/Tk-stuff (for gpligc)).
+
+\item  Install fink \cite{fink}. \\
+Fink is a packaging system that allows Mac users to install, compile and use a wide range of free software.
+We need this to install gnuplot and the Perl/Tk-module.
+
+    \begin{enumerate}
+        \item  If the user is unfamiliar with fink then also install fink
+                commander which is a GUI front end for fink.
+        \item  Make sure that the fink or fink commander is able to install
+            "unstable" packages.
+            You have to modify \texttt{/sw/etc/fink.conf} (Add main/unstable to the line containing "Trees:")
+            More can be found in the fink documentation.
+    \end{enumerate}
+
+\item  Install and compile the Perl/Tk module. Therefore you have to check which Perl is installed on your system (\texttt{perl -V}).
+    There are different Perl/Tk-module versions (and I am not sure if the newer ones will work with older perls...)
+    According to your installed perl choose one of tk-pm560, tk-pm580 or tk-pm581. This example will continue with tk-pm581.\\
+
+Install the tk-pm581 package using fink (\texttt{fink install tk-pm581}) or fink
+commander.  There are also tk-pm581-bin and tk-pm581-man.  These will
+be installed and compiled and archived when the first is selected.  If
+gpligc will not run try unpacking these also.
+
+\item  Install gnuplot using fink (\texttt{fink -b install gnuplot}) or fink commander.  I used the last
+stable version with the binary files because it is faster although
+there is a newer unstable version.
+
+\item Now you can proceed with the instructions for Unix (see \ref{unix_install}) installation. Be aware to use a binary package for Mac OS X. 
+The installation paths will be different from those used in Unix/Linux instructions.
+For the installation prefix  you can choose by yourself (maybe /sw or /usr).
+
+\item  To run, open X11 and then Terminal.  GPLIGC must be started from
+within Terminal and X11 must also be running because it will not be
+automagically started.
+
+\item You should add \\
+\texttt{test -r /sw/bin/init.sh \&\& . /sw/bin/init.sh} \\
+to your \texttt{.bashrc} file to start gpligc in a xterm shell
+without a terminal shell opened.
+
+\end{enumerate}
+
+
+\subsubsection{Michael Schlotter's howto}
+\label{schlotter}
+
+\begin{enumerate}
+\item  Install Developer Tools from the Mac OSX Installation CD/DVD
+\item  Download and install Apples X11-Server
+\item  Install X11SDK and BSDSDK. This is done by double-clicking on
+    \texttt{X11SDK.pkg} and \texttt{BSDSDK.pkg} in
+    \textit{/Applications/Installers/Developer Tools/Packages}
+\item Download, build and install gnuplot 4.0.0.
+    Don't worry if \textit{make-check} produces some errors.
+\item Download, build and install Perl/TK. I used \texttt{Tk-804.027.tar.gz}.
+    Don't worry if \textit{make-test} produces some errors.
+\item Download and install the latest gpligc with precompiled binaries for Mac
+\end{enumerate}

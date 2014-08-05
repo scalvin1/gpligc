@@ -1,0 +1,497 @@
+%$Id: explorer_cmdline.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+
+
+\section{Commandline options (OGIE)}
+\label{cmdline}
+
+\emph{OGIE} has a lot of commandline options. For a full list try:\\
+\texttt{ogie --help} \\
+Commandline arguments override configuration file settings, which override
+compiled-in-defaults. For most options there is an option to turn the feature on, and another option to turn it off, so you are able to override all
+possible configuration file settings. But most of the features can be changed at runtime too.
+
+Many of the options can be changed at runtime via keyboard input or menus, but some are \emph{start-time-options}, which can be activated or set at the time the program is started, only.
+These are marked (ST).
+
+Options marked as \emph{default} are active by default (compiled in). This may be overridden by the configuration-file.
+
+Some of the commandline-switches (or commandline-options) require  additional parameters (\texttt{INT, FLOAT, FILE} or \texttt{STRING}), the meaning of these can be read in section \ref{config}.
+
+\subsection{All available commandline options}
+
+\begin{itemize}
+
+\item \texttt{-h, --help} \\
+Print help and all available commandline options (ST)
+
+\item \texttt{-V, --version} \\
+Print version information (ST)
+
+\item \texttt{-v, --verbose} \\
+Be verbose, lots of console output (ST)
+
+\item \texttt{--quiet} \\
+Turn off verbosity no output to console. Overrides --verbose and VERBOSE (ST)
+
+\item \texttt{-q, --query-gl} \\
+Querying openGL implementation. This will give out some information about your specific OpenGL implementation (ST)
+
+\item \texttt{--check} \\
+This returns exitcode 0. Used by GPLIGC to check if OGIE is available (ST)
+
+\item \texttt{--debug} \\
+This overrides --verbose and --quiet. Lots of ugly debugging output (ST).
+
+\item \texttt{--compiler} \\
+This will give out some information about compiler and building environment (ST)
+
+\item \texttt{-i FILE, --igc-file=FILE} \\
+This option specifies the igc-file to be opened (ST)
+
+\item \texttt{--gpsd} \\
+Try to connect to local gpsd, retrieve position data, and start in live-mode (ST).
+Ogie has to be compiled with gpsd support (See section \ref{unix_install}).
+
+\item \texttt{--gpsd-server=STRING} \\
+network address of gpsd server
+      
+\item \texttt{--gpsd-port=INT} \\
+port number of gpsd server
+
+
+\item \texttt{-g, --gpsalt} \\
+The altitude from GPS will be used instead of barometric (ST)
+
+\item \texttt{-b, --baroalt} \\
+Barometric altitude will be used (default, ST)
+
+\item \texttt{--use-all-fixes} \\
+Use all position fixes. Even those which are flagged invalid. (ST)
+
+\item \texttt{--lat=FLOAT} \\
+Latitude of centre. Used for terrain viewing without igc-file (ST)
+
+\item \texttt{--lon=FLOAT} \\
+Longitude of centre. Used for terrain viewing without igc-file (ST)
+
+\item \texttt{--get-elevation} \\
+To be used with --lat and --lon. Will return the elevation of the given coordinates,
+if a DEM is configured. To be used with SRTM-3 data. (elevation=0 is the void-flag, at least in the usgs seamless server downloads).
+INVALIDn is returned, if n neighbouring grid-points are invalid. n=9 is returned, if the requested
+position is not covered by the configured DEM.
+The second value which is returned is the max difference in elevation of the four neighbouring grid-points, the maximum of the remaining
+neighbours for INVALID1-3, 0 for INVALID4 and 9999 for INVALID9. (ST)
+
+
+\item \texttt{-c FILE, --config-file=FILE} \\
+Used to open a non-standard config file (ST)
+
+\item \texttt{-o, --ortho} \\
+Forces startup in 2D orthographic viewing mode
+
+\item \texttt{--perspective} \\
+Forces startup in  3D viewing mode
+
+\item \texttt{--aov=INT} \\
+This sets the angle of view (1-179)
+
+\item \texttt{-l, --landscape} \\
+Use digital elevation data to display terrain
+
+\item \texttt{-f, --flat} \\
+Don't use terrain from DEM. Use flat surface instead
+
+\item \texttt{-m, --map} \\
+Activates displaying of digitised maps. If configured in configuration file.
+
+\item \texttt{--no-map} \\
+Don't use digitised maps
+
+\item \texttt{--map-set-name=STRING} \\
+Name of map set to use as default
+
+\item \texttt{--modulate} \\
+Maps are coloured by DEM altitude colour, if this option is active
+
+\item \texttt{--no-modulate} \\
+Use original colour of maps
+
+\item \texttt{--maps-unlighted} \\
+If maps used with DEM and \texttt{--no-modulate}, this turns off lighting of the maps (ST)
+
+\item \texttt{--maps-lighted} \\
+Maps are lighted, if used with DEM and no modulation. (Default behaviour) (ST)
+
+\item \texttt{--no-lighting} \\
+Don't use lighting. Use for orthomode with upscaling recommended (ST)
+
+\item \texttt{--terrain-shading} \\
+Terrain shading. This implies the \texttt{--no-lighting} option (ST)
+
+\item \texttt{--shading-scale=FLOAT} \\
+Strength of terrain shading. The smaller the value, the stronger the effect.
+If not given, the max elevation difference divided by seven is used (ST)
+
+\item \texttt{--light-direction=INT} \\
+The direction of the light for terrain shading. 1 corresponds to north, 2 nort-east, 3 east, 4 south-east, 5 south,
+6 south-west, 7 west, 8 north-west (ST)
+
+\item \texttt{-a, --airspace} \\
+Turn on airspace visualisation
+
+\item \texttt{--no-airspace} \\
+Turn off airspace visualisation
+
+\item \texttt{--airspace-wire} \\
+Turn on airspaces in wireframe mode
+
+\item \texttt{--airspace-wire-col-[r|g|b]} \\
+Defines colours for airspace wireframe lines
+
+\item \texttt{--airspace-wire-width}\\
+Sets the linewidth used to draw airspace wireframes.
+
+\item \texttt{--airspace-transparent} \\
+Turn on transparent airspace.
+
+\item \texttt{--airspace-limit=INT} \\
+Airspaces, which lower boundary is higher that this limit (in FL), will not be shown. (ST)
+
+\item \texttt{--airspace-file=FILE} \\
+Use airspaces from file (OpenAir\texttrademark -format) (ST)
+
+\item \texttt{-w, --wire} \\
+Draw terrain surface as wireframe-model
+
+\item \texttt{--filled} \\
+Use filled polygons for terrain (default)
+
+\item \texttt{--grayscale} \\
+Use gray scaled image
+
+\item \texttt{--color} \\
+Use coloured image (default)
+
+\item \texttt{--stereo} \\
+Use double image stereoscopic mode
+
+\item \texttt{--no-stereo} \\
+Do not use stereoscopic modes (default)
+
+\item \texttt{--stereo-rg} \\
+Use anaglyphic stereoscopic mode (red/green)
+
+\item \texttt{--no-stereo-rg} \\
+Do not use anaglyphic stereoscopic mode red/green (default)
+
+\item \texttt{--stereo-rb} \\
+Use anaglyphic stereoscopic red/blue mode
+
+\item \texttt{--no-stereo-rb} \\
+Do not use anaglyphic stereoscopic red/blue (default)
+
+\item \texttt{--stereo-hw} \\
+Use stereoscopic hardware if available (ST)
+
+\item \texttt{--no-stereo-hw} \\
+Do not use stereoscopic hardware (default)
+
+\item \texttt{--inverse-stereo} \\
+Swap right/left image for stereoscopic modes
+
+\item \texttt{--no-inverse-stereo} \\
+Don't swap images right/left (default)
+
+\item \texttt{--eye-dist=FLOAT} \\
+Set eye distance for stereoscopic viewing modes (default=0.2km)
+
+\item \texttt{--flat-shading} \\
+Do not use gouraud shading (every triangle of the surface will get the same colour)
+
+\item \texttt{--gouraud-shading} \\
+Use gouraud-shading (default)
+
+\item \texttt{--quads}\\
+Use quadrilaterals to build terrain surface (ST)
+
+\item \texttt{--curtain} \\
+Draw curtain (default)
+
+\item \texttt{--no-curtain} \\
+Do not draw curtain
+
+\item \texttt{--haze} \\
+Enable atmospheric haze
+
+\item \texttt{--no-haze} \\
+Do not use atmospheric  haze (default)
+
+\item \texttt{--haze-density=FLOAT} \\
+haze density (0.0 clear - 0.5 dense fog)
+
+\item \texttt{--colormap=INT} \\
+Use colourmap \texttt{INT} for terrain surface (see \ref{color})
+
+\item \texttt{--colormap-sea=INT} \\
+Use colourmap \texttt{INT} for seafloor (see \ref{color})
+
+\item \texttt{--colormap-min=INT} \\
+Minimum altitude for colour scale (ST)
+
+\item \texttt{--colormap-max=INT} \\
+Maximum altitude for colour scale (ST)
+
+\item \texttt{--sealevel=INT} \\
+Elevation of sealevel. Beneath this elevation seafloor colourmap is used, above terrain colourmap (ST)
+
+\item \texttt{--sealevel2=INT} \\
+Elevation of sealevel2. The blue ocean will be drawn at elevation of sealevel2 (ST)
+
+\item \texttt{--sealevel3=INT} \\
+Elevation of sealevel3. A transparent blue surface will be drawn at elevation of sealevel3 (ST)
+
+\item \texttt{--ignore-elev-[min,max]=INT} \\
+Defines limits or a range, which are not used for determining the extrem values of the topography (ST)
+
+\item \texttt{-s FLOAT, --scalez=FLOAT} \\
+Z-axis scaling. A factor of 1.0 represents the \emph{real} relations. A default value of 3.0 is used to emphasise altitude
+
+\item \texttt{-d INT, --downscaling=INT} \\
+DEM raster downscaling can be used to reduce resolution of surface (to show larger areas) (ST)
+
+\item \texttt{--upscaling INT}
+The resolution of the DEM raster is enhanced by interpolation. Use with care,  higher factors increase the number of
+triangles used dramatically. Good for small area terrain display (ST)
+
+\item \texttt{--fullscreen} \\
+Start up in fullscreen mode
+
+\item \texttt{--window} \\
+Start windowed (not fullscreen, default)
+
+\item \texttt{--width=INT} \\
+Set initial width of window (pixels)
+
+\item \texttt{--height=INT } \\
+Set initial height of window (pixels)
+
+\item \texttt{--border=FLOAT } \\
+Adds a \texttt{FLOAT} km border at top, bottom, right and left margin (ST)
+
+\item \texttt{--border-lat=FLOAT} \\
+Adds a \texttt{FLOAT} km border at top and bottom margin (ST)
+
+\item \texttt{--border-lon=FLOAT} \\
+Adds a \texttt{FLOAT} km border at right and left margin (ST)
+
+\item \texttt{--offset=INT} \\
+Shifts the flight \texttt{INT} meters up (relative to the dem surface)
+
+\item \texttt{-e INT, --airfield-elevation=INT} \\
+Sets the elevation of the take-off location (in m). The relative shift of the flight will be calculated automatically
+
+\item \texttt{--marker-pos=INT } \\
+Set the position of the marker to datapoint number \texttt{INT}
+
+\item \texttt{--marker-time=string } \\
+Set the position of the marker to datapoint nearest to HH:MM:SS
+
+\item \texttt{--marker } \\
+Activated the marker at start-time
+
+\item \texttt{--marker-size=FLOAT}\\
+Size of the Marker (0.01-10)
+
+\item \texttt{--no-marker} \\
+Disables marker at start-time (default)
+
+\item \texttt{--info} \\
+Activates info text display at start-time
+
+\item \texttt{--no-info} \\
+Turns the info text display off (default)
+
+\item \texttt{--text="STRING"} \\
+With this option a text string can be specified, which will be displayed
+in the first line of the info text (ST)
+
+\item \texttt{--no-position-info}\\
+This option removes the information about the viewpoint position.
+
+\item \texttt{--no-marker-pos-info}\\
+To turn off the information about the marker position use this option.
+
+\item \texttt{--text-size=FLOAT}\\
+Size of text for points/lifts (0.001-1.0)
+
+\item \texttt{--text-width=FLOAT}\\Width of text (1-20)
+
+\item \texttt{--lifts=STRING}\\GPLIGC liftsfile (ST)
+
+\item \texttt{--lifts-info-mode=INT}\\which info to display (1= int. vertical speed, 2=verical speed, 3=altitude, 4=time, 5=time, 6=date, 7=file)
+
+
+\item \texttt{--waypoints-file=STRING}\\
+  set the waypointsfile (see~\ref{wp}). Overrides any names given in the config file
+\item \texttt{--waypoints}\\
+	show waypoints  (default=off)
+\item \texttt{--no-waypoints}\\
+        dont show waypoints  (default=off)
+\item \texttt{--waypoints-info-mode=INT}\\
+	sets info to display (1-4: 1=description, 2=name, 3=altitude [m], 4=symbol).
+
+\item \texttt{--waypoints-offset=INT}\\
+        draw the text for the waypoints INT m higher that their actual elevation. Useful mountenous terrain. Default=300. If you want the waypoint spheres drawn higher too, you may set WAYPOINTS\_OFFSET\_TEXT\_ONLY to false (see~\ref{config}) or use \texttt{--waypoints-offset-spheres}.
+
+\item \texttt{--waypoints-offset-spheres=INT}\\
+        draw the text and spheres for the waypoints INT m higher that their actual elevation. Useful mountenous terrain. 
+
+\item \texttt{--flighttrack-mode=INT}\\
+Sets the mode of track display. The interger value can be one of 0,1,2 or 3. 0: Classic mode, two colours (climbing, descending), colours can
+be changed with \texttt{FLIGHTSTRIPCOL[UP|DOWN]\_[R|G|B]}. 1: Colour gradient (see \texttt{--flighttrack-colormap}) is used to display altitude
+(this is the default).
+2: Colour gradient is used to show speed. 3: Colour ramp is used to show vertical speed.
+
+\item \texttt{--flighttrack-colormap=INT}\\
+Sets the colourmap used to display the flighttrack. Integers from 1 to 7 can be used (see \ref{color}).
+
+\item \texttt{--flighttrack-linewidth=FLOAT}\\
+Sets the linewidth of the flighttrack. Floating point values in the range of 1.0 -- 5.0 can be used.
+
+\item \texttt{--follow} \\
+The viewpoint will be coupled with marker (default)
+
+\item \texttt{--no-follow} \\
+Makes viewpoint independent of marker position
+
+\item \texttt{--marker-range} \\
+A range (in time; future-past) around marker is plotted only
+
+\item \texttt{--no-marker-range} \\
+Full flight data is displayed (default)
+
+\item \texttt{--marker-ahead=INT} \\
+Defines marker range (datapoints in future of marker position) (ST)
+
+\item \texttt{--marker-back=INT} \\
+Defines marker range (datapoints in the past of marker position) (ST)
+
+\item \texttt{--movie} \\
+This will start up ogie in movie mode.
+
+\item \texttt{--cycles=INT} \\
+If given, ogie will perform INT cycles in movie mode before exiting (ST)
+
+\item \texttt{--spinning=float} \\
+Whether ogie should do spinning in movie mode. float is an angular value (in degrees),
+its sign determines the direction of spinning (ST)
+
+
+\item \texttt{--smooth-mouse} \\
+Mouse movement will be damped (ST)
+
+\item \texttt{--parent-pid=INT} \\
+PID of parent process. To this PID the signal SIGUSR1 will be send on exit
+
+\item \texttt{--compression} \\
+Use texture map compression
+
+\item \texttt{--no-compression} \\
+Do not use texture map compression (default)
+
+\item \texttt{--offscreen} \\
+Render a single image and output to jpeg. Offscreen rendering with GLX
+
+\item \texttt{--osmesa} \\
+Render a single image and output to jpeg. Offscreen with Mesa
+
+\item \texttt{--os-outfile=FILE} \\
+Sets filename for offscreen rendered jpeg-image (ST)
+
+\item \texttt{--jpeg-quality=INT} \\
+Sets jpeg Quality (compression level, 0-100) of jpeg output (ST)
+
+\item \texttt{--image-format=STRING} \\
+Sets output format for screenshots. Available jpg, rgb (ST)
+
+\item \texttt{--save-path=STRING}\\
+Via this option location for saving screenshots can be given. (ST)
+
+\item \texttt{--basename=STRING}\\
+The basename of screenshots can be defined. A number and file extension will be added automatically (ST)
+
+\item \texttt{--clipping-far=FLOAT}\\ (ST)
+\item \texttt{--clipping-near=FLOAT}\\
+Distance of the clipping planes in km. Default is 0.2 or 1.0 (near) and 600 or 1000 (far). Change this if you need.
+This influences depth-buffer accuracy! (ST)
+
+\item \texttt{--init-lat=FLOAT} \\
+Sets latitude of initial viewpoint position (ST)
+
+\item \texttt{--init-lon=FLOAT} \\
+Sets longitude of initial viewpoint position (ST)
+
+\item \texttt{--init-alt=INT } \\
+Sets altitude of initial viewpoint position (ST)
+
+\item \texttt{--init-heading=INT } \\
+Sets initial viewing direction (heading in degree) (ST)
+
+\item \texttt{--init-dive=INT } \\
+Sets initial viewing dive angle (degrees downwards from horizontal) (ST)
+
+\item \texttt{--init-pos-N} \\
+Sets initial position above north border of scene (ST)
+
+\item \texttt{--init-pos-E} \\
+Sets initial position above east border of scene (ST)
+
+\item \texttt{--init-pos-S} \\
+Sets initial position above south border of scene (default) (ST)
+
+\item \texttt{--init-pos-W} \\
+Sets initial position above west border of scene (ST)
+
+\item \texttt{--init-pos-NE} \\
+Sets initial position above north-east corner of scene (ST)
+
+\item \texttt{--init-pos-SE} \\
+Sets initial position above south-east corner of scene (ST)
+
+\item \texttt{--init-pos-SW} \\
+Sets initial position above south-west corner of scene (ST)
+
+\item \texttt{--init-pos-NW} \\
+Sets initial position above north-west corner of scene (ST)
+
+\item \texttt{--init-pos-center} \\
+Sets initial position in the centre of the scene (ST)
+
+\item \texttt{--init-ortho-lat=FLOAT} \\
+Sets initial latitude of orthographic viewing mode centre (ST)
+
+\item \texttt{--init-ortho-lon=FLOAT} \\
+Sets initial longitude of orthographic viewing mode centre (ST)
+
+\item \texttt{--init-ortho-width=FLOAT} \\
+Sets initial width of orthographic-viewing [km] (ST)
+
+\item \texttt{--projection-cyl-platt} \\
+Sets "platt projection" (ST)
+
+\item \texttt{--projection-cyl-no1} \\
+Sets cylindric projection 1 (ST)
+
+\item \texttt{--projection-pseudo-cyl-no1} \\
+Sets pseudocylindric projection 1 (ST, default)
+
+\item \texttt{--projection-cyl-mercator} \\
+Sets Mercator projection (ST)
+
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

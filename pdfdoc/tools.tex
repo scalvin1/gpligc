@@ -1,0 +1,77 @@
+%$Id: tools.tex 3 2014-07-31 09:59:20Z kruegerh $
+
+
+
+\section{Tools}
+
+This is a small collection of Perl scripts, which can be useful for GPLIGC and OGIE users.
+
+
+
+%\subsection{maploader.pl}
+%
+%Antonio Despite from Italy has written some small program to download digital raster maps from go.vicinity.com (there are other servers,
+%which provide the same maps) and convert them to be used with openGLIGCexplorer. It also has given out the configuration to be
+%used in .openGLIGCexplorerrc. I recoded this in Perl and added functionality to get maps for a given area.
+%
+%\texttt{./maploader.pl latmin latmax lonmin lonmax scale size map\_set\_name}
+%
+%latmin and latmax define the range in latitude. lonmin and lonmax the longitude range. The resolution can be chosen using the map scale.
+%For streetlevel city navigation a scale of 5000 to 10000 should be used. 50000 - 100000 is useful for local flights, huge cross country flights
+%will need 25000 to 500000. (If your graphics adapter has gigabytes of memory, you can even use thousands of 1:5000 maps for inter-continental flight,
+% but most remote areas (everything aside from Europe and North America) are covered by low resolution maps. This means you will get out all
+% information in big scale maps (1:100000, 1:250000, 1:500000) already).
+%The size will be the pixel size of your maps, which should be a power of 2 (512, 1024, 2048 are useful values). But this has to be smaller as
+%GL\_MAX\_TEXTURE\_SIZE as reported by \texttt{openGLIGCexplorer -q}.
+%The map\_set\_name is used as identifier for openGLIGCexplorer.
+%The output of the script will explain how to place the map files and how to modify your configuration file.
+
+\subsection{loopviewer.pl}
+The \texttt{loopviewer.pl} is a small script which can be used as a template to create an automatic show of a list of igc files.
+It is intended to be used at gliding competitions to have a nice presentation of all flights. All pilots can enjoy every flight of the day, while having a nice cold beer in the briefing hangar (video-beamer!).
+Therefore a list has to be created containing one line for every flight. Each line should contain the quoted path to the igc-file and a quoted information string: \\
+\texttt{"c:$\backslash$path$\backslash$to$\backslash$file.igc"   "1. - Name - ASW20 - II - 610.34km - 102.3km/h - 1000pts"} \\
+\texttt{"c:$\backslash$path$\backslash$to$\backslash$file2.igc"  "2. - Name - Ventus2 - I2 - 610.34km - 101.7km/h - 980pts"} \\
+\texttt{...} \\
+The configuration file should be set up to have some nice maps from the contest area, airspaces and whatever is needed. A good initial viewpoint position should be determined in some interactive run, subsequently the corresponding options can be changed in the \texttt{loopviewer.pl} script, which can be started with this simple call: \\
+\texttt{loopviewer.pl  list} \\
+where \texttt{list} is the file containing the above mentioned list.
+
+
+
+
+\subsection{Garmin related tools}
+
+Since I bought a Garmin Geko301, a few tools have been developed to use the Garmin's track logs etc.
+
+I recommend to use \emph{gpspoint}  by Thomas Schank to do the data transfers to and from your Garmin device.
+To handle the output from \emph{gpspoint} the following tools can be used.
+
+\subsubsection{gpsp2igc.pl and gpsp2igcfile.pl}
+\label{gpsp2igc}
+This tool was developed by my brother Max, and can convert the track log output from \emph{gpspoint} (\texttt{gpspoint -dt >tracklog.gpsp})
+to something like an igc-file to be opened by GPLIGC \& OGIE.
+
+I use gpspoint 2.030521:
+
+\texttt{gpspoint -p /dev/ttyS0 -dt | gpsp2igc.pl >out.igc}
+
+gpsp2igcfile.pl creates IGC-file(s) with a filename corresponding to the date(s) of the recording.
+
+%\subsubsection{wpz2gpsp.pl}
+%This is some experimental script to convert zander waypoint-list to a format which can be uploaded to a Garmin device by \emph{gpspoint}.
+%\texttt{wpz2gpsp.pl <in.wpz >out.gpsp}
+
+
+
+
+
+
+
+
+
+%;;; Local IspellDict: "british"
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

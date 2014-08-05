@@ -1,0 +1,88 @@
+%$Id: GPLIGC_Manual.tex 13 2014-08-05 13:07:39Z kruegerh $
+%;;; Local IspellDict: "british"
+\documentclass[a4paper,10pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage[numbers,comma,sort&compress]{natbib}
+%\usepackage{url}
+\usepackage[pdftex, colorlinks, bookmarksnumbered=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+%\usepackage{thumbpdf}
+
+% a new version of gmeometric seems to be incompatible with something else...
+%\usepackage[textwidth=16.0cm,textheight=21.5cm,centering]{gmeometric}
+\usepackage[textwidth=16.0cm,textheight=22cm,centering]{geometry}
+
+\hypersetup{pdftitle={GPLIGC OGIE Manual}, pdfauthor={Hannes Kruger}, pdfsubject={GPLIGC OGIE Manual}, pdfkeywords={manual GPLIGC OGIE openGL linux unix igc flight data recorder gliding soaring visualisation analysation} }
+% HOWTO URL-Link :   \href{http:// .. .. }{name}
+
+\title{
+{\huge \textbf{Manual}}\\
+\emph{GPLIGC} \& \emph{OGIE}\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VERSION !!!
+{\small Version 1.10pre}\\ %, rev.~\input{svnversion-number} }\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% VERSION !!!
+~\\
+}
+\author{\textsc{Hannes Kr\"uger}}
+
+\pagestyle{headings}
+\hyphenation{open-GL-IGC-explorer GPL-IGC}
+
+\usepackage[usenames,dvipsnames]{color}
+\newcommand{\red}[1]{\textbf{\textcolor{Red}{#1}}}
+
+
+\begin{document}
+
+\maketitle
+\begin{center}
+\includegraphics[width=12cm]{jpg/logo}
+\end{center}
+
+\newpage
+
+% Christian
+\thispagestyle{empty}
+\begin{center}
+\includegraphics[width=12cm]{png/CC}
+\end{center}
+47.0789$^\circ$N 11.3060$^\circ$E
+
+\newpage
+\tableofcontents
+\sloppy
+
+\input{introduction.tex}
+\input{requirements.tex}
+\input{install.tex} 
+
+%moved to ogie-chapter
+%       \input{dem.tex}   
+%       \input{maps.tex}  
+%       \input{airspace.tex} 
+%	\input{waypoints.tex}  %label wp  
+
+\input{gpligc.tex}      
+\input{explorer.tex}  %%%<=========continuou 19 proofreading here
+\input{tutor.tex}
+\input{tools.tex}
+
+
+\begin{appendix}
+
+\input{gpligc_config.tex}
+\input{explorer_keys.tex}
+\input{explorer_cmdline.tex}
+\input{explorer_config.tex}
+\input{bugs.tex}
+%\input{logos.tex}
+\input{gpl.tex}
+
+
+\end{appendix}
+
+
+\bibliographystyle{unsrt}
+\bibliography{gpligc_refs}
+\addcontentsline{toc}{section}{References}
+\end{document}

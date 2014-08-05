@@ -1,0 +1,66 @@
+%$Id: introduction.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+%spellchecked 1.16-1.17
+
+\section{Introduction}
+\emph{GPLIGC} is a software package for glider pilots, hang- and paraglider pilots, and for all others,
+who want to analyse and visualise GPS track logs.
+\emph{GPLIGC} reads track logs from files in igc-format as specified by the International Gliding Commission \cite{igc}.
+Extracting the data from the GPS devices and conversion to the igc format has to be done with third-party software.
+(GPS tracks can be downloaded from some Garmin devices using \emph{gpspoint}~\cite{gpspoint},
+Nokia/Symbian mobile phones can be used as loggers utilising \emph{gsil}~\cite{gsil}
+and another option is to use \emph{gpsbabel} \cite{gpsbabel}).
+
+The package contains two main programs: (1) \emph{gpligc}, analysation and (2) \emph{ogie},
+3D visualisation (can also be used as a digital elevation data viewer).
+
+The software can be used under the terms of the GNU General Public License (see appendix \ref{gpl}),
+which means that it's free and the source code is available.
+For details read the license, which is included in appendix~\ref{gpl}.
+
+The webpage of \emph{gpligc} can be found at \cite{gpligc}.
+
+\subsection{GPLIGC}
+\emph{GPLIGC} is a flight data analysing software. Its name is assembled from \textbf{GPL} (the GNU General Public License, \cite{fsf}), \textbf{G}nuplot (free plotting software, \cite{gnuplot}), \textbf{P}erl (the famous scripting and programming language, \cite{perl}), \textbf{L}ogger (flight data recorder) and \textbf{IGC} (the International Gliding Commission and name of the flight data file format, \cite{igc}).
+\emph{GPLIGC} is written in Perl \cite{perl}, using the Perl/Tk module \cite{perltk} for the graphical user interface.
+Track and altitude plots can be visualised in a simple way and some basic statistical information can be calculated.
+The recorded data can be analysed in detail.
+Optimisation for the onlinecontest can be performed. Turn-point observation zones can be displayed.
+\emph{Gnuplot} \cite{gnuplot} is used to generate some plots (barogram, GPS-altitude, vertical speed, speed, noise level, etc.) of the data either to the screen or some graphical file format (including png, fig, ps, eps).
+\emph{GPLIGC} is able to locate coordinates of photos, which have been taken with a digital camera, while logging GPS data.
+To use this geo-tagging feature a correct timestamp in the JPEGs EXIF header is needed or it should be retained as the files timestamp.
+
+The development of \emph{gpligc} started in January 2000.
+
+
+\subsection{OGIE}
+\emph{OGIE} is a  program written in C++ using OpenGL and GLUT (or freeglut \cite{freeglut}) libraries.
+The flight data can be visualised in 3D (even in \emph{real 3D}, using stereoscopic methods).
+The viewpoint can be controlled in several  ways (egocentric, swivel/rotate or coupled with the flight).
+Digital elevation models can be used to display the terrain, digitised maps can be used, and airspaces from OpenAir\texttrademark-files can also be displayed.
+Colour scaling can be applied to the terrain data, the digitised maps and to the flight-track itself.
+\emph{OGIE} can also be used as a digital elevation model viewer.
+\emph{OGIE} is able to render offscreen. Images can be generated hardware accelerated, or hardware independent (with Mesa \cite{mesa}). This can be used to generate images for contests etc. (server use).
+\emph{OGIE}s name was assembled from \emph{\textbf{o}pen\textbf{G}L\textbf{I}GC\textbf{e}xplorer}: \textbf{openGL} (the open Graphics Library), \textbf{IGC} \cite{igc}, \textbf{explorer}.
+
+
+The development of \emph{ogie} started in 2002. Until 2010 the long name \emph{openGLIGCexplorer} was used.
+
+
+\paragraph{How they work together}
+Basically \emph{gpligc} and \emph{ogie} are independent pieces of software.
+\emph{OGIE} was designed to be an independent 3D visualisation-only tool, because Perl is too slow for that task.
+However, if you start \emph{ogie} from within \emph{gpligc} some data (altitude calibration data, marked lifts, etc.) will be put forward to \emph{ogie}.
+%But if you start the \emph{openGLIGCexplorer} by the button in \emph{GPLIGC}, there will be some communication between them...
+
+\subsection{Contact, Bug reports, feature requests}
+Bug reports and feature requests should be submitted via the \emph{gpligc} support page at Sourceforge \cite{gpligc}.
+I recommend to sign up for the \emph{gpligc-announce} mailing list \cite{gpligc}, which I use to inform users of updates or serious bugs, etc. (very low traffic)
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

@@ -1,0 +1,874 @@
+CHANGELOG of the GPLIGC and openGLIGCexplorer project
+$Id: ChangeLog 2 2014-07-31 09:55:02Z kruegerh $
+$Name:  $
+
+********************************************************************************
+
+ Version 1.10  x/201y
+
++ license changed to GPLv3
++ package migrated to autotools (./configure && make && make install)
++ gpsd / osmesa are optional (--without-gpsd, --disable-osmesa)
++ Windows build platform changed to MinGW32/MSYS
+    using freeglut 2.8.1, jpeg-9a
+    new makedist (packaging skript for windows-dist)
+
+- "official" MacOSX support dropped
+    MacOSX: have a look at the instructions in the 1.9 manual, you can try to
+      apply them to newer versions. I just dont have time (and Mac-ware) to do
+      testing.
+
+GPLIGC
++ gui integrated into one main window
++ map features improved
++ window_width, window_height added to config
++ resize (key-y) repaired
++ startup / introtext (info, if no file opened)
++ check_config repaired
++ gnuplot terminal modes updated / checked
++ adapted to perl 5.16 (deprecated defined (@array) warnings removed)
++ memory leak in accuracy plotting removed
++ display of "start" and "finish" in barogram fixed
+
+ogie
++ code adapted to freeglut 2.8.1
++ gps live-mode repaired, switched to libgpsmm and GPSD_API_MAJOR_VERSION 5
+    this requires gpsd >= 2.96
++ --gpsd--server and --gpsd-port  (connect to local or remote gpsd's)
+
+docs
++ new installation procedure
++ manual updated ... not yet finished
+
+VCS
++ moved to svn (last CVS tag: last-CVS-before-svn)
+
+********************************************************************************
+
+ ===> branch-1.9  (tag gpligc-1)
+ Version 1.9.1   x/201y
+
+GPLIGC:
++ bugfix: fvw map-on "M" after zooming in map display fail
++ mapdownload URLs changed (probs with gm terrain and sat)
++ #-key re-downloads maps
+
++ known Bugs: freeglut 2.8. menus dont work
+
+********************************************************************************
+
+ Version 1.9   3/2011
+
++ configfile renamed (.ogierc and .gpligcrc) unix-platforms
+  on win it is gpligc.ini and ogie.ini
+
+GPLIGC:
++ openstreetmaps can be used now! (needs internet connection and Imager module)
++ geo-tagging feature added (using ExifTool)
++ scrolling in FVW disabled
++ B-record extensions SIU (sats in use), FXA, VXA (hor./Vert. Accuracy) and RPM 
+    used plots added. Info in FVW. 
++ gpsbabel can be used to download tracks (config{'gpsbabel_tdownload'})
++ fvw has some layout options
+
+ogie:
++ win32 build platform changed to Cygwin 1.7 (win95/98/Me support discontinued)
++ menu-bugs fixed (flying renamed to movie, help and about)
++ doubled lines in info-text fixed
++ lat/lon in info text
++ unwanted movements (leaving menus etc) filtered
++ automatic landscape reload in gpsd mode
++ switched to new gpsd protocol (gpsd 2.95)
++ waypoints can be displayed from waypoints-file
++ edges of maps improved
+
+********************************************************************************
+
+ Version 1.8   2/2010
+
++ install_windows.pl script recognises WinVista now
+	GPLIGC/ogie successfully tested on WinVista Home
++ install.sh checks for gmake and uses make as fallback (thanks florian)
+
+ogie:
++ --gpsd   (ogie needs to be build with gpsd support)
+    install.sh asks for compilation with gpsd support
++ --ortho: track is always plotted on top of the terrain
++ new options for 2D orthographic mode (can be used in 3d as well):
+	--terrain-shading
+	--shading-scale float  (1-1000)
+	--light-direction int (1-8)
++ Map Set Menu Bug fixed (crash without map sets)
++ installation script for mac improved (echo -n problem, path for macports
+	in Makefile)
++ -tdf target in Makefile (fixing an issue on OSX 10.4)
++ include issue for MACOSX fixed (points.cpp)
++ makefile for osmesa repaired (tested with static Mesa 7.4.1)
+	
+optimizer
++ simulated annealing algorithm implemented (just for fun)
++ subsampling
+
+GPLIGC
++ gnuplot_terminal_app bug corrected
++ bug in plots (gnuplot 4.x) because of non-posix redirection fixed 
+	(see 1.7 ERRATA)
+
+********************************************************************************
+
+ Version 1.7	4/2009
+
+ogie:
++ gcc-4.3 compliance also for utilities
++ shadow & curtain / seafloor bug corrected (thanks to David Robertson)
++ Lifts from GPLIGC output (wave positions etc) (--liftsfile)
++ TEXT_COLOR_[R|G|B] float. color for Text at lifts
++ LIFTS_COLOR_[R|G|B] float. color for lifts
++ --lifts-info-mode  (pos1 / end)
++ shift-page-up/down increasing/decreasing textsize for lifts
++ --text-size --text-width --marker-size
+
+GPLIGC:
++ F11 zoom to selected range (by F5/F6) F12 resets F5/F6
++ air-groundspeed diff plots in F5/F6/F7 statistics (config{'wind_analysis'})
++ Total energy compensated vario. Requires Airspeed (e.g. from Zander)
+	or rough guess using groundspeed (config{'te_vario_fallback'})
++ config {'draw_task'} and 'draw_wpcyl' to change default behaviour in fvw
++ Additional info and altitude calibration can be saved in .gpi file
++ Additional flight Info dialog (pilot/date/etc)
++ gpsp2igcfile.igc (fork from gpsp2igc.pl) creates igc-files with filenames
+	according to date yyyy-mm-dd-..
++ garmin read via gpspoint
++ copying of associated multimediafiles from defined dirs at mountpoint
++ Oxygen debriefing in FlightStatistics (according to FAR 91.211)
++ corrupt igc file reversed-time-bug fixed
++ pressure and pO2 in fvw
++ pressure altitude (reference 1013.25) (needs known QNH)
++ photos & audio/video files locator (from mtime of files)
++ Image::ExifTool is being used instead of Image::EXIF
++ $config{'baro_grid_large,small'} for gridlines (1000 500 default)
++ QNH/Reference Pressure calibration
++ Pressure plot
++ F10 to mark lifts -> in basefilename.lif
++ config{'skip_limit_minutes'} use corrected (now its really minutes)
++ config{'skip_del_first_after'}=1 circumvents a bug in my Garmin Geko tracks
+   (the first position fix after a break ('skip', e.g. tunnel or bad reception)
+    is wrong) 
+
+********************************************************************************
+
+ Version 1.6	10/2008
+ 
++ gpsp2kml.pl added (script to convert gpspoint tracklists to kml files) 
++ merger added ... does not really works as expected
++ Manual installation / osmesa 
+ 
+ogie:
++ gcc-4.3 compiler compliance (thanks to farkas levente)
++ bug in airspaces (GND definitions, partly over sea) fixed. 
+    thanks to David Robertson for reporting
++ --airspace-wire-width sets linewidth of wireframe airspaces
++ --airspace-wire-col-[r|g|b] sets colour of wireframe airspaces
++ --ignore-elev-[max|min] options for ignoring an elevation range for 
+    determination of max and min elevation for colourscaling
++ limits at longitude 180 and -180 killed
++ --clipping-[near|far] added
++ new colormap 8 (black-red-yellow-white)
++ bug with long --text strings removed
++ AUTOREDUCE  (this reduces the DEM resolution automatically, not to exceed
+    MAXTRIANGLES - on by default)
++ --no-lighting (use with --ortho and upscaling)
++ --upscaling int   (2 is ok, higher values will result in artefacts from bilinear
+    interpolation. Values larger than two can be used in --ortho with --no-lighting
++ --quads QUADS (Terrain is rendered using quadrilaterals)
++ FLIGHTSTRIPCOL[UP|DOWN]_[R|G|B] 
++ FLIGHTSTRIP_LINEWIDTH 2.0   (float 1-7)
++ FLIGHTSTRIP_MODE 1  (0=classic,1=alt,2=speed,3=vario)
++ FLIGHTSTRIP_COLORMAP 1   (1-7)
++ MARKERCOL_[R|G|B], the colour of the marker is changable
++ --flighttrack-mode, --flighttrack-linewidth, --flighttrack-colormap 
+
+GPLIGC:
++ coordinate format dd.dddddd added
++ kml export added    
++ gpx export added
+
+********************************************************************************
+
+ Version 1.5.1	04/2007
+ 
++ loopviewer template script added (contest igc-file presentation)
+- maploader.pl removed (used mapserver is out of order)
+
+ogie:
++ max osmesa viewport dimensions questioned from mesa
++ long paths bug fixed (thanks to david robertson)
++ existing screenshots wont be overwritten anymore (except with --os-outfile)
++ --check moved up (before any glut call)
++ SAVE_PATH, BASENAME config-file options
++ --save-path option to define a location to save screenshots
++ --basename option to define a basename for screenshots
++ text-background position
++ warning for osmesa (if not compiled in)
++ --text, --no-position-info, --no-marker-pos-info options added
++ INFOFONT_SIZEI, INFOFONT_LINEWIDTH, INFO_STYLE
++ BACKGROUND_COLOR_[1|2]_[R|G|B] 
++ BACKGROUND_STYLE
++ thanks to antonio ospite for the new background and infotext-styles
+
+GPLIGC:
++ online flight claim support removed (contests changed too often)
++ cylinder sizes 200m 400m added
+
+********************************************************************************
+
+ Version 1.5   06/2005
+ 
++ Installation has changed PREFIX/bin PREFIX/share/gpligc
+    PREFIX/share/doc/gpligc
++ A rpm package is available for linux ... 
++ .tar.gz file has changed (examples stripped,  
+    more interactive options (compile))
++ Michael Schlotter's MacOSX installation howto added
+  
+ogie:
++ --marker-time hh:mm:ss
++ AIRSPACE_LIMIT, --airspace-limit
++ --cycles=INT
++ SPINNING float, MOVIE bool, --spinning float, --movie
++ Airspaces with elevation definitions AGL GND above water with WORLD3.DEM
+    resulted in sub-terranean airspaces -> fixed (thanks to D. Robertson)
++ windows version should also accept opengligcexplorer.ini as configfile
++ MAXTRIANGLES option added. To set a limit for server use.
++ MOVIE_REPEAT, MOVIE_REPEAT_FACTOR, MOVIE_REPEAT_FPS_LIMIT
++ If maps are displayed uncoloured (unmodulated) with DEM, they are now lighted
++ MAPS_UNLIGHTED, --maps-unlighted, --maps-lighted to change dafault behaviour
+    of "unmodulated" maps
++ tested on Mac OS X (Matthew)
++ tested on OpenBSD
++ some changes in Makefile, minor issues (gl.. calles before glutCreateWindow
+    by accident). New Targets in Makefile:
+	all-linux-static: linux, glut and jpeg statically linked
+	all-macosx:	  Mac OS 10 (libjpeg statically linked from fink)
+	all-freebsd:	  FreeBSD
+	all-netbsd:	  NetBSD
+	all-openbsd:	  OpenBSD
++ binaries available for ppc-MacOSX, x86-OpenBSD, x86-FreeBSD, x86-NetBSD 
+    and amd64-linux
++ compiling for osmesa-rendering improved (new targets in makefile)    
+
+GPLIGC:
++ histograms plotted "solid" by default
++ added altitude histogram plots
++ added support for Gnuplot 4.x interactive features (see manual)
++ Bug in F5,F6,F7-Statistics (while using ft-altitudes) eliminated
++ tutorial added in Manual
++ config{'skip_check' and 'skip_limit_minutes'} added
++ small 60sec bug in GPLIGCfunctions dec2time fixed
++ support for browser added for darwin (via open)
++ tested on Mac OS X (Matthew)
++ tested on OpenBSD
++ time calibration for photo series (calibrated value is saved)
++ option to display locations where photos have been made. Image viewer (option).
++ start flight view window when opening igc-file (default, can be changed by
+    $config{'open_flight_view_window'}  => "o" or "1"
++ redesigned the configuration. Stored in hash. .GPLIGCrc based on key/values
++ a few more values put in %config-hash, can be changed in .GPLIGCrc
+	USE WITH CAUTION!
+
+********************************************************************************
+ Version 1.4   09/2004
+ 
+openGLIGCexplorer:
++ removed bug "MAP_FILE followed by blank line" (thanks to A.O.)
++ rotations with up,down,left,right keys (and with shift- ..)
++ rotations with mouse button, use marker as center if switched on 
+    (thanks to a. somers for the new rotations)
++ mouse with middle button shifts position towards/away from center/marker pos.
++ shifting viewpoint up/down/right/left now mapped on mouse with middle and left 
+    button
++ should compile on gcc 3.4 now (thanks to Gregoire Favre)
++ Airspace problem (cylindric airspaces with GND alititudes) fixed (thanks to
+						    Klaus Haehlen)
++ Airspace Types (Q,R,P,D,C,CTR) can be switched on/off seperately
+    (using menus or AIRSPACE_x on/off)
++ --sealevel3, SEALEVEL3
++ shift-F9 Airspace wireframe mode, --airspace-wire, --airspace-transparent
++ AIRSPACE_WIRE 
++ follow mode ortho-view
++ middle and left mousebutton, for forward/backward moving
+
+Communication between GPLIGC and openGLIGCexplorer temporarily not
+available. This has to be rewritten and will be back in 1.5
+
+GPLIGC:
++ checking for old configfiles
++ 20km Starting line for first wp
++ Filetype definition changed, should work with Tk804.027 (ActivePerl) now
+    (getOpenFile)
++ Minor issues with Tk 804.027 (linux) fixed
++ Thermal stat and Glid stat list-click problem fixed (probably arised due to
+    Tk804.027 ?)
++ optimization for DMSt and holc implemented
++ olc-file output changed to "webbrowse to olc flight-claim form"
++ simple release time determination 
++ begin and end of powered flight are marked in flightstrip
++ marks for F5 and F6 statistics marker
++ WP Names can be switched on/off
++ WP Sectors/Cylinders can be selected independently
++ Flight outside of start/finish unpowered flight is marked
++ F5,F6,F7 statistic range is coloured in barogram of FVW (also more statistics)
++ rubberband-zooming (right mouse-botton) corrected
++ WP presentation in barogram improved
++ some statistics for each leg added 
+
+********************************************************************************
+
+ Version 1.3   01/2004
+
+openGLIGCexplorer:
++ workaround for data, where all altitudes are equal
++ JOYSTICK_FACTOR_X,Y,Z added
++ Added joystick support (3 axis) (GLUT: win32 only, for X11 freeglut is needed)
+    (GLUT never supported joysticks on X11)
++ fixed GL_STACK_OVERFLOW in GenLandscapeList (green rectangle)
++ FGLUT_CHECK option added to check for freeglut (will give some improvements
+    in the future...)
++ --verbose (VERBOSE), --quiet, --debug handling improved
++ checking for max texture size
++ info screen with picture (select from menu)
++ MARKER_SIZE added (marker size can be changed using page-up/down keys)
++ DEM_INPUT_FACTOR added
++ BIGENDIAN option to select byte order of dem data
++ JPEG_QUALITY , --jpeg-quality
++ IMAGE_FORMAT , --image-format  (can be rgb or jpg now)
++ TIME_ZONE
++ TIME_ZONE_NAME
++ parsing of configfile improved (recognition of bad keys and values)
++ NUMBER_OF_MAPS not needed anymore
++ code-cleanup config-class
++ help Screen
++ added menus for most important options
++ added menu for map-set-selection (right-click)
+    useful if more than one map set is defined in configfile
+- right-click-move zoom disabled (need that button for menu)
++ added "loading..." indicator while building landscape list
+
+GPLIGC:
++ integrated vario in flight view window
++ Some source-code beautifying
++ GPS-Altitude mode for flights, which dont have barometric altitude improved
++ baro, or gps-altitude can be used for gnuplot (buttons rearranged to fit small 
+    screens)
++ statue miles/mph added...
++ Fix for WinME (start /B option isnt available on WinME)
++ added ReadLoggerWindow for windows version (SDI,LX,Zander so far)
+    Logger reading starts "data-xyz" (official FAI DOS-software) for each logger
+
+********************************************************************************
+
+ Version 1.2   08/2003
+
+openGLIGCexplorer:
++ --gpsalt and handling of flights without barometric alt improved
++ documentation converted to a pdf-document
++ Flightstrip can be color-scaled with all available colormaps 
+    shift-F7,shift-F8 (prev, next colormap)
++ Flightstrip modes: classic, altitude, speed, vario
+    shift-F5, shift-F6 (prev, next mode)
++ world3 (can be merged from etopo2 gtopo30) flag for water-coverage
++ creation of DEM subsets with etopo2merger (from WORLD.DEM)
++ rendering time is mesaured in offscreen modes
++ Emergency-fallback to gpsalt (if no barometric available)
++ fallback to invalid pos.-fixes, if no valid ones available
++ Value template class introduced (code cleanup)
++ compiling with mesa (static linking) possible
++ x-server independend offscreen rendering (OSMesa) 
+    for server use
++ no. of triangles calculation improved (with downscaling)
++ --map-set-name 
++ MAP_SET_NAME  (to name map sets in configfile)
++ PROJECTION [1-4] to preselect projection in configfile
++ SEALEVEL, SEALEVEL2  to set these in configfile
++ max has added cool new move-functions (try with mouse buttons pressed)
++ framerate displayed in movie-mode
++ movie-function can be delayed. F1 F2 -/+ 1millisec
++ timer delay can be set in configfile (TIMER_MSEC millisecs)
++ Movie function... (automatic marker moving) "I"
++ map tiles can be shifted by MAP_SHIFT_LAT|LON
++ jpg images can be used as textured maps (thanks to max)
++ jpges recognized as *.jpg or*.JPG
++ jpg textures doesnt need to have 2^n width and height, they will be scaled
+    internally, for performance reasons they should be scaled to 2^nx2^n before
++ Viewpoint will follow Marker (can be switched off with "M", FOLLOW true|false)
+    --follow --no-follow
++ MARKER_RANGE ("U") will show a range of the flight, only. 
+    --marker-range --no-marker-range
+    The range can be set by MARKER_BACK and MARKER_AHEAD
+    --marker-ahead int --marker-back int    
+
+GPLIGC:
++ Bug in optmizer/GPLIGC communication fixed 
++ take-off and landing time detection improved for slow paragliders etc
++ emergency-fallback if no "A" fixes available
++ -initialdir in openFile Dialog (win32) works now
++ small changes for win32 (space in filenames, pwd-memory...)
++ take-off and landing time detection more acurate
++ olc-file improved (t0, fstart, ffinish, sta, gid)
++ optimizer rewritten (more general) (slower, because we use real trigonometric
+    calculations now) altitude difference check
++ DMSt-optimizing (4 legs) check WP mindist 10km
+
+********************************************************************************
+
+ Version 1.1 patchlevel 2   04/2003
+
+GPLIGC:
++ few Bugfixes for windows version
++ installation script for windows version
+
+********************************************************************************
+
+ Version 1.1   04/2003
+ 
+openGLIGCexplorer:
++ checking for GLX>1.3 before using pbuffers (--offscreen)
++ Makefile (LDFLAGS shifted to the end of compilercall)
++ --init-pos-N, W, S, E, NW, SW, SE, NE, center
++ if no --init-heading and --init-dive is given, the view is pointing 
+    to the center
++ marker-lighting bug fixed
++ --smooth-mouse, smaller rotation angles for smoother movement
++ --gpsalt uses the GPS Altitude, --baroalt uses barometric alt.  
+    GPSALT true | false
++ Bug in get_gnd_elevations fixed (short int i1,i2;)
++ adapted the code to gcc 3.2
++ now using RCS (revision control system)
++ Bug in orthomode zooming fixed (in downscaling mode)
++ projection class introduced (4 map-projections)
++ Bug, which occurs when --no-modulate --grayscale (or --stereo_rx) --map were
+    given, fixed
++ Better color conversion for textures in grayscale modus
++ added 3 colormaps (4,5,6) and colormap 3 is a grayscale now.
++ --colormap-sea (colormap used for bathymetry, everything lower than --sealevel)
++ --sealevel, --sealevel2 (everything lower than sealevel2 will be blue)
++ etopo2merger added. A tool to merge GTOPO30 with ETOPO20.
++ createworld has some informational output now
++ --compiler : some information about build
++ Windows is supported yet! (compile with cygwin)
++ environment variable GPLIGCHOME is used under win32 as searchpath for rc-file
++ changed a few key settings to confuse people ;-) 
+
+GPLIGC:
++ prepared to work with Windows (ActivePerl)
++ 3d gnuplots error fixed
++ deep recursion error fixed. (when switching from last to first datapoint,
+    while zoomed)
++ now using RCS (revision control system) 
++ ENL limit 50 added.
++ Windowmanager-exitbutton is caught, for correct deleting of tempfiles etc.
++ FlightViewWindow resizing improved (?! -- doesnt work very good...)
+    changed back to "y"
++ marker-pos and offset is set to 0, when opening file
+
+********************************************************************************
+
+ Version 1.0    01/2003
+ 
+openGLIGCexplorer:
++ new makefile for openGLIGCexplorer, createworld and optimizer
++ configfile is read from home-directory
++ --check option (needed by GPLIGC)
++ color-handling below minimum fixed (Landscape::getcolor), thanks to my brother
++ keyboard settings changed. (Marker moving: F1-F4, like in GPLIGC), Reset = F5,
+    Toggle Info = F6, Toggle Marker = F7
++ dem-elevation-colour and texture-maps usable at once (F8) (MODULATE)
++ --modulate (MODULATE true|false)
++ --quiet
++ --parent-pid (GPLIGC communication)
++ SysV IPC via shared memory between GPLIGC and openGLIGCexplorer 
++ --marker and --marker-pos (MARKER true|false)
++ MAP true|false
++ Added conf.AIRSPACE, --airspace, AIRSPACE true|false, OPEN_AIR_FILE filename
++ Class Airspace, -> support for OpenAir-format Airspace files (DP, DA, DB, DC,
+    AC, AL, AH, AN, V X=, V D=.  entries)
++ F9 Airspaces on/off
++ --perspective, --no-map, --no-modulate, --no-airspace, --filled 
++ --gouraud-shading, --window, --no-marker, --no-curtain, --haze, --no-haze
++ --haze-density, --aov (and angle of view info)
++ Grayscale-mode ("shift-B")
++ Stereoscopic-modes: shift-"S" = full color mode with 2 images
+    shift-"D" = green/red,  shift-"F" = blue/red,
++ shift-"A" swap stereoscopic images (left<->right)
++ shift-"Q" and shift-"W" decrease and increase eye distance (+- 50m)
++ --stereo, --no-stereo, --stereo-rb, --no-stereo-rb, --stereo-rg, --no-stereo-rg
++ Configfile-options: STEREO, STEREO_RB, STEREO_RG, HAZE, HAZE_DENSITY, 
+    ANGLE_OF_VIEW, INFO
++ --inverse-stereo, -no-inverse-stereo, INVERSE_STEREO true|false
++ --eye-dist (float), EYE_DIST (float)
++ --info, --no-info
++ offscreen rendering (using glx-pbuffers) --offscreen, --os-outfile 
++ --init-lat, --init-lon, --init-alt, --init-heading, --init-dive, 
+    --init-ortho-lat, --init-ortho-lon, --init-ortho-width
++ Initial positions changed.
+
+GPLIGC:
++ install.sh improved 
++ code-cleanup 
++ tmp dir process-specific (allows multiple GPLIGC's at the same time)
++ check for optimizer, openGLIGCexplorer and gnuplot, before starting them
++ units added (speed in m/s, vertical speed in km/h)
++ optimizer: check-option (no arguments)
++ communication with openGLIGCexplorer via SysV IPC (Shared Mem)
+
+********************************************************************************
+
+ Version 0.23   11/2002
+
+openGLIGCexplorer:
++ Info text (F2 on/off)
++ units in infotext are changable (configfile)
++ movable marker (F3 on/off, F5-F8 Move)
++ code-cleanup (config::switch / fd)
+
+
+GPLIGC:
++ Glide statistics Bug fixed
++ Bug in FVW Vario/Speed
+
+********************************************************************************
+
+ Version 0.22   11/2002
+ 
+openGLIGCexplorer:
+
+GPLIGC:
++ elevation and time grid in barogram of flightviewwindow
++ start and finish time  and waypoint ticmarks in barogram 
++ 10' grid in FlightViewWindow
++ absolute elevation calibration ("e" in FVW)
++ measuring (F5,F6,F7 in FVW)
++ thermal list and statistics (F8 in FVW)
++ glide list and statistics (F9 in FVW)
++ optimization output -> window
++ barogram (FWV) ->postscript output
++ simple FVW resize (press "y" to replot)
++ fixed info-text-bug 
++ added support for NM, knots, ft, ft/min
++ save options-button in options-menu, reload on start
+
+********************************************************************************
+
+ Version 0.21   09/2002
+ 
+openGLIGCexplorer:
++ textured maps on surface from digital elevation model
++ downscaling factor (use fewer raster data to show bigger areas)
++ F1 resets to initial position
++ fast backwards (a) and fast forward (space) in ortho-mode too
+
+GPLIGC:
+
+********************************************************************************
+
+ Version 0.20   09/2002
+
+openGLIGCexplorer:
+- nothing
+
+GPLIGC:
+= Attention: You can't use this for OLC 2002 (use 0.19 if you need 2002 .olc 
+  files). But olc 2003 will start at october 15th.
++ optimization routines rewritten (completely redesigned) (in c++) "optimizer"
++ optimizes conform to online contest 2003 rules.
++ output of ".olc" file (2003 conform) 
++ checking of height difference (paragraph 3 olc 2003 rules)
++ closes all windows on closing or opening of a file
++ multiple windows of same type aren't allowed anymore
++ windows will be updated if anything changes
+
+********************************************************************************
+
+ Version 0.19   07/2002
+ 
+openGLIGCexplorer:
++ added texture compression through GL_ARB extension. It saves video memory but
+  slows down the texture loading time. Commandline parameters (--compression,
+  ---no-compressio) default is to use compression (if not changed in 
+  configuration-file). You can switch compression on/off "on the fly" with key 
+  "y"
++ --query-gl commandline parameter added. Prints out some usefull information
+  on your openGL system.
++ changing of field of view angle (keys 7,8)
++ --airfield-elevation=INT (in metres) commandline option to calculate "offset"
+  automatically
+
+GPLIGC:
++ Calculation of triangular tasks with 4 legs (start and finish on leg)
++ Speed and Vario Histogram plots  added
++ labels in gnuplots improved
++ File type in Open File Dialog
+
+********************************************************************************
+
+ Version 0.18b  
+ 
+openGLIGCexplorer:
++ fixed the "curtain height bug" again (I forgot to change it in the 
+  "main-source-tree")
+
+********************************************************************************
+
+ Version 0.18    07/2002
+
+openGLIGCexplorer:
++ latitude/longitude distortion in orthographic projection removed
++ height/width distortion in resized windows with perspective projection removed
++ use of digitized maps added (read MANUAL how to use this feature)
+
+GPLIGC:
++ postscript output from FlightViewWindow
++ ./ added to searchpath for all icons
++ doubled waypoints in task will be deleted (DMSt: takeoff, start..)
++ Indicated Airspeed plot (if available in igc-file)
++ Engine Noise Level plot
++ powered flight is plottet green in FVWindow
++ "no-task-defined-bug" removed, also "all-waypoints-deleted" bug
++ rubberband-zooming in FVWindow (right-Button) (return to unzoomed with "z")
+
+********************************************************************************
+
+ Version 0.17   06/2002
+ 
++example flight improved (512 -> 601km :-)
+
+openGLIGCexplorer:
++ curtain bugfix 
+
+GPLIGC:
++ FAI Waypoint sectors
++ Bugfixes for 24:00 -> 00:00 bugs
++ Options menu cascaded
++ first-letter-of-wp-name-missing bug fixed
++ jump to position by clicking in the FlightViewWindow
+
+********************************************************************************
+
+ Version 0.16    06/2002
+ 
+openGLIGCexplorer:
++ weather haze
++ adjustable offset (height) between flight and terrain
++ transparent "curtain"
++ Orthographic 2D projection
+
+GPLIGC:
++ better waypoint setting (insert, replace wp's)
++ output of "online contest" (olc) files.
+
+********************************************************************************
+
+ Version 0.15   05/2002
+ 
+GPLIGC:
++ version number increased :)
+# nothing :(
+
+openGLIGCexplorer
++ terrain from GTOPO30 or GLOBE Digital Elevation Model
++ terrain Viewing without flightdata (can be used as an terrain Viewer! :)
++ terrain view in different colormaps, wireframe or shaded
++ configfile
++ cmdline parameters
++ mouse control improved
++ screenshots to jpegs
+
+********************************************************************************
+
+ Version 0.14   04/2002
+ 
+GPLIGC:
++ Bugfixes (GL Explorer Button in GPLIGC -> file open check)
++ openGLIGCexplorer starts as a forked child
+
+openGLIGCexplorer
++ so called "mesa-strangeness" (see 0.13) turns out as a bug in the authors
+  operating system (brain)... forgot to initialize a depth buffer, but it worked
+  on my nVidia openGL system.
++ openGLIGCexplorer can handle igc-files now. So you can use it without GPLIGC
+  (just start with "openGLIGCexplorer coolflight.igc")
+
+********************************************************************************
+
+ Version 0.13   04/2002
+
+# should be installed in /usr/local now... 
++ I added an OpenGL Flightdata Explorer... :)
+
+openGLIGCexplorer Version 0.13_B_
++ small "mesa-strangeness" workaround
+  (included in GPLIGC-0.13.tar.gz downloaded after 18.4.02 1030 CEST)
+
+********************************************************************************
+
+ Version 0.12   09/2001
+ 
++ We fixed a horrible bug in distance calculations for the scaling-function
++ Max rewrote some parts of the FVW-scaling
+
+********************************************************************************
+
+ Version 0.11   09/2001
+
++ Barograph view in Flightview Window
++ File to open can be given on commandline
+
+********************************************************************************
+
+ Version 0.10   
+ 
++ FAI - task detection.
++ function for finding biggest triangular task in data (beta...)
+
+********************************************************************************
+
+ Version 0.9   06/2001
+ 
++ Distance to WP in FlightViewWindow
++ Bugfix for some (Camebridge ?) files with doubled B-entries
++ Coordinates can be displayed in two formats in WPPlotWindow and FlightView-
+  Window
++ Task-reader-routine has been rewritten, better now :)
++ Task-speed analysis
++ better Task analysis 
+
+********************************************************************************
+
+ Version 0.8   06/2001
+
++ Minor fix in igc2dec, south and west- coordinates will be treated right!
++ No distortion in flightviewwindow's zoom! (GPLIGCfunctions::Ausschnitt2 
+  improved)
++ No distortion in unzoomed fvw (->no more distortion  :) and centered!
+
+********************************************************************************
+
+ Version 0.7   06/2001
+
+  nobody knows when it changed to 0.7 exactly, but there is
+  a lot of improvement.
++ add/delete waypoints from task, task distance calculation
++ zoomfunction in FlightViewWindow
++ task / wp-cylinder in FlightViewWindow
++ install script / installs in /opt/GPLIGC/
+
+********************************************************************************
+
+ Version 0.6 pre
+
+- Schilli-Module -> gibt viel bessere Tk-serienmaessig!
++ FlightViewWindow!
++ Statistik-Fenster (bisher nur Start-/Lande-/Flugzeit)
++ Gnuplots mit KM (anstelle von Koordinaten) (by Jan MW Krueger)
++ Viele Unterfunktionen  / Code-cleanup
++ Bessere Task-Analyse
+- track.dat (gespart durch effektivere Gnuplot-Nutzung)
+
+********************************************************************************
+
+ Version 0.5 pre   10/2000
+
++ FlightInfo verbessert
++ Diagrammtitel=Filename
+- Windows-unterstuetzung komplett raus: Hatte keinen Bock mehr "M$Wintendo" zu 
+  booten um herauszufinden, dass dort alles scheisse ist.
++ Postscript Ausgabe mit Parameter "Solid" (keine dashed-lines mehr)
++ sub igc2dec 
++ sub zylinder
++ Zylinder+Kantenaengeneinstellung unter "Options"
++ WP-Plot-Fenster
++ Plots von WP aus Task moeglich
++ gpligc.xbm bei iconifizierung
++ discus16.xpm 1/3 kleiner als altes discus.xpm
+
+********************************************************************************
+
+ Version 0.03 alpha 4   02/2000
+
++ title fuer plots
++ FlightInfo Fenster (needs lots of work!)
++ 3d view control
++ grid-support neu (by Max JW Krueger)
++ ticslevel in 3d view auf 0 (idea by Max JW Krueger:)
+- relief=>"solid" +relief=>"ridge" altes Tk hat "solid nicht"  
+
+********************************************************************************
+
+ Version 0.03 alpha 3   01/2000
+
+  Neuer Plot: Speedogramm (10Fix-Schnitt Ground) 
+  Achtung! Math::Complex v1.01 hat fehler -> v1.26 !
++ @clearlist, +sub's dist+grosskreis!
++ FlightInfo-Fenster +MainWindow Layout 
+  Reihenfolge der Funktionen neu sortiert!
+
+********************************************************************************
+
+ V003a2   01/2000
+
++ Neue Plots: GPS-BARO-Differenz, Variogramm (10 Fix Schnitt).
++ Informationsfenster neu -> discus.ppm
++ Bereichseinstellung neu.
++ Ausgabe sub geaendert jetzt besser unter MSWin32
++ Modul Fs.pm modifiziert, Bug unter MSWin32 ausgemerzt.
++ Output auf Console reduziert, dafuer Busy neu und
+ output in 
+  Berechnungsstatusanzeige
+
+********************************************************************************
+
+ V0.03a1   01/2000
+
+ Diese Version lauft nun auch unter Windows.
+ Dafuer wurden einige Anpassungen an der "Ausgabe Unterfunktion"
+ gemacht. Die Temps werden jetzt mit "unlink" geloescht.
+ Anpassung auch bei `pwd`, was ja nicht funktioniert bei Windows.
+
+********************************************************************************
+
+ V0.02a1   01/2000
+
+ GPS/Hoehe und 3d/Groundprojektion neu! "Schliessen" neu. 
+ Anzeige von Datei und Berechnungsstatus neu.
+ Optionen "lines oder dots" fuer plot
+ Ausgabe als fig, ps, pbm, png und eps moeglich :)
+
+********************************************************************************
+
+ V0.01a3   01/2000
+
+ Menubar, Datei Oeffnen ueber Fileselektor gesteuert
+
+********************************************************************************
+
+ V0.01a2   01/2000
+
+ Tk Toolkit findet Anwendung. 7 Buttons fuer Plots und 
+ Exit.
+ *.dat Dateien werden am Ende wieder geloescht.
+
+********************************************************************************
+
+ V0.01a1   01/2000
+
+ Erste Version. Aufruf mit GPLIGC-0.01a1.pl <xxxxxxx.igc
+ Ausgegeben werden A-, H- und C-Eintraege aus der Igc-Datei.
+ Graphische Plots von:
+ baro: 		Barohoehe/Zeit
+ gpsalt:		GPSHoehe/Zeit
+ track:		Laenge/Breite
+ 3d:		Laenge/Breite/Barohoehe
+ latproj:	Breite/Barohoehe
+ lonproj:	Laenge/Barohoehe
+
+********************************************************************************

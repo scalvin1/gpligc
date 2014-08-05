@@ -1,0 +1,38 @@
+GPLIGC and openGLIGCexplorer
+
+Authors:
+    Hannes Krueger
+
+Bug reports / Support / Forum
+    http://sourceforge.net/projects/gpligc/support
+
+Mailing list
+    There is a gpligc-announce mailing list, which will inform you about any updates
+    (extremely low traffic)
+    https://lists.sourceforge.net/lists/listinfo/gpligc-announce
+
+Documentation:
+    For detailed information read the manual (GPLIGC_Manual.pdf)
+
+Installation instructions:
+    tar xvzf gpligc-version.tar.gz
+    cd gpligc-version
+    ./configure
+    make
+    sudo make install
+
+   in some cases you'll have to specify paths for includes and libraries using variables.
+   e.g. on OpenBSD you may use these options for the configure script:
+     ./configure CPPFLAGS="-I/usr/X11R6/include -I/usr/local/include/" LDFLAGS="-L/usr/local/lib -L/usr/X11R6/lib"
+
+Configure options
+    some packages/options can be enabled/disabled using command line arguments for configure:
+
+    gpsd (gps daemon): optional support for gpsd will be built into the ogie binary, if libgps is found.
+      to disable the checking for gpsd use --without-gpsd as an argument to ./configure
+
+    osmesa (offscreen rendering with Mesa): optional support for osmesa can be disabled by 
+      --disable-osmesa as an argument to ./configure
+
+   more details on 'configure' can be found in the generic instructions in the file INSTALL
+   and in the output of ./configure --help

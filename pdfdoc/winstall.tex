@@ -1,0 +1,109 @@
+\subsection{Windows XP/Vista/Win7/Win8}
+\label{windows_install}
+
+
+You'll need Perl. If unsure which Perl distribution to use, read section~\ref{perl}. But you need Perl before you proceed!
+
+\begin{enumerate}
+ 
+\item Unzip the GPLIGC-version-win32.zip archive to a temporary location
+(maybe you have done that already).
+Open this location in the Explorer and double-click the install-script: \\
+\texttt{install\_windows.pl} \\
+(if *.pl scripts are not associated with the perl-interpreter already,
+you can try "open with", select browse and find bin/perl.exe in the
+perl-install directory). \\
+\textbf{Attention!} Don't run the install script from within the zip file. That method will not work!
+Unpack the zip archive in any case and run the script from the unpacked directory.
+
+\item The Installation script will ask you for a location to install.
+Let the script do the following work for you:
+a) copy all files to the install-location
+b) set some environment variables by adding them to the registry.
+
+% either by setting them in
+%\texttt{autoexec.bat} (Win95/98/ME) or
+
+\item If the installation script fails, and tells you to set the environment Variables
+by yourself:\\
+Make sure that an environment variable GPLIGCHOME is set,
+which contains the full absolute path to the GPLIGC-directory:\\
+For example: \\
+\texttt{c:$\backslash$some$\backslash$path$\backslash$GPLIGC} \\
+And add the gpligc-directory to your PATH \\
+How to set an environment variable: \\
+a) Windows NT, 2000, XP, Vista: \\
+Start - Settings - Control Panel - System (Advanced) - Environment... \\
+
+%b) Windows 95, 98, ME: \\
+%You have to add a line to the "c:$\backslash$autoexec.bat": \\
+%set GPLIGCHOME$=$C:$\backslash$some$\backslash$path$\backslash$GPLIGC
+
+\item You can remove the temporary directory, where the zipfile was extracted.
+
+% GNUPLOT 4.2.6. is included in the package from 1.10pre7.
+% seems to be the last available version with static wgnuplot.exe 
+% from 4.4 wgnuplot needs a bunch of dlls.
+
+%\item If you do not have Gnuplot installed already, do so.
+%Get it from the gnuplot page \cite{gnuplot} (get the win32 zip, e.g. \texttt{gp425win32.zip}).
+%Installation is simple: just put the file \texttt{bin/wgnuplot.exe} in a location which is in the path
+%(or the gpligc install location) \\
+%\textbf{ATTENTION!} The executable file of the older gnuplot \emph{3.7.x} is named \texttt{wgnupl32.exe}. If you use
+%the older gnuplot, you have to change the setting for the configuration key \texttt{gnuplot\_win\_exec} to \texttt{wgnupl32.exe}
+%in \texttt{gpligc.ini} (for details see \ref{gpligcrc}).
+%However, you should consider updating to gnuplot 4.x, since there are new nice interactive features like zooming, rotating of 3d-plots etc.
+%The later gnuplot version (4.6) are shipped with an installer, which is easy use.
+
+
+\item Edit the configuration file \texttt{ogie.ini} if you like to use a digital
+elevation model, digitised maps, waypoints and/or airspace files. 
+
+For details read sections \ref{dem}, \ref{maps}, \ref{wp} and \ref{airspace}.
+
+\item Create a shortcut to \texttt{GPLIGC.pl} on your desktop if you like
+
+\end{enumerate}
+
+
+%\paragraph{Notes for Windows 95, Windows ME}
+%Support for these platforms is discontinued.
+
+%GPLIGC has not been tested with Windows 95 and ME. On Win95 you probably will need the OpenGL libraries from Microsoft, because the early win95 versions do not have OpenGL support. Windows ME should work (maybe someone
+%can verify that and write an email to me?)
+%\paragraph{Notes for Windows 95, 98 and ME}
+%These platforms will not be supported in the future.
+%The cygwin environment (which is used to build the package on windows systems) will soon be updated from version 1.5 to 1.7.
+%With that update support for the older windows systems will be discontinued.
+%If you want to use openGLIGCexplorer on old windows systems, you should maintain a working cygwin 1.5 installation to build openGLIGCexplorer.
+
+
+\subsubsection{Perl on Windows}
+\label{perl}
+There are two (probably even more) important Perl distribution for windows systems:
+(1) Strawberry Perl \cite{strawberryperl}, which is a open-source distribution, with an easy-to-use installer. 
+I personally use this and recommend its use for gpligc. 
+(2) ActiveState ActivePerl~\cite{activeperl}, which is a closed-source distribution (but free for personal use).
+On ActiveState Perl you can use the ppm package manager to install the needed modules (Tk, Imager, Image::ExifTool).
+
+\paragraph{Strawberry Perl}
+After downloading the msi installer package of Strawberry Perl (see~\ref{requirements} for specific version),
+the installation is straight forward.
+Then, open a cmd.exe command-window (or perl commandline from the strawberry program folder) and enter the following
+command to install perl Tk:\\
+\texttt{ppm install Tk}\\
+You can also use CPAN to install Tk, like the other modules below (however, this will take a couple of minutes more, as it will compile the Tk module from scratch).
+To install the additional modules use the CPAN client (strawberry perl / tools) and enter the following commands
+at the CPAN promt:\\
+\texttt{install Image::ExifTool}\\
+\texttt{install Imager}  $\leftarrow$ in recent strawberry perl this is included already.\\
+Done!
+Anti virus software may need to be disabled during CPAN installs (caused errors on my system).
+
+
+%\paragraph{ActiveState ActivePerl}
+%You can't use the new cool map-feature of gpligc if you decide to use this one! (If you're a more experienced Perl/Windows user, you may try to fix the lack of png support in the Imager module, or maybe ActiveState will ship a proper-built Imager module one day... --- let me know).
+%Download and install the ActiveState ActivePerl from \cite{activeperl}.
+%If your Active State Perl version is later or equal 5.10, you have to open the Perl Package Manager and install the Tk (804.029) module.
+%Tk is not shown in the default list, you have chose `all packages' from the view menu.
+

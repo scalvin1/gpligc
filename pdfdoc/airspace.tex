@@ -1,0 +1,34 @@
+%$Id: airspace.tex 3 2014-07-31 09:59:20Z kruegerh $
+%spellch 1.8
+%;;; Local IspellDict: "british"
+
+
+\subsection{Airspace}
+\label{airspace}
+
+If you want airspace information to be displayed, you should get an OpenAir\texttrademark\ airspace file (that's the same format as used by Winpilot) for your region and set up your \texttt{.ogierc} file.
+One keyword declares  the filename of the airspace-file, another one sets the default, whether airspaces should be displayed or not. \\
+\texttt{OPEN\_AIR\_FILE /path/to/OpenAir/file} \\
+\texttt{AIRSPACE true} \\
+An alternative way are the following command-line options \\
+\texttt{--airspace-file=/path/to/OpenAir/file} and \texttt{--airspace} or \texttt{--no-airspace} to turn them on or off.
+
+At runtime, airspaces can be switched on or off via the menu or by F9. Shift-F9 toggles the wire frame and transparent mode.
+
+\subsubsection{How and where to get OpenAir files}
+On the gpligc web-site you may find an airspace folder in the download area. Some OpenAir formatted files can be found there.
+Another option is the page of J. Leibacher \cite{leibacher}.
+
+% outdated
+%\emph{I don't know whether the following paragraph is still valid!}\\
+%Another option is to use the program of \texttt{Carl Ekdahl}, which can be found on the \emph{Soaring Server}.
+%That program works on M\$-Windows only, but can create OpenAir formatted files from recent \emph{DAFIF} sources.
+%To do that the dafift.zip is needed and the following files need to be copied to the right location inside the airspace-program %(from \texttt{Carl Ekdahl}) folders: \texttt{BDRY.TXT, BDRY\_PAR.TXT, SUAS.TXT, SUAS\_PAR.TXT}.
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

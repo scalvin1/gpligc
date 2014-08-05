@@ -1,0 +1,398 @@
+%$Id: explorer_config.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+
+
+\section{Configuration file (.ogierc)}
+\label{config}
+
+The \texttt{.ogierc} has to be used to set up:
+
+
+\begin{enumerate}
+\item use of a digital elevation model (see \ref{dem})
+\item use of digital raster maps (see \ref{maps})
+\item use of OpenAir\texttrademark\ airspace file (see \ref{airspace})
+\item change the default behaviour of \emph{OGIE}
+\end{enumerate}
+
+
+On  startup of the program  \emph{OGIE} will load a configuration file
+\texttt{.ogierc} from your \texttt{HOME} directory. 
+%On Windows platforms the file is called \texttt{ogie.ini} and is read from the GPLIGC-installation directory.
+To use a configuration file from a different location, you can specify the filename by the command line option
+\texttt{--config-file FILENAME}.
+
+
+The \texttt{.ogierc} configuration file may contain keywords-values pairs,
+with which the default behaviour can be changed. All keywords \emph{are not} case sensitive.
+In the following list of the allowed keywords,  placeholders are used to represent possible values:
+
+\begin{itemize}
+\item \texttt{bool} means that one of \texttt{true,on,yes,1,false,off,no,0} (case-insensitive) can be used to turn that option on or off.
+\item \texttt{float} stands for a floating point value (such as 54.734 or 0.3)
+\item \texttt{integer} should be a integer value (such as 1 or 42)
+\item \texttt{file} is to be substituted by a filename with full absolute path (e.g. /usr/share/gpligc/data/dem/demdata.dat or c:\\GPLIGC\\data\\dem\\demdata.dat)
+\item \texttt{string} can be any character string (without whitespaces)
+\end{itemize}
+
+
+\subsection{Keywords}
+The list of keywords is sorted alphabetically.
+If you misspell keywords, you will get a warning in the output. Watch the output after changing your configuration file.
+
+\begin{itemize}
+
+\item \texttt{AIRSPACE bool} \\
+Used to set whether airspaces should be displayed by default or not. To define the airspace-describtion file see \texttt{OPEN\_AIR\_FILE}
+
+\item \texttt{AIRSPACE\_x bool} \\
+With x one of D, C, CRT, Q, R, P. Used to set whether airspace type x should be displayed by default or not
+
+\item \texttt{AIRSPACE\_LIMIT integer} \\
+Upper limit (in FL) for Airspaces. Airspaces with bottom altitude higher than limit, are not shown.
+
+\item \texttt{AIRSPACE\_WIRE bool} \\
+This changes the default mode for airspace (wireframe or transparent)
+
+\item \texttt{ALT\_UNIT\_FAC float} \\
+Factor to convert from meters to another unit (e.g. 3.28 for feet)
+
+\item \texttt{ALT\_UNIT\_NAME string} \\
+Name of the alternative altitude unit
+
+\item \texttt{ANGLE\_OF\_VIEW integer} \\
+Angle of view can be a value between 1 and 179 (default=80)
+
+\item \texttt{AUTOREDUCE bool} \\
+If the resolution of the requested DEM exceeds the \texttt{MAXTRIANGLES} limit, the upscaling (\texttt{--upscaling}) is reduced and the
+downscaling (\texttt{--downscaling}) is increased until the limit isn't exceeded anymore.
+
+\item \texttt{BIGENDIAN bool} \\
+Digital elevation data may be present as big endian (most significant byte first, MSB, motorola bytee order) or little endian
+(least significant byte first, LSB, intel byte order). The default is yes - big endian, which applies to GTOPO30, SRTM30, SRTM-3 (.HGT),
+but \emph{not} to GLOBE and SRTM-3 from seamless-server.
+
+\item \texttt{BASENAME string}\\
+The basic filename used to save screenshots can be defined here. It defaults to \emph{frame}.
+
+\item \texttt{BACKGROUND\_COLOR\_[1|2]\_[R|G|B] float} \\
+Two background colours can be set. The red, green and blue-value can be set seperately for colour 1 and 2.
+The range of the floating point values are limited from 0 to 1.
+
+\item \texttt{BACKGROUND\_STYLE integer} \\
+Three background styles are available. 1 correspond to the old style with one solid background (colour 1 is used). A value of 2
+will set the background to a vertical gradient from colour 1 (top) to colour 2. The value 3 will switch to a horizontal gradient
+(colour 1 is left).
+
+\item \texttt{BORDER float} \\
+Width of border in km to be added around the terrain (default=5)
+
+\item \texttt{COLORMAP integer} \\
+Colourmap to be used for terrain. See \ref{color}
+
+\item \texttt{COLORMAP\_SEA integer} \\
+Colourmap to be used for regions below sea-level. See \ref{color}
+
+\item \texttt{COMPRESSION bool} \\
+Whether texture map compression should be used or not (default=no). To use this, the openGL implementation has to support texture map compression (e.g. Mesa does not)
+
+\item \texttt{CURTAIN bool} \\
+Whether the blue "curtain" should be drawn or not (default=yes)
+
+\item \texttt{DEM\_COLUMNS integer} \\
+Number of columns in digital elevation file
+
+\item \texttt{DEM\_FILE file} \\
+Name and path to digital elevation file
+
+\item \texttt{DEM\_GRID\_LAT float} \\
+Step width in latitude of digital elevation file
+
+\item \texttt{DEM\_GRID\_LON float} \\
+Step width in longitude of digital elevation file
+
+\item \texttt{DEM\_INPUT\_FACTOR float} \\
+Scaling factor for DEM data. Should be set in a way, that the result is in meters (e.g. 0.30488 for feet)
+
+\item \texttt{DEM\_LAT\_MAX float} \\
+Maximum of latitude in digital elevation file
+
+\item \texttt{DEM\_LAT\_MIN float} \\
+Minimum of latitude in digital elevation file
+
+\item \texttt{DEM\_LON\_MAX float} \\
+Maximum of longitude in digital elevation file
+
+\item \texttt{DEM\_LON\_MIN float} \\
+Minimum of longitude in digital elevation file
+
+\item \texttt{DEM\_ROWS intger} \\
+Number of rows in digital elevation file
+
+\item \texttt{EYE\_DIST float} \\
+Distance between the "eyes" in stereo viewing modes (in km)
+
+\item \texttt{FGLUT\_CHECK bool} \\
+If true, a check for the freeglut version is done. Should be enabled if you use freeglut (to use
+some nice freeglut things in future versions). If you use the classic glut, you should left this to
+the default (=off) to avoid a harmless warning message.
+
+\item \texttt{FLIGHTSTRIPCOL[UP|DOWN]\_[R|G|B]}\\
+Sets one of the colour components Red Green or Blue for the classic flightstrip mode (0). If you want to have the flightstrip displayed in
+a single colour, set the colours for \emph{up} and \emph{down} to the same values.
+
+\item \texttt{FLIGHTSTRIP\_LINEWIDTH 2.0}
+Set the width of the lines displaying the GPS-track (floating point value in a range of 1.0 -- 7.0).
+
+\item \texttt{FLIGHTSTRIP\_MODE}
+Change the default mode for displaying the GPS-track (default=1, 0=classic, 1=altitude, 2=speed, 3=vertical speed).
+
+\item \texttt{FLIGHTSTRIP\_COLORMAP}
+Set the default colourmap-type used to display the flight track (integer value, see \ref{color})
+
+
+\item \texttt{FOLLOW bool} \\
+While the "follow-mode" is active, the viewpoint will follow the marker
+
+\item \texttt{FULLSCREEN bool} \\
+Whether the OGIE should startup in full-screen mode
+
+\item \texttt{GPSALT bool} \\
+Whether the GPS-altitude should be used instead of the barometric altitude
+
+\item \texttt{GRAYSCALE bool} \\
+Gray-scale (Black/White) mode (default=off)
+
+\item \texttt{HAZE bool} \\
+Atmospheric haze
+
+\item \texttt{HAZE\_DENSITY float} \\
+Density of atmospheric haze (0.0 - 0.5) (default=0.01)
+
+\item \texttt{IMAGE\_FORMAT string} \\
+This option sets the output format for screenshots. Available options are: \\
+\texttt{jpg} jpeg format \\
+\texttt{rgb} headerless rgb format (without compression, you need to know width and height to use this image later)
+
+\item \texttt{INFO bool} \\
+Info display (shows information about viewpoint and marker-position)
+
+\item \texttt{INFOFONT\_SIZE integer} [ 20-100 ] \\
+The default is 40.
+
+\item \texttt{INFOFONT\_LINEWIDTH float} [ 0.5-3.0 ] \\
+The default is 1
+
+\item \texttt{INFO\_STYLE integer} [ 1|2 ] \\
+1= new style (thanks to \textsc{Antonio Ospite}), 2=old style
+
+\item \texttt{INVERSE\_STEREO bool} \\
+Swap right/left image in stereo-modes
+
+\item \texttt{JOYSTICK\_FACTOR\_X float} \\
+Scaling factor for joystick-input-value. X-Axis (left-right). Negative values will invert movement. (Default=0.01)
+
+\item \texttt{JOYSTICK\_FACTOR\_Y float} \\
+Scaling factor for joystick-input-value. Y-Axis (forward-backward). Negative values will invert movement. (Default=0.01)
+
+\item \texttt{JOYSTICK\_FACTOR\_Z float} \\
+Scaling factor for joystick-input-value. Z-Axis (up-down). Negative values will invert movement. (Default=0.01)
+
+\item \texttt{JPEG\_QUALITY int} \\
+Sets the quality of the jpeg (0-100, default=75)
+
+\item \texttt{LANDSCAPE bool} \\
+Whether terrain should be displayed by default (if digital elevation model is available)
+
+\item \texttt{LIFTS\_COLOR\_[R|G|B] float}\\
+If you don't like the default colour of the lifts, you can change it with these keywords.
+
+\item \texttt{MAP bool} \\
+Whether textured maps should be displayed (if available)
+
+\item \texttt{MAP\_BOTTOM float} \\
+Latitude of lower map border
+
+\item \texttt{MAP\_CUT} \\
+Used to separate map-sets
+
+\item \texttt{MAP\_FILE file} \\
+Filename of a map-tile (jpeg)
+
+\item \texttt{MAP\_HEIGHT integer} \\
+Pixel height of map-tile (not necessary for jpeg)
+
+\item \texttt{MAP\_LEFT float} \\
+Longitude of left map border
+
+\item \texttt{MAP\_RIGHT float} \\
+Longitude of right map border
+
+\item \texttt{MAP\_SET\_NAME string} \\
+Name (identifier) for the map-set
+
+\item \texttt{MAP\_SHIFT\_LAT float} \\
+All following map tiles will be shifted in latitude by this value
+
+\item \texttt{MAP\_SHIFT\_LON float} \\
+All following map tiles will be shifted in longitude by this value
+
+\item \texttt{MAP\_TOP float} \\
+Latitude of upper map border
+
+\item \texttt{MAP\_WIDTH integer} \\
+Pixel width of map tile (not needed for jpeg)
+
+\item \texttt{MAPS\_UNLIGHTED bool}
+With this set to true, maps will not be lighted when used with DEM and no modulation. (Default is false)
+
+\item \texttt{MARKER bool} \\
+Whether the marker should be active by default
+
+\item \texttt{MARKER\_AHEAD integer} \\
+How many data points will be displayed (ahead from marker) in marker-range mode
+
+\item \texttt{MARKER\_BACK integer} \\
+How many data points will be displayed (backwards from marker) in marker-range mode
+
+\item \texttt{MARKER\_RANGE bool} \\
+Marker range mode default
+
+\item \texttt{MARKER\_SIZE float} \\
+Marker size (default=1, range=0.01 to 10.0)
+
+\item \texttt{MARKERCOL\_[R|G|B] float}\\
+If you don't like the default (red) colour of the maker, you can change it using these keywords.
+
+\item \texttt{MAXTRIANGLES float} \\
+The value of maximal allowed triangles for the terrain. If this is exceeded, the terrain is turned
+off. (default=1.5e6). To be used in online-plotter applications to avoid Denial-of-Service attacks.
+Should be set to a value, which your server can handle in a reasonable time.
+
+\item \texttt{MODULATE bool} \\
+Whether the maps should be coloured by digital elevation model  elevation colour scaling
+
+\item \texttt{MOUSE bool} \\
+Whether the mouse-pointer is visible or not
+
+\item \texttt{MOVIE bool} \\
+If set to true, this will startup ogie in movie mode
+
+\item \texttt{MOVIE\_TIMER integer} (deprecated) \\
+Time delay in milliseconds for movie-mode. This reduces the responsiveness of ogie. Better use the next three options.
+
+\item \texttt{MOVIE\_REPEAT bool} \\
+Enables multiple rendering of each frame to slow down the marker movement
+
+\item \texttt{MOVIE\_REPEAT\_FACTOR int} \\
+Defines how often a frame should be rendered in \texttt{MOVIE\_REPEAT} mode
+
+\item \texttt{MOVIE\_REPEAT\_FPS\_LIMIT float} \\
+Set a frame rate limit, above which the \texttt{MOVIE\_REPEAT} mode is activated. When using this option \texttt{MOVIE\_REPEAT}
+should be disabled, otherwise it is used at any frame rate.
+
+%\item \texttt{NUMBER\_OF\_MAPS integer} \\
+%This option in obsolete. Since 1.3 it is not needed anymore
+
+\item \texttt{OPEN\_AIR\_FILE file} \\
+Filename and path of OpenAir\texttrademark  file
+
+\item \texttt{PROJECTION integer} \\
+Which projection should be use. See \ref{projections}
+
+\item \texttt{QUADS bool} \\
+Use quadrilaterals instead of triangles to build the terrain surface.
+
+\item \texttt{SAVE\_PATH string}\\
+The location to store screenshots can be defined by its full path.
+
+\item \texttt{SCALE\_Z float} \\
+Scaling factor for z-axis (altitude) (default=3.0)
+
+\item \texttt{SEALEVEL integer} \\
+Altitude of sea-level (this is the limiting altitude between colourmap and colourmap-sea)
+
+\item \texttt{SEALEVEL2 integer} \\
+If sealevel2 is given, the terrain beneath this value will not be displayed, but covered by sea
+
+\item \texttt{SEALEVEL3 integer} \\
+If sealevel3 is given, the terrain beneath this value will be covered by (transparent) sea
+
+\item \texttt{SHADE bool} \\
+Usage of goraud shading
+
+\item \texttt{SPEED\_UNIT\_FAC float} \\
+Factor applied to the speed. 1.0 is km/h
+
+\item \texttt{SPEED\_UNIT\_NAME string} \\
+Name of the speed units
+
+\item \texttt{SPINNING float} \\
+This activates spinning around the marker position in movie mode.
+In terrain viewer mode this will spin around the centre.
+float is the spinning step size in degrees, the sign will decide about the
+direction.
+
+\item \texttt{STEREO bool} \\
+This activates double image stereo mode
+
+\item \texttt{STEREO\_HW bool} \\
+This activates hardware stereo mode (start-time-option)
+
+\item \texttt{STEREO\_RB bool} \\
+This activates red/blue anaglyphic stereo mode
+
+\item \texttt{STEREO\_RG bool} \\
+This activates red/green anaglyphic stereo mode
+
+\item \texttt{TEXT\_COLOR\_[R|G|B] float}\\
+If you don't like the deafault colour of the text (for lifts and waypoints) you can change it with these keywords.
+
+\item \texttt{TEXT\_LINEWIDTH float}\\
+This changes the linewidth of the text for lifts and waypoints
+
+\item \texttt{TIME\_ZONE integer} \\
+Difference between UTC and your time zone. Do not use the $+$ sign for positive numbers, but $-$ for negative.
+
+\item \texttt{TIME\_ZONE\_NAME string} \\
+Name of your time zone
+
+\item \texttt{VERBOSE bool} \\
+If this option is active, some output will be made. This option is read if neither --quiet nor --debug are given. (Default=off)
+
+\item \texttt{VSPEED\_UNIT\_FAC float} \\
+A factor with which the vertical speed is multiplied. 1.0 is m/s
+
+\item \texttt{VSPEED\_UNIT\_NAME string} \\
+Name of the vertical speed units
+
+\item \texttt{WAYPOINTS\_FILE string} \\
+Sets the filename (and path) for a waypoint file. See section~\ref{wp} for details.
+
+\item \texttt{WAYPOINTS bool} \\
+Determines the default behaviour for drawing waypoints.
+
+\item \texttt{WAYPOINTS\_OFFSET int} \\
+draw the text for the waypoints int m higher that their actual elevation. Useful for mountainous terrain. Default=300. If you want the waypoint spheres drawn higher too, you may set WAYPOINTS\_OFFSET\_TEXT\_ONLY to false.
+
+\item \texttt{WAYPOINTS\_OFFSET\_TEXT\_ONLY bool} \\
+draws the waypoint spheres using the waypoints offset.
+
+\item \texttt{WP\_COLOR\_[R|G|B] float} \\
+Can be used to change the colour of the spheres representing the waypoints.
+
+\item \texttt{WINDOW\_HEIGHT integer} \\
+Initial height of the \emph{OGIE} window in pixels
+
+\item \texttt{WINDOW\_WIDTH integer} \\
+Initial width of the \emph{OGIE} window in pixels
+
+\item \texttt{WIRE bool} \\
+If this option is activated, the surface of the terrain will be drawn as a wire frame model
+
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

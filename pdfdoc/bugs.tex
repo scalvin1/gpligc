@@ -1,0 +1,77 @@
+%$Id: bugs.tex 3 2014-07-31 09:59:20Z kruegerh $
+%spellch 1.11
+%;;; Local IspellDict: "british"
+
+
+\section{Known Bugs}
+\label{bugs}
+
+% install.sh discontinued.
+% \subsection*{Errors / Syntax errors in install.sh}
+% If you get a message like
+% \begin{verbatim}
+% ./install.sh: 40: Syntax error: "do" unexpected (expecting "}")
+% \end{verbatim}
+% after starting the ./install.sh script, you're using a shell, which is not compatible to the bash shell.
+% \texttt{install.sh} needs to be run through a bash compatible shell. Try something like \\
+% \texttt{sudo /bin/bash ./install.sh} \\
+% or \\
+% \texttt{sudo /bin/zsh ./install.sh} \\
+% Shells, known to work: \texttt{bash, ksh, zsh} \\
+% Shells, known not to work: \texttt{csh, dash}
+
+\subsection*{Menu in OGIE (freeglut)}
+With older freeglut versions (2.4.0) some problems arise due to the positioning and the size of the
+menu, which sometimes is placed in a way, that parts of it don't fit the screen.
+In this case it's possible to release the mouse pointer (key m --- also see next bug, sorry) and right-click in a different position. That way it's possible to reach all entries from the menu.
+In freeglut 2.6.0 this seems to be solved.
+
+\subsection*{Crash on activating the mousepointer (freeglut 2.4.0)}
+Ogie will crash, if the mousepointer is activated by key m. This is a known bug in freeglut.
+There is a patch for this in freeglut-cvs. On Gentoo systems use freeglut-2.4.0-r1 or later.
+
+\subsection*{Menu does not work in OGIE (freeglut 2.8.0)}
+Due to a bug in freeglut 2.8.0 the menu does not work at all.
+Please update to freeglut 2.8.1
+
+
+%\subsection*{ogie zombi process on windows after using exit window button}
+%If you quit ogie by using the exit (x) button from the window decoration,
+%ogie may end up as a zombie process, consuming lots of cpu time.
+%Use the ESC key, or quit from the menu to end ogie.
+
+
+\subsection*{Weird speedogram plot}
+If your (very old) perl-distribution provides the module Math::Complex earlier
+than version 1.26, some errors will occur. Most likely negative values in
+speedogram! This is a bug in the old Math::Complex perl module.
+
+
+\subsection*{Annoying open dialog}
+The "open File" dialog starts always in "/". This is  a bug in the
+Tk module. To avoid that, update to Perl/Tk Module "Tk-800.024" or later.
+This is a bug in the Perl/Tk module before 800.024
+
+
+%\subsection*{Warnings on Windows}
+%This bug shouldn't occur in GPLIGC 1.2 and later (avoided by a workaround). \\
+%\texttt{Use of uninitialised value in concatenation (.) or string at
+%\\ C:$\backslash$Perl$\backslash$site$\backslash$lib$\backslash$Tk.pm line 350}  (or line 361).
+%If you get two of these messages, after starting GPLIGC you have an older Perl/Tk module.
+%(800.023 and later shouldn't be affected). Nothing to worry about. Just ignore.
+%It is related to the HOME environment variable not being set (by default)
+%under Windows. Possible workaround set the environment variable HOME, by putting following
+%line to your autoexec.bat: \\
+%\texttt{SET HOME=C:$\backslash$}\\
+%(Better: update GPLIGC to most recent version).
+
+
+%\subsection*{Red/Green Blue/Red stereo viewing modes do not work on Windows 98}
+%On my win98 (SE) test-system the anaglyphic stereo viewing modes doesn't work. These modes result in black and white rendering. I'm not sure if this is a bug in older MS openGL implementation or in the specific hardware drivers. If you have similar problems, please report your specific operating system and hardware.
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

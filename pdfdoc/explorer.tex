@@ -1,0 +1,330 @@
+%$Id: explorer.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+
+
+\section{OGIE}
+\label{ogie}
+
+\subsection{Get started}
+To start \emph{OGIE} press the "OGIE -- 3d" button in \emph{GPLIGC},
+or type \texttt{ogie igcfile.igc} 
+at the command line.% (xterm, console):\\% or MS-DOS prompt): \\
+
+There are three different modes to use \emph{OGIE}:
+
+\begin{itemize}
+
+\item IGC-file mode:
+You can give an igc-file as a single argument.
+If you use more than one argument on the commandline, you need to specify
+the igc-file by adding  \texttt{--igc-file FILENAME} (or \texttt{-i FILENAME}).
+
+\item Terrain viewer: Select the centre of your view with  \texttt{--lat} and \texttt{--lon}. The size of the area can be selected with the following options: \texttt{--border, --border-lat, --border-lon}
+
+\item GPS live view: Use the option \texttt{--gpsd}. \emph{ogie} will connect to the local gpsd \cite{gpsd} and obtain positional information for a live display of your location.
+
+\end{itemize}
+
+\subsection{Menus}
+The pop-up menu is accessible by pressing the right mouse button in the \emph{OGIE} window. Most important options can be changed here.
+
+
+\subsection{Mouse control}
+The direction of view can be controlled with the mouse, the mouse pointer is invisible and cannot leave the window, unless
+mouse control is disabled by pressing m.
+
+Moving the mouse while the left button is pressed will result in rotating your position around the centre of the scene or around
+the position of the marker (if activated). Dragging the mouse up and down, with the middle button pressed, will shift your
+position towards or away from the centre or the marker position (if marker is activated).
+
+
+Moving while the middle and left mouse button is pressed will shift the scene.
+
+
+\subsection{Joystick control}
+%A joystick is supported on Windows platforms via GLUT. 
+On Unix/Linux (X11) the joystick can not accessed via GLUT (because
+GLUT never supported joysticks on X11). If you want to use your joystick on X11, you have to install freeglut \cite{freeglut}.
+
+The joysticks x,y and z-axis will move the viewpoint to the side, forward-backward and up-down. How much the viewpoint
+will be shifted can be set in the configfile (JOYSTICK\_FACTOR\_X,Y,Z, see \ref{config}).
+
+\subsection{Keyboard control}
+For information on the Keyboard functions you should read the section \ref{keys}.
+In the pop-up menu a \emph{help} is present, which will show the most important keys.
+If you like to change the controls, edit in \texttt{KeyPressed} and \texttt{specialKeyPressed}-functions in
+\texttt{GLexplorer.cpp} and recompile.
+
+If you need the mouse pointer, it can be made visible by pressing key \emph{m}.
+
+
+\subsection{GPS live mode}
+\label{gps}
+
+The commandline arguments \texttt{--gpsd}, \texttt{--gpsd--server=STRING} or \texttt{--gpsd-port=INT} enable the GPS live mode.
+\emph{ogie} will connect to a gpsd at server:port and retrieve the position.
+The default server is localhost and the default port is 2947.
+Subsequently, a track is build up by the GPS information.
+If the Movie-Mode (see section~\ref{movie}) is enabled, the marker is always kept at the actual position.
+Otherwise the marker can be moved freely, as with an IGC-file.
+The info display (see section~\ref{info}) shows some additional information:
+Sat/Mode: number of used satellites, GPS mode (2D or 3D). eph/epv: estimated horizontal and vertical errors. Interruptions: count of interruption of the GPS signal.
+
+To use this mode \emph{ogie} has to be build with gpsd support.
+
+\paragraph{Example}
+I have my Germin Geko301 (serial) with an serial-to-usb adapter conntected to my laptop. The Geko is set to NMEA-mode. From my \texttt{messages} I know, that the serial-to-usb adapter is at \texttt{/dev/ttyUSB2}. Gpsd is easy to invoke \texttt{sudo /usr/sbin/gpsd /dev/ttyUSB2}.
+Now, \texttt{ogie --gpsd} starts the fun!
+
+\input{waypoints.tex}
+
+\input{airspace.tex}
+
+
+
+\input{dem.tex}
+
+\subsection{Terrain viewer mode}
+
+\emph{OGIE} can be used without IGC-Files (as a Terrainviewer).
+Give the centre of the area (which you want to watch) in decimal degrees \\
+\texttt{--lat 53.5  --lon 8.5} \\
+as commandline parameters to \texttt{ogie}, negative values for southern and western  hemisphere.
+With the argument \texttt{--border km}, the half sidelength of terrain in kilometers can be set. You may specify the borders separately with \texttt{--border-lat km}  and \texttt{--border-lon km}.
+If you want to watch very large areas, you can use
+\texttt{--downscaling n}
+where n is an integervalue bigger than 1. This will force the program to use
+only every n-th datapoint from the elevation model.
+
+
+
+\subsection{Colourscaling}
+\label{color}
+
+The following colourmaps are available:
+
+\begin{enumerate}
+\item  red - rainbow - white
+\item  green - red - white
+\item  black - white
+\item  dark green - red
+\item  magenta - light blue
+\item  black - rainbow - white
+\item  white
+\item  black - red - yellow - white
+\end{enumerate}
+
+2 Colourmaps are used for terrain colourscaling. One upper (normal) colourmap and another (lower) colourmap for the terrain beneath sealevel. The value taken as sealevel can be set by the commandline switch \texttt{--sealevel m}. The colourmaps to be used can be set by \texttt{--colormap-sea n} and \texttt{--colormap n}. The upper colourmap can changed interactively by pressing keys 1-6, the lower (sea) colourmap can be changed with F10 and F11.
+The default colourmaps can be set in the configuration file:
+\texttt{COLORMAP n} and \texttt{COLORMAP\_SEA}
+\\
+Yes, the spelling of \emph{colour} in all parameters and cmdline options is \emph{color} [amer.]
+
+\paragraph{Optimising colourmaps}
+By default the colourmaps scale their colour-ranges from minimum to NN,
+and from NN to maximum elevation (of displayed terrain).
+If you want some more "aggressive" colourscaling you can
+specify the minimum and maximum by giving \texttt{--colormap-min m} and \texttt{--colormap-max m}
+Arguments are heights in Meters.
+If the sealevel is outside the range (min, max) only one of the colourmaps will
+be used.
+
+\paragraph{Example}
+\texttt{--colormap-sea 1 --colormap 3 --colormap-min 20 --colormap-max 3500 --sealevel 600}
+This will cause \emph{OGIE} to use first colourmap between 20m and 600m, the gray-map between 600m and 3500m.
+
+\paragraph{Sealevel2}
+If you prefer a flat blue ocean surface instead of seafloor-terrain:
+Setting a \texttt{--sealevel2 n}, will cause the explorer to set a ocean-like flat blue
+surface at an elevation of n meters.
+
+\paragraph{Sealevel3}
+Almost like seavel2, but sealevel3 will be a transparent surface, through which the seafloor can be seen.
+Setting a \texttt{--sealevel3 n}, will cause the explorer to set a ocean-like flat transparent blue
+surface at an elevation of n meters.
+
+
+
+\subsection{Maps}
+If you have defined map-sets (as described in \ref{maps}) and turn them on,
+(\texttt{--map} or \texttt{MAP true}, by menu or pressing "b") then only the terrain covered by the
+defined maps will be displayed. If you're using an elevation model as well, the
+maps will be put on the surface (if the terrain-mode is active: \texttt{--landscape},
+\texttt{LANDSCAPE true}, or activated by menu or pressing "l").
+The modulation mode (or coloured map mode) can modulate the the maps with colourscaling (on/off F8, "coloured maps" from menu. Another way would be to put \texttt{MODULATE on} in the configuration file).
+
+\input{maps.tex}
+
+
+\subsection{Stereoscopic viewing}
+
+Four stereoscopic modes can be used.
+Three of them are \emph{runtime-options} and can be activated by menu.
+
+\paragraph{Double image}
+\texttt{--stereo} (or \texttt{STEREO true})
+will display 2 stereoscopic images. You can cross the optical axis of your eyes
+to get a "real" 3D image (squinting). (Left eye sees right image and vice versa).
+Maybe someone will use the "parallel" method (right eye sees right image, and left
+one left). Then you should swap the images (press "A").
+
+\paragraph{Anaglyphic modes}
+\texttt{--stereo-rg} (or \texttt{STEREO\_RG true})
+\texttt{--stereo-rb} (or \texttt{STEREO\_RB true})
+For these stereoscopic modes you will need either  red-green or  red-blue
+3D-glasses, if left eye is red, you need to swap the images (press "A").
+
+\paragraph{Hardware 3D with shutterglasses}
+If you own a  quadro-buffered openGL-card (like nVidia Quadro2, Quadro4...) and
+some shutterglasses (or other professional stereo-equipment)
+(and the X-server is configured for stereo) you can use the
+\texttt{--stereo-hw} option. \emph{OGIE} will try to get a quad-buffered window.
+This mode can be initialised at start time only.
+
+
+\paragraph{Eye distance}
+For adjusting the strength of the 3D-effect you can change the distance between
+the "virtual" eyes (\texttt{--eye-dist km}, "Q","W" or \texttt{EYE\_DIST value[km]})
+
+
+\subsection{Projections}
+\label{projections}
+
+The flightdata, digital elevation model etc. have to be mapped from earths wgs84 coordinate system to a flat surface. This can be done by using different map projections. \emph{OGIE} offers you four of them.  Which one to be used has to be chosen at start-time of the program. You can use a commandline switch to set the map projection, or you can set a default in the configuration file.
+The earth is assumed to be a perfect sphere with a radius of 6371km.
+
+\subsubsection{Projection 1 - cylindric}
+\texttt{--projection-cyl-platt} is the commandline switch for this projection. In the configuration file \texttt{PROJECTION 1} can be used. The spheres surface is projected to a cylinder, which is parallel to the axis of the earth and which has the same radius as the sphere. The equator of the sphere is the standard parallel which touches the cylinder. The projection is orthographic.
+
+\subsubsection{Projection 2 - Mercator}
+\texttt{--projection-cyl-mercator} is the commandline switch for this projection. In the configuration file \texttt{PROJECTION 2} can be used. This is the well known \emph{Mercator} projection.
+
+\subsubsection{Projection 3 - cylindric}
+\texttt{--projection-cyl-no1} is the commandline switch for this projection. In the configuration file \texttt{PROJECTION 3} can be used. This projection is a cylindrical projection, but not geometric. The equator is a standard parallel. The longitude conversion is done like a geometric projection. Latitude is converted in a way, that distances along meridians are preserved.
+
+\subsubsection{Projection 4 - pseudo cylindric}
+\texttt{--projection-pseudo-cyl-no1} is the commandline switch for this projection. In the configuration file \texttt{PROJECTION 4} can be used. This is the default projection, which is best suited for small areas. Distances along parallels and meridians are undistorted.
+
+
+
+\subsection{Screenshots}
+\label{screenshots}
+Screenshots can be made using the "p" key for a single shot, or "shift-P" for the continuous screenshot-mode. In the continuous mode every rendered frame is saved. The output format can be specified using the \texttt{--image-format format} option or the configuration file keyword \texttt{IMAGE\_FORMAT format}, where \texttt{format} is one of the following: \texttt{jpg, rgb}.
+The names of the image files will start with \emph{frame1000} and the numbers increase.
+A different basename can be specified by either \texttt{--basename string} or \texttt{BASENAME string}. Also a path can be given, where to save the screenshots (\texttt{--save-path string} or \texttt{SAVE\_PATH string})
+
+\paragraph{Jpeg}
+If the output format is jpeg (which is the default), the jpeg-quality can be set with \texttt{--jpeg-quality int} or in the configuration file \texttt{JPEG\_QUALITY int}, where \texttt{int} is a number between 0 (lowest quality) and 100 (highest quality).
+
+\paragraph{rgb}
+While using the rgb format you should keep the information about the image sizes, because this information is not saved within the image. It is a 6-byte per pixel rgb image. You can use \textsc{ImageMagick's} \emph{convert} to convert these into almost every available image format. For example:\\
+\texttt{convert -size widhtxheight -depth 16 -endian lsb frame1001.rgb outfile.png}
+
+
+
+\subsection{Offscreen rendering}
+
+The offscreen rendering function via GLX is available, but requires GLX 1.3. Offscreen on windows and/or via mesa needs
+special compilation... \\
+
+\emph{OGIE} can be used as an offscreen 2D/3D renderer. As in the "onlineplotter", which can be tested on the GPLIGC website. With this function some contest results can be made more visible etc.
+
+Single images can be rendered offscreen. Two modes are available. For image format related options see \ref{screenshots}.
+
+\paragraph{GLX offscreen (pbuffer)}
+%\emph{This doesn't work with any Windows! GLX is available on unix/linux only} \\
+Offscreen rendering is done using GLX pbuffers and requires GLX 1.3. Rendering is done hardware accelerated, but requires the X-server running and accessible.
+Commandlineswitch \texttt{--offscreen} is needed and
+a filename for the output can be given by \texttt{--os-outfile filename}
+
+\paragraph{Mesa offscreen (osmesa)}
+\emph{This doesn't work with the precompiled binaries! Special compilation is needed}
+Commandlineswitch \texttt{--os-mesa} is needed and
+a filename for the output can be given by \texttt{--os-outfile filename}
+In this mode the rendering is done with the mesa library, but it is hardware independent, no X-Server and no graphics hardware is needed.
+For mesa-support \emph{OGIE} has to be compiled as described in section \ref{linux_install}.
+
+\paragraph{Viewpoint}
+All other Commandline parameters can be used and the configurationfile will be used.
+Important are the \texttt{--init-...} parameters to set the viewpoint and viewdirection.
+\texttt{--init-pos-N, W, S, E, NE, SE, SW, NW}  can be used to set the initial position to one
+of the borders or corners of the terrain. The view direction will be set to the
+centre, if not specified separately (can be used to set the initial position for
+the interactive mode too).
+
+
+
+
+
+\subsection{Performance}
+
+Using the option \texttt{--verbose} (or "VERBOSE true"  in the configfile) will give you
+the information how many triangles are used to build the surface. (if DEM is
+used) Check by yourself how many triangles you system can handle at a tolerable
+speed. The rendering time is also dependent on the quantity of textures used.
+
+In Movie-Mode ("I") with \texttt{--verbose} a framerate is displayed...
+
+A hardware accelerated OpenGL setup is recommended.
+
+
+
+
+
+\subsection{GPS/Baro alt}
+
+\emph{OGIE} can display the flighttrack based on barometric or GPS altitude:
+default behaviour is set in configuration file (GPSALT true|false),
+Without configuration file default is barometric.
+cmdline-switches \texttt{--baroalt} or \texttt{--gpsalt} can be used.
+
+
+\subsection{Info}
+\label{info}
+F6 can be used to switch on/off the info-mode. In infomode the viewpoint position is displayed
+at the top left corner of the screen.
+In markermode some more information is displayed. The units of speed, vertical speed and altitude can be changed by using factors to convert from standard (km/h, m/s, m) to another unit. These factors can be specified in the configuration file (\texttt{SPEED\_UNIT\_FAC, VSPEED\_UNIT\_FAC, ALT\_UNIT\_FAC}). The names of the units can be set using \texttt{SPEED\_UNIT\_NAME, VSPEED\_UNIT\_NAME} and \texttt{ALT\_UNIT\_NAME}. (See \ref{config}. The timezone can be changed from UTC to localtime using the \texttt{TIME\_ZONE} and \texttt{TIME\_ZONE\_NAME} keyword in the configuration file.
+
+
+\subsection{Marker}
+\label{marker}
+F7 activates the "Marker". A huge red arrow pointing to a position of a logged datapoint.
+The arrow can be moved forward (F3), backward (F2) and fast forward (F4),
+fast backward (F1). If the info-mode is active, some data of the marked
+position is displayed.
+
+
+\subsubsection{Marker-Range}
+
+If your flighttrack crosses the same place several times, you may want a part of
+the flighttrack to be displayed only. With \texttt{--marker-ahead n}  and \texttt{--marker-back n}
+you specify how many datapoints before and after the marker will be plotted. Default values are
+50 back, and 0 ahead. To turn the marker-range-option on, press "shift-U" (\emph{not "u"}), or use
+cmdline-switch \texttt{--marker-range}. This may be turned on by default by using
+\texttt{MARKER\_RANGE true} in the configuration file (where the range-defaults can be defined
+also)
+
+\subsubsection{Follow-mode}
+
+The viewpoint will follow the marker-position. If this option is turned on by
+default, can be disabled by cmdline-switch \texttt{--no-follow} or \texttt{FOLLOW false} (in  the configuration file).
+
+
+\subsubsection{Movie-Mode}
+\label{movie}
+The Movie-Mode can be switched on by pressing "shift-I", selection from the menu, or with \texttt{--movie}.
+The Marker position is continuously moved forward.
+Using this mode together with the follow-mode and marker gives a nice movie of the flight.
+
+If it is too fast, you can define a \texttt{MOVIE\_REPEAT\_FACTOR int}, which will render every frame multiple times before shifting the marker. This factor can be changed at runtime with shift-F1 and shift-F2.
+\texttt{MOVIE\_REPEAT bool} will switch this on or off. Leaving this off and setting a \texttt{MOVIE\_REPEAT\_FPS\_LIMIT float} will  automatically enable the repeating-mode if a certain framerate is exceeded. \\
+
+\emph{deprecated slow-down method} \\
+A default delay can be set in the configurationfile:
+\texttt{MOVIE\_TIMER} the argument is in milliseconds. (compiled-in default is 1 msec).
+This introduces a ``sleep'' command, which reduces the responsiveness of the program. Not recommended.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

@@ -1,0 +1,83 @@
+%$Id: maps.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+
+\subsubsection{Setting up digitised maps}
+\label{maps}
+
+Since version 1.2 the digitised maps can be in jpeg format.
+The file extension should be .jpg (not .JPG or .jpeg etc).
+The old rgb-format texture maps can be used too, but jpg maps should be preferred (they do not need that much diskspace).
+Since version 1.3 the \texttt{NUMBER\_OF\_MAPS} is not needed anymore.
+
+
+\paragraph{How to prepare maps}
+First of all you have to use a scanner or digital camera to get your maps into the computer (or just download stuff from the web).
+To avoid differences due to projections, the map should not be in one big tile, but many small pieces. The smaller the better. For a 1:500.000 map (like ICAO) pieces of 40' x 40' are a good choice (1$^\circ$ x 1$^\circ$ is probably also OK).
+For the further processing of the digitised maps a good image manipulation software is needed such as Gimp (the GNU image manipulation program \cite{gimp}). 
+The pieces have to be cut out from the scanned raw image(s).
+Then the pieces have to be straighten out, to avoid any distortions. The latitude or longitude should be constant for each border.
+I use the transform tool (which can be used to straighten out perspective
+distortions etc) to define a (distorted) box along the gridlines of the
+40'x40' box, as exact as possible. The transform tool will straighten this
+out to a perfect rectangular box: the map-tile, which should be scaled to
+some power-of-2 width and height (128x256 or 256x512 or 512x512 or 512x1024
+or or...) otherwise this has to be done internally in ogie, which will slow down things a little.
+Furthermore, you need to know the coordinates of each border. 
+Then save the map tile as jpg image.
+
+\paragraph{Set up the \texttt{.ogierc} file}
+
+For each map-tile the full path to the image-file and the coordinates of the top, bottom, left and right border have
+to be given in the configuration file.
+You need to have a section (as follows) for \emph{each} map-tile:
+
+\begin{verbatim}
+   MAP_FILE /usr/local/gpligc/maps/bremen.jpg
+
+   MAP_TOP 53.5
+   MAP_RIGHT 9.3333333333
+   MAP_LEFT 8.6666666667
+   MAP_BOTTOM 52.8333333333
+\end{verbatim}
+
+The maps can be grouped in sets. You may want to have a map-set for each airfield you fly from.
+Another way to use this feature would be to spilt large areas into multiple map sets, if you don't have enough video memory to display all maps at the same time.
+
+Exampls: You have 20 sections for 20 map-tiles in your configuration file.
+Now you can put a \texttt{MAP\_CUT} between the first 10 and the second 10
+map-tile sections to split into two map-sets.
+In ogie you can switch between multiple map-sets by using the "c" and "x" keys.
+You may specify more than two map sets by using multiple \texttt{MAP\_CUT}.
+
+Every map-set can be named with \texttt{MAP\_SET\_NAME name} to select it at startup with \texttt{--map-set-name name}, or by its name from the menu.
+
+
+\paragraph{shifting individual map tiles}
+$\,$ \\
+\texttt{MAP\_SHIFT\_LAT  degrees} \\
+\texttt{MAP\_SHIFT\_LON  degrees} \\
+If your maps don't fit exactly, a shift in latitude and/or longitude may be defined.
+If  \texttt{MAP\_SHIFT\_...} is given, all following map tiles will be shifted by the given amount, until the shift
+is set to zero or to another value.
+
+
+\paragraph{rgb-format maps}
+This shouldn't be used anymore... except you want to use your old maps,
+or you don't like lossy compression.
+Every map-tile can be in a headerless .rgb (3 byte per pixel) data-format (I
+use Image Magick's "convert" to create that format). The size has to
+be $2^n$ x $2^n$. That means   you have to scale the image before. Width and height
+should be a power of 2 (pixels).
+Because the rgb-format is headerless it cannot contain the information about the size
+of the image. You need to specify MAP\_WIDTH and MAP\_HEIGHT for each map-tile in your
+configuration file.
+There is a limit for the maximum pixels for each dimension (width and height).
+You can query this limit by executing \texttt{ogie -q}.
+Look for \texttt{GL\_MAX\_TEXTURE\_SIZE} [both values (width and height) have to be less or equal
+to \texttt{GL\_MAX\_TEXTURE\_SIZE}].
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

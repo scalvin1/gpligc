@@ -1,0 +1,164 @@
+%$Id: dem.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+
+
+\subsection{Digital Elevation Model}
+\label{dem}
+
+There are many digital elevation models on the web, which can be downloaded for free and used with ogie:
+ETOPO2 \cite{etopo2}, GLOBE \cite{globe}, GTOPO30 \cite{gtopo30}, SRTM30 Plus (TOPO30) \cite{srtm30plus}, SRTM30 \cite{srtmv2}, SRTM-3 \cite{srtmv2} and SRTM-1 \cite{srtmv2}.
+GTOPO30, SRTM30 (Plus) and GLOBE have a resolution of 30 arc-seconds, 1km.
+ETOPO2 has a 2-minute grid (4km), but also covers the oceans.
+SRTM-3 is 3 arc-seconds (90m) and SRTM-1 (only available for U.S.) is 1 arc-second (30m).
+
+The "Shuttle Radar Topography Mission" (SRTM) topographic data
+with resolution 1 arc-second (for USA) and 3 arc-second for almost the rest of the world
+is available, but due to the high resolution not very good for regular flight-analysis. (Graphics
+hardware won't handle larger areas).
+
+My recommendation is to use either GTOPO30 or SRTM30 (Plus). 
+If you have lots of hard disk space and want to analyse flights from many countries, you should consider
+to build a \texttt{WORLD.DEM} from GTOPO30/SRTM30. If you like to explore the oceans, you may merge
+it with ETOPO2 data. Data of this type is available from the gpligc download directories for many countries (including needed configuration settings).
+
+SRTM-3 and SRTM-1 can be used for small-scale high-resolution application.
+
+
+\subsubsection*{Data format}
+
+Binary data in 2 byte integer (big endian byte) format is needed.
+(You can get these directly from GLOBE, GTOPO30 and ETOPO2 Web sites)
+Little endian data can be used with the config option: \texttt{BIGENDIAN false}.
+
+
+\subsubsection{GTOPO30, SRTM30}
+The worldwide GTOPO30 \cite{gtopo30} elevation model is split up in 33 pieces (tiles).
+Get the "tile" you need and put the full path to the *.DEM file into the
+configuration-file (see \ref{demconf}). You also need to set the rows and columns
+and minima and maxima and grid resolution.
+
+If you have lots of space on your hard-disk and a fast internet connection you should consider to
+get all (33) tiles (about 280~MB compressed) and use the \texttt{createworld}
+tool to generate a \texttt{WORLD.DEM} (single file containing worldwide elevation data, really cool!) file:
+
+\begin{enumerate}
+\item "\texttt{tar xvzf}"  all tiles into one directory (taht will need more than 2 GB).
+      You only need to extract the *.DEM files from the *.tar.gz archives
+      downloaded from GTOPO. Use the following cmdline (in the directory with
+      all archives) to extract *.DEM files only: \\
+      \texttt{find . -name '*0.tar.gz' -exec tar xvzf \{\}  *.DEM ';'}
+
+\item invoke \texttt{createworld} in the same directory (this will need another 1.8 GB)
+      
+\item enjoy the 1.8 GB (!) \texttt{WORLD.DEM} (check \texttt{WORLD.DEM} for its size:
+      should be 1.866.240.000 bytes)
+
+\item settings for the \texttt{WORLD.DEM} can be found in the default-config file
+
+\end{enumerate}
+
+Now there is an improved SRTM30 model, which is based on the shuttle radar topography
+mission. Basically, the SRTM30 seems to be a better GTOPO30. The SRTM30 data is also available
+for free  and can be used to build the \texttt{WORLD.DEM} as described above. SRTM30 data didn't cover
+the regions south of 60$^\circ$S. To obtain a \texttt{WORLD.DEM} file you should take the 6 arctic
+tiles from GTOPO30, the remaining 27 from SRTM30.
+
+
+\subsubsection{ETOPO2 (and merging it into the GTOPO30)}
+If you have created a \texttt{WORLD.DEM} (1.8GB) datafile as described above, you can merge it with the bathymetry(sea-depth)-data from etopo20 \cite{etopo2}.
+Get the \texttt{etopo20.i2.gz} file from the web. "Gunzipped" it has 116.672.402 bytes.
+Put the \texttt{WORLD.DEM} and the \texttt{etopo2.i2} in the same directory and call (within that directory) \texttt{etopo2merger}, which will merge them into a \texttt{WORLD3.DEM} file.
+Because the ETOPO2 resolution is lower than the resolution from GTOPO30, the additional data-points are obtained by interpolation.
+
+\subsubsection{GLOBE}
+Download the region you need (freely selectable \cite{globe}) and make sure that you
+get the right data format. In the *.hdr file (which you will get too,
+you can find all needed information to edit the config-file.
+
+These are the options to be selected at GLOBE download page:\\
+FreeForm ND\\
+int16\\
+Mac/Unix Binary\\
+
+the data file is called   *.bin
+the *.hdr file contains some information you need to edit the
+ogie configfile.
+
+
+\subsubsection{SRTM30 Plus (TOPO30)}
+The SRTM30 Plus \cite{srtm30plus} elevation model is a merged SRTM30 and GTOPO30, including bathymetry data from several sources.
+It can be downloaded as a single (1.8GB) data file from \cite{srtm30plus}.
+Notice the different settings for DEM\_LAT\_MAX and DEM\_LON\_MIN! (differing from what should be used for SRTM30 and GTOPO30 world files).
+See example configuration file!
+
+\subsubsection{SRTM-1 and SRTM-3}
+SRTM-3 (3 arc-seconds) data is available for free (for north and south-America and for Eurasia). SRTM-1
+(1 arc-second) is available for the USA. The data is in .hgt format which is exactly, what ogie
+can read. But the data is tiled into 1x1 degree pieces. This might be useful for high resolution analysis of
+some terrain detail, but is just too much data for normal (glider-)flight analysis.
+However, you'll find it at \cite{srtmv2}.
+The Documentation folder will give you important information about data-format etc.
+
+
+\subsubsection{SRTM-1 and SRTM-3 finished from seamless server}
+
+From the usgs seamless server \cite{seamless} you can get these data.
+It can be downloaded in a binary .bil format, which is accompanied by a .blw file, which contains additional information. Attention, there is a half-pixel shift.
+The actual coordinates for the upp-left corner can be found in the last two lines in the .blw file.
+It seems that void areas are set to 0, in contrast to the original \emph{research grade SRTM data} which uses -32768.
+Additionally you will need \texttt{BIGENDIAN false}.
+
+
+\subsubsection{USGS DEM (30-m and 10-m)}
+\emph{This section is written by} \textsc{Vit Hradecky,} \emph{thanks} \\
+
+Digital elevation data with 30-m and 10-m resolution for the U.S. is
+now available for free at \cite{geocomm}.
+The data is broken up into the standard USGS 7.5-min quads. Most of the
+data is in the newer SDTS format, while some of it is in the older ASCII
+DEM format. Fortunately, a utility exists to dump either into a raw
+binary file, which is readable by ogie. Compile the C source from
+\cite{readdem} and execute \\
+\texttt{read\_dem berlin10m.DEM.SDTS.TAR berlin10m.BIN berlin10m.HDR 0} \\
+This will convert data for the Berlin USGS quad from the SDTS format to
+the 16-bit binary format, output to berlin10m.BIN, dump the headers into
+berlin10m.HDR, and set bad data to zero elevation. The output will be in
+little-endian byte order. Use the \texttt{BIGENDIAN false} option in the
+configuration file to read the data correctly. The DEM latitude and
+longitude limits can be found in berlin10m.HDR.
+The 10-m and 30-m data is in units feet rather than meters. Use \texttt{DEM\_INPUT\_FACTOR
+0.30488} in the configuration file.
+
+
+\subsubsection{Configuring ogie for DEM}
+\label{demconf}
+
+For details on the configuration file see \ref{config}.
+This section will only describe the settings for the digital elevation model setup.
+
+In the configuration file you need to specify the following lines: \\
+The full path to the used digital elevation data file: \\
+\texttt{DEM\_FILE  /full/path/to/demfile/W020N90.DEM} \\
+
+The number of rows and columns of data \\
+\texttt{DEM\_ROWS 6000} \\
+\texttt{DEM\_COLUMNS 4800} \\
+
+The maxima and minima of your DEM-File \\
+\texttt{DEM\_LAT\_MIN 40} \\
+\texttt{DEM\_LAT\_MAX 90}\\
+\texttt{DEM\_LON\_MIN -20}\\
+\texttt{DEM\_LON\_MAX 20}\\
+
+And the resolution (0.00833333 for GTOPO30 and GLOBE)\\
+\texttt{DEM\_GRID\_LAT 0.008333333333}\\
+\texttt{DEM\_GRID\_LON 0.008333333333}\\
+Divide by 10 for SRTM-3.
+
+For other config-file options see \ref{config}.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

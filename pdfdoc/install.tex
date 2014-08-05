@@ -1,0 +1,149 @@
+%$Id: install.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+\section{Installation}
+
+\subsection{General Linux and Unix installation procedure}
+\label{unix_install}
+\label{linux_install}
+
+This applies to all Linux and Unix operating systems.
+
+\begin{enumerate}
+
+\item Extract the archive: \\
+\texttt{tar xvzf gpligc-version.tar.gz} \\
+%\texttt{tar xvzf GPLIGC-version-os-arch.tar.gz}, in the case you're using a package containing binaries.\\
+Change to the just created directory: \\
+\texttt{cd gpligc-version} 
+
+\item Configure and build the software:\\
+\texttt{./configure}\\
+for options and details on configuring the build see README and the output of \texttt{./configure --help}
+
+\item Build the software:\\
+\texttt{make}
+
+\item  \label{root}
+Become root or run the next command using sudo.\\
+\texttt{make install} %\quad or execute the script in the next step using \texttt{sudo}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%19 proofreading till here
+
+%\item  start the installation script: (If you have security concerns, feel free to review the script before)\\
+%\texttt{./install.sh} \\
+%Some of the gpligc packages include binaries for the named platform.
+%The install script will check them.
+%If they don't work some parts of the software need to be compiled.
+%However, you can chose to compile anyway, ignoring the shipped binaries.
+%The src-package dont contain any binaries and need compilation in any case.
+
+%If no binaries are found (or if the binaries don't work for some reason) 
+%The script will compile the  binaries (if this fails you will find more details in section ~\ref{compile}). \\
+%The script will ask you for \\
+%a) an installation prefix (/usr/local is recommended) \\
+%If the script is allowed to write, it will install gpligc and ogie, 
+%files of installed earlier versions will be overwritten (if the same path is used).
+
+\item copy the example configuration file
+\texttt{.ogierc} (PREFIX/share/gpligc/) to your HOME directory
+and edit it according to your needs (see section~\ref{config}).
+
+\item Make sure that Gnuplot \cite{gnuplot} is installed and in the path.
+GPLIGC will also work without Gnuplot,  but you will not be able to use the plotting features.
+
+\item Make sure that the Perl/Tk \cite{perltk} module is installed
+
+\item Read the documentation to learn how to use gpligc \& ogie
+
+\end{enumerate}
+
+
+%\subsubsection{Compiling ogie}
+%\label{compile}
+%OGIE should be compiled from within the install script. If that fails, you'll find some more information here.
+%Furthermore, you'll find some information here, how you can compile a `mesa-only offscreen binary', which can be used on a headless server.
+
+%The C/C++ parts (everything that needs compilation) of the ogie is located in the \texttt{openGLIGCexplorer} subfolder.
+
+%\texttt{make help} will give you an overview of the available targets in the makefile.
+%In general you should try to use one of the \emph{all-*} targets, closest matching your platform.
+%If that fails, you need to modify the \texttt{Makefile} or contact the author.
+
+%\paragraph{Compiling a statically linked binary (Mesa3D)}
+%This is only needed if you're going to use ogie on a server for offscreen rendering (like the onlineplotter).
+
+%Static linking with Mesa is possible and tested for linux and windows (cygwin) and requires at least \emph{Mesa 5.0.1}, (4.x seems not to work with ogie and offscreen rendering).
+%\red{However, be warned it is a pain to get it linked.}
+
+%\subparagraph{Mesa 7.0.3} works fine, as tested. If you need larger than 4096x4096 pictures (e.g. to create cool posters) you have to change
+%the maximum sizes in \texttt{src/mesa/main/config.h} (in the mesa source code, before compiling mesa):
+%\texttt{\#define~MAX\_WIDTH~32768} and \texttt{\#define~MAX\_HEIGHT~32768}.
+
+%\subparagraph{Mesa 7.4.1} tested in May 2009. It worked for me as follows: download and unpack MesaLib and MesaGLUT-7.4.1. Change the maximum width and height as described above. Use \texttt{make linux-x86-64-static} or a similar target. After Mesa compiled, \texttt{cp lib64/lib*.a \textasciitilde/lib/} to put the static mesa-libs in your private \textasciitilde/lib/.
+
+%For further details see the ogie Makefile. \texttt{MESAPATH, GLEX\_OSMESA} and \texttt{GLEX\_OSMESA\_WIN} are interesting bits.
+%The osmesa target in the Makefile requires the static Mesa libraries in \textasciitilde/lib/
+
+%\begin{verbatim}
+%make clean
+%make osmesa
+%\end{verbatim}
+
+%Compiling this on windows/cygwin is even more painful. However, I succeeded once, see comments in the Makefile.
+%\begin{verbatim}
+%make clean
+%make osmesa-win
+%\end{verbatim}
+
+%The binary, which will be build is called \emph{openGLIGCexplorer-mesa}.
+
+
+
+%\subsection{OpenBSD}
+%On OpenBSD platforms, you need to install the following packages: gmake, p5-Tk, gnuplot, jpeg, bash.
+%You'll need the glut library too, which is not available as a packge, but from the ports.
+%The install.sh script should be started with the bash shell: \\
+%\texttt{sudo bash ./install.sh}
+
+%\subsection{Gentoo Linux}
+%Gentoo users may use the gpligc ebuild from the \emph{sunrise} overlay.\\
+%Adding the sunrise overlay: \texttt{layman -a sunrise} (for details see gentoo/layman documentation)\\
+%Installing gpligc: \texttt{emerge gpligc}
+
+
+%\input{mcinstall.tex}
+
+\input{winstall.tex}
+
+%\subsection{Update installation}
+%If you want to update from an earlier version, you can safely use the install-scripts. Executable files will be replaced.
+%Your data and configuration files will not be overwritten.
+%But be sure to use the same paths for installation and symbolic links as in the previous installation, otherwise you my have conflicting installations.
+
+
+\subsection{Additional Perl modules}
+For best experience with gpligc you should install the following Perl modules:\\
+
+\begin{itemize}
+ \item \texttt{Image::ExifTool} \quad needed for photo-locator and geo-tagging. See \cite{exiftool}.
+ \item \texttt{Imager} \quad needed for the new (1.9) map-feature. See \cite{imager}.
+\end{itemize}
+
+there are (at least) two ways of installing Perl modules
+
+\subsubsection{manually} You should go to the CPAN \cite{cpan} and search for the modules, download and install them.
+ After downloading the archive(s), it takes the usual three commands: \\
+\texttt{perl Makefile.PL} \\
+\texttt{make} \\
+\texttt{make install}   (as root)\\
+
+
+\subsubsection{using the CPAN.pm module} If the cpan module isn't configured yet, this can be done interactively or even automated during this process. \\
+\texttt{perl -MCPAN -e shell} \\
+then enter \\
+\texttt{install Image::ExifTool}\\
+at the cpan prompt.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

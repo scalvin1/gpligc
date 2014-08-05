@@ -1,0 +1,500 @@
+%$Id: gpligc.tex 3 2014-07-31 09:59:20Z kruegerh $
+%last spellchecked: 1.21->1.22
+%;;; Local IspellDict: "british"
+
+
+\section{GPLIGC}
+
+\subsection{How to start gpligc}
+
+\begin{itemize}
+\item{Linux, Unix:}
+GPLIGC can be started from the command line by typing \\
+\texttt{gpligc}\\
+or\\
+\texttt{gpligc  igcfile.igc}
+
+%\item{Windows}
+%From the command line (\texttt{cmd.exe} command prompt): \texttt{perl GPLIGC.pl} (from within the gpligc-directory)
+%or double-click \texttt{GPLIGC.pl} from windows explorer. 
+%If windows asks you what application to open it with, you'll have to find your perl interpreter
+%(whereever/you/installed/perl/bin/perl.exe).
+
+%You cannot avoid that a cmd window pops up too, just ignore or minimise it.
+\end{itemize}
+
+\subsection{Main Window}
+The flight-track will be displayed here. 
+Crossmarks indicate a single data fix point. 
+The corresponding data is shown above.
+The displayed data is based on the barometric altitude. 
+In the case, that the igc-file does not contain any barometric altitude,
+gpligc will switch to GPS-altitude.
+A message will inform you about this, and
+the information ``GPS-Altitude modus'' is displayed.
+
+\textbf{Attention!} Some of the key-shortcuts are case-sensitive!
+
+To move the crossmarks/cursor/indicators use F3 (move forward), F4 (fast forward), F2 (backward)  and F1 (fast backward).
+
+`\texttt{t}' toggles task-display.
+`\texttt{r}' sets the Gnuplot-range (side-length can be chosen in the menu) to the cross-mark position, 
+`\texttt{c}' toggles waypoint-cylinders and sectors (on/off).
+
+Before using the waypoint sectors and cylinders you should delete doubled waypoints which may occur in the task declaration. E.g. if departure and start location are equal, or finish and landing.
+Otherwise the FAI sectors cannot be calculated properly (maybe I'll implement some auto-detection of that sometime).
+
+`\texttt{z}' zooms in or out!
+The 'distance to' can be changed by selecting a different waypoint in the task editor window.
+You can define a task start and finish point with "s" and "f", these points are
+used to calculate the task-speed. These points are marked with small black circles.
+They are used to mark the begin and end of unpowered flight also. 
+gpligc will try to detect the begin and end of unpowered flight, but this may fail sometimes and should be checked by the user.
+
+Waypoints can be set with \texttt{a}, \texttt{b} or \texttt{p} (\texttt{b} adds before actual wp, \texttt{a} after and \texttt{p}      
+replaces the actual wp - actual wp is that one which is shown in the task editor window, if opened).
+                                                                                             
+You can interactively zoom by selecting an area using the right mouse button. Return to full view using `\texttt{z}' key.
+Select points by clicking in the barograph or the track, crossmarks will move to the selected position.
+`\texttt{q}' will close the flight view window.
+\texttt{Esc} exits gpligc
+
+A list of the most important key-shortcuts can be accessed from the info menu.
+
+\subsubsection{Layout}
+%\red{not yet sure about this, after 2.0?!}
+The layout of the main window can be changed in the following ways:
+%(1) the help screen at the lower part can be disabled, if you don't need it any loger (set \texttt{fvw\_show\_help} "0").
+the ratio of the heights of the track area and the barogramm area can be changed.
+The config-key \texttt{fvw\_baro\_fraction "$n$"}, with $2 \le n \le 10$ sets the height of the barogramm to $\frac{1}{n}$ of the height of the track area.
+
+
+\subsubsection{Task}
+The task (which is given in the recent task definition; defined by the task-editor, via optimisation, or from igc-file) is shown regardless whether the waypoints are reached or not.
+The task speed is calculated from the total task distance and the unpowered flight time, which may be adjusted as described above.
+
+The third section will show the flown task, only way-points which you have reached are taken into account. A way-point is reached, if one logged data point is closer to the way-point as the cylinder radius (or 3km if only FAI sectors are chosen). The time of reaching the way-point is taken from the first point inside the way-point radius.
+For exact analysis of speed you should use the F5, F6, F6 measuring function.
+For each leg of the task the distance, speed, altitude gain/loss and the glide ratio (calculated from distance wp1-wp2 and altitude gain/loss) is displayed.
+
+
+\subsubsection{Maps}
+The usage of maps needs internet (if new maptiles have to be downloaded).
+Changing the zoom or positions, will trigger automatic download of map-tiles, the window will be busy for a few seconds.
+
+The display of maps can be activated or deactivated by key `\texttt{M}'. 
+The status lines at the top of the window will show the zoom-level and the number of tiles used.
+If you want to change the zoom-level you can use the keys "$+$" and "$-$".
+Changing the zoom-status will sometimes change the map-zoomlevel. This is needed to prevent 
+the use of too many tiles, or too large scaling of tiles.
+The behaviour of this can be changed with two config-keys: 
+\texttt{map\_max\_tiles}
+and \texttt{map\_max\_scalesize}, although not recommended.
+
+The default map zoom-level is set by \texttt{maps\_zoomlevel} (recommended: 8).
+
+Downloaded map tiles are stored in \texttt{.gpligc/maps}. Pressing the hash-key `\texttt{\#}' re-downloads the displayed map tiles.
+
+
+\subsubsection{Postscript output}
+output of flightviewWindow to postscript is possible by pressing `\texttt{o}' (flight-track)
+or `\texttt{i}' (barogram)
+
+\subsubsection{Resizing the window}
+After resizing the window you need to press `\texttt{y}' to redraw the content (so far I couldn't find a suitable callback function in Perl/Tk).
+
+
+\subsubsection{Statistics (thermals/glide)}
+Thermal statistic (F8) will open two windows. One with some statistics and a
+second one with a list of thermals (double click on a list-entry will jump
+to that thermal in flight-view-window)
+Glide statistics (F9) will open two windows. One with some statistics and a
+second one with a list of glide-distances (double-click will jump to that
+glide-distance)
+
+\subsubsection{Statistics (selected range) and wind analysis}
+(F5, F6, F7) can be used to set a first (F5) and a second (F6) point and
+display some statistics (F7) for the selected range. The selected points will be
+marked with small green circles and the time-span will be marked in red in the barogram.
+
+To obtain a better view of the selected range press F11. The rest of the track will be omitted, and the
+barogram will be zoomed to the selected range (F11 again will restore the previous view).
+
+Furthermore, a difference plot of airspeed$-$groundspeed is performed via gnuplot. Even if no airspeed is present
+(then its assumed as 0), information about the wind can be derived. The difference is plotted vs. the heading,
+so select a range where many different headings are present (e.g. circling). A sinus function is fitted to the plot.
+
+The amplitude of the sine function will give the wind speed, the direction can be read from the position of the maxima (direction of smalles ground speed).
+
+
+
+\subsubsection{Save lifts / points of interest}
+You may save interesting points (extraordinary lifts, wave-entry positions and the like) by pressing F10.
+The actual position including altitude, vertical speed, time etc. is saved to \texttt{filename.lif}.
+This file is being appended, so you have to delete it, in order to start from scratch.
+
+This file can be used in ogie, and will be automatically loaded if ogie is started from within gpligc.
+
+
+\subsubsection{Altitude calibration}
+The barometrically recorded altitude is often shifted in respect to the real altitude.
+In the simplest case, this is a constant shift (constant option).
+To correct this, you can select a data point with known altitude
+(e.g. before take-off, known airport elevation) and press `\texttt{e}'. 
+Then, enter the known altitude at this point, and the data will be shifted.
+The barometric option will use a barometric model, the shift will decrease with altitude.
+Chose the model according to your suspected error. Use `constant', if you have a constant systematic error in your altimeter.
+Use `barometric' if the reference pressure is wrong.
+
+The calibration data is saved withing the additional info (see section~\ref{add_info}).
+
+
+\subsubsection{QNH and reference pressure calibration}
+If your recorded track has the altitude referenced to MSL, you can enter an QNH (normalised pressure) to benefit from more accurate pressures and Flight Levels.
+(Using key `\texttt{n}', entering only pressure for QNH, leaving 0 for reference pressure).
+
+If you recorded track is referenced to a known pressure-level (e.g. 1013.25~hPa) you can change the reference to MSL by entering the reference-pressure and the QNH via `\texttt{n}'.
+
+
+\subsubsection{View Photos / Multimedia}
+By pressing `\texttt{v}', the closest photo or multimedia file will be displayed, either in
+the internal viewer, or in an external one.
+
+To set the viewer the configuration key \texttt{picture\_viewer} can be changed. ``internal''would tell
+gpligc to use the internal one (only for pictures), every other value will be used as executable. For example you may use
+``kuickshow'' or ``/path/to/any/strange/picture/Viewer/you/like/view''.
+For other multimedia (audio recordings, movies) the configuration key ``mm\_player'' is used (defaults to mplayer).
+
+To show/hide the files at the track, use key `\texttt{h}' in the flight-view-window to toggle. Pressing `\texttt{m}' will bring up a list of associated files.
+
+\subsubsection{Photo time calibration and geotagging}
+\label{photo_time}
+Often, the clock of the digital camera (or cell phone) isn't exactly in sync with the `official GPS time'.
+Therefore, we need to synchronise with the GPS time.
+This can be done, if we have the exact time or position of one photo.
+(I use to take one photograph of my GPS showing the GPS-time [preferrably UTC]).
+The procedure in gpligc: (1) view the photo in question (using key \texttt{v}).
+GPLIGC will remember it. (2) press `\texttt{x}' and enter the exact time (in UTC).
+The determined shift will then applied to all photographs.
+GPLIGC will write a file (\texttt{.GPLIGC-timeshift}) in the directory of the photos, so that this correction will be remembered.
+To avoid all this the best method would be to have the cameras time in sync with the GPS-time. To make the correction easier it is a good idea to take a photo of your GPS showing the time.
+
+After you have done the calibration you may want to geo-tag your photographs. Pressing \texttt{u} will do the job: The GPS coordinates will be written into the Exif headers of the images.
+If any GPS tag is found (GPSAltitude, GPSLatitude, GPSLongitude or GPSTimeStamp) the file will not be altered.
+If you want to overwrite existing GPS tags you have to set the configuration key \texttt{geotag\_force\_overwrite} to ``1''.
+
+
+\textbf{Important!}  IGC files use UTC. Your camera probably uses local time. Therefore, gpligc has to know about your local time. The offset should be set in \texttt{.gpligcrc} (key "timezone"). The timezone offset can be set independently for each IGC-file using the \emph{additional flight info dialog} (see section~\ref{add_info}).
+Once a calibration has been done, the calibration shift and time-zone offset will be saved in \texttt{.GPLIGC-timeshift} for that specific folder of pictures. In order to override the timezone from \texttt{.gpligcrc} one can create an \texttt{.GPLIGC-timeshift} in the directory with the pictures, containing two lines: line 1 should only contain 0 (thats the timeshift without timezone), line 2 should contain the timezone.
+If your time-zone offset is so large, that the photos cannot be located on your tracklog, you should create \texttt{.GPLIGC-timeshift} file manually, containing a suitable time-zone offset and reload the picture-folder.
+
+
+\subsubsection{Photo locator}
+If the Image::ExifTool module is installed and the configuration key "photos" is active (=1, this is the default),
+gpligc can locate pictures and show them next to the track, which allows you to identify the places where these pictures have been taken. Pictures not featuring an Exif header, may be located by the files timestamp, if thats retained.
+When opening a igc file, gpligc will look for JPEG photos in the same directory, if there are none, gpligc will look in the
+"photo\_path" directory (as set in .gpligcrc). The third and best method to tell gpligc where the pictures are, is to use the
+"open photo directory" from the file menu. Just select one of the JPEGS there.
+Since there is no date in igc files, you should point gpligc to photos from the same day. For more details about time-zone, and time offsets see \ref{photo_time}.
+
+
+\subsection{Menus}
+
+%% MENU
+\subsubsection{File}
+\paragraph{Open}
+Select the IGC file to open.
+
+\paragraph{Reload}
+Reloads the opened IGC-file.
+
+\paragraph{Download track (gpsbabel)}
+Uses \emph{gpsbabel} \cite{gpsbabel} to download trackdata from a GPS-device. 
+The used command string can be defined using the configuration keyword \texttt{gpsbabel\_tdownload}.
+For details see section~\ref{gpligcrc}.
+%\red{Windows: I'm not sure whether this will work. Any users with gpsbabel out there for testing?}
+
+\paragraph{Download garmin (linux only)}
+Download GPS tracks from a garmin device, using gpspoint \cite{gpspoint}.
+The gpspoint command has to be defined by the \texttt{garmin\_download} configure option (see section~\ref{gpligcrc}).
+The track is then automatically converted to the IGC format by \texttt{gpsp2igcfile.pl} (see section~\ref{gpsp2igc}).
+
+\paragraph{Download media (linux only)}
+Use this option to download media files (audio recordings, videos, photos) from your mobile phone to locate them using GPS track.
+You should specify your mountpoint and folders via \texttt{mm\_mountpoint} and \texttt{mm\_download\_dirs} (see section~\ref{gpligcrc}).
+
+\paragraph{Export kml}
+Exports the currently opened track to the kml format.
+
+\paragraph{Export gpx}
+Exports the currently opened track to the gpx format (useful for openstreetmap \cite{osm}).
+
+\paragraph{Open photo/multimedia directory}
+If your photos/multimedia files are not in the same folder as your GPS track, you can chose the folder here.
+
+
+
+%% MENU
+\subsubsection{Options}
+
+\paragraph{Map settings}
+For using maps, you need to have the Imager perl-module installed.
+\emph{Use maps}, if enabled maps will be displayed in the flight-view-window. 
+This requires an internet connection, since maps are downloaded from the web.\\
+\emph{Openstreetmap}, if set, openstreetmap will be used as map-server.
+Openstreetmap data is \copyright\ OpenStreetMap (and) contributors, CC-BY-SA \cite{osm}.\\
+
+The maps are downloaded to a subfolder in the directory, which is set by the config-key \texttt{map\_path}.
+Don't change the names and folders there, since downloaded maps will be reused if gpligc can find them.
+
+Other map sources and map layers may become available later.
+
+
+
+
+\paragraph{Gnuplot settings}
+%This menu is available only on Unix-machines. With windows Gnuplot 4.x will be used by default, for Gnuplot 3.x you have to follow the instructions given in section \ref{windows_install}. The Gnuplot-shell is not available on windows, sorry.
+To use the new interactive features of Gnuplot 4.x you have to select the \emph{Gnuplot 4.x} option here. Highlights of these features are interactive zoom (right mouse-button) and interactive rotation of 3d plots.
+The option \emph{Open Gnuplot-shell} will open a Gnuplot-shell for each plot, where you can do some more work on the plot. The  terminal application to be used can be changed by the configuration-key \texttt{gnuplot\_terminal\_app} the default is \emph{xterm -e} (see \ref{gpligcrc}).
+
+Grid on/off controls the use of grid lines in Gnuplot.
+
+\subparagraph{Draw Options}
+Chose between \emph{Lines}, \emph{Dots} and \emph{Linespoints}. These are Gnuplot styles.
+
+
+\subparagraph{Set terminal}
+Select the gnuplot-terminal (corresponds to \texttt{set term ...} in gnuplot).
+Some of the options may not be available in your gnuplot installation.
+The x11 option (default) will put the plot on your screen.
+All the others will write to a file. You will be asked for a filename (for
+every plot). Specify the file name and extension in the save file dialog.
+
+For more options on gnuplot exports use the Gnuplot-shell.
+
+
+\paragraph{Optimiser method}
+Different methods for the task optimisation can be chosen here. For details see section~\ref{optimise}.
+
+\paragraph{WP cylinder}
+Here you can select the type of waypoint observation zones; cylinders or FAI
+sectors or both. For cylinders the radius can be chosen. Another option is to
+turn the way-point names in \emph{flight view window} on or off.
+
+
+\paragraph{WP-Plot side-length}
+Selects the plot range for waypoint-plots (in gnuplot: the ranges used in x and y).
+This also affects the size of the view in flight-view-window (if zoomed).
+Options are 1,3,5 oder 10km. (In the flight-view-window the side length
+is used in y-direction (latitude), the x-direction is scaled automatically to
+prevent distortion).
+If you use "Set range" (key r) in the \emph{flight view window}, this value will be used to set the
+Gnuplot plotting ranges.
+
+\paragraph{Set Noise Level Limit}
+All recorded position fixes with a noise level above that limit will be
+plotted in green (in flight-view-window).
+
+\paragraph{Coordinate Format}
+Here you can select the display format for the coordinates.
+
+\paragraph{Speed, vertical speed, altitude and distance units}
+Select your preferred units (km/h, m/s, m, ft, knots, ft/min)
+
+\paragraph{Show accuracy}
+If accuracy data is included in the IGC-file, you can active or deactive its use. 
+If activated you'll find additional output in the flight-view-window.
+
+\paragraph{Photo locator}
+Enables the photo locator feature. This feature can be used to geo-tag photographs, which were taken while the GPS-track was recorded.
+
+\paragraph{Debugging output}
+This option will dump tons of mostly useless text to your terminal. Use this if you like mystic numbers running down
+your console. You should use this only when requested by the developers to track some bugs...
+
+\paragraph{Save configuration}
+The actual configuration settings (chosen in the options menu) will be saved to \texttt{.gpligcrc}.
+Use this to make your setting permanent.
+
+\paragraph{Reread configuration}
+This will reread the \texttt{.gpligcrc} configuration file.
+This option allows you to change some configuration setting with an text editor while gpligc is running.
+
+
+\subsubsection{Plots-2D, Plots-3D}
+This options will produce plots using Gnuplot.
+Diagrams of the flight data will be written to 'term' (selected under "Set term").
+Directly to X11 or after "Save-File-Dialog" to a file.
+
+For changing the appearance of the output change the gnuplot-related options, or chose to open 
+a gnuplot-shell for each plot for further processing.
+Gnuplot 4 also has some interactive features.
+
+\subsubsection{Tools}
+
+\paragraph{Flight info (IGC)}
+Informations about the flight data recorder, pilot, plane and task will be displayed (as stored in the igc-file).
+These comes from the IGC-file header.
+The declared task from the IGC-file will be displayed too, but doubled way-points in task definition will be removed
+(e.g. if take-off and start or finish and landing are the same)
+
+\paragraph{Flight info (additional)}
+\label{add_info}
+Additional information (which is \emph{not} stored within the igc-file) can be viewed/edited here.
+The data entered here can be stored in a \texttt{filename.gpi} file, which is automatically loaded, if found.
+Useful to archive additional information on the flight.
+
+
+\paragraph{Flight statistics}
+Time of launch, landing, and flight will be available.
+The time of the begin and end of unpowered flight is shown also. 
+The unpowered flight can be defined in flight-view-window with the keys \texttt{s} and \texttt{f}, or will be determined automatically (this may fail in some cases).
+
+This section also shows calculations on the amount of oxygen, which should have been used according to \texttt{FAR 91.211}.
+FAA requires 1l/min per 10.000ft (using a regular cannula or mask). Up to FL180 Oxymizer cannulas may be used (they use 1/3 of the oxygen, values given in brackets).
+Four altitude bands are distinguished: \\
+FL100--FL125 recommended use of oxygen\\
+FL125--FL140 FAA requires oxygen in access of 30 minutes. Recommended: always \\
+FL140--FL180 up to FL180 a cannula may be used.
+FL180--FL250 only with mask (at higher altitudes you should have a demand-diluter system)\\
+%\end{itemize}
+
+The sum is given for recommended oxygen use (strictly from FL100) and FAA conform from FL125 (in access of 30 minutes) or FL140.
+
+Don't forget to do the elevation calibration before calculating the statistics and to set the QNH (if you wan't it very precise).
+For details of the calculation see the source code in \texttt{GPLIGCfunctions::OxygenStatistics}.
+
+
+\paragraph{Task editor}
+Select a waypoint of the current task and make 2d or 3d plots of it.
+You can also delete waypoints from the task, or set the last wp equal to the first
+one (to close a triangular flight etc.)
+
+
+\subparagraph{Optimisations} \label{optimise} For all optimisations it is necessary to check that the begin and the end of the free (unpowered) flight is set correctly.
+Otherwise waypoints my be set at a part of your flight, where you have been towed or using a motor.
+To avoid that you need to set (or at least check the automatic detection) the "begin of unpowered flight time" to the beginning of the free flight (release point or engine-off point). The "end of unpowered flight time" needs to be set if you used an engine before landing.
+
+The optimisation will only take the data between "begin of unpowered flight" and "end of unpowered flight" into account.
+GPLIGCs optimisation routines are based on \emph{Metropolis Monte Carlo} (MMC) and/or \emph{simulated annealing} (SA) methods.
+One of them can be chosen in the menu (the default can be set using the config key \texttt{optimizer\_method} to either "mmc" or "sa").
+
+Several configuration keys can influence the algorithms.
+\texttt{optimizer\_cycles\_mmc} and \texttt{optimizer\_cycles\_sa} define the number of optimizer runs for MMC and SA, respectively (each run is represented by one step of the progress bar).
+
+\texttt{optimizer\_mmc} sets the commandline parameters for the optimizer run, if MMC is used.
+\texttt{optimizer\_sa} sets the commandline parameters for the optimizer run, if SA is used.
+
+If you want to play with that, check the source code of \texttt{optimizer.cpp}
+In general, the default settings for both methods should find a close to optimal task. 
+I'm looking for feedback on their speed and reliability. 
+E.g. if they sometimes stuck at local maxima, missing the global one.
+
+\texttt{optimizer\_verbose} and \texttt{optimizer\_debug} may enable the corresponding output of the optimizer at the console.
+
+For brute-force calculation computers are still too slow, since a typical flight with about 5000 data records and a task of 7 waypoints, gives about $10^{22}$ solutions to check. The \texttt{optimizer} c++ code (see optimizer.cpp in the source) implements several experimental methods to find the best task.
+
+
+
+\subparagraph{Optimisation OLC-classic (rules oct/2007)}
+This will find the best task for OLC-classic (maximum points) and set it  as  the task.
+The OLC-classic optimisation will find the probably best task with 7 waypoints (6 legs). The value to be optimised is the raw scoring: 4 legs with 1 point per kilometre, leg number 5 with 0.8 points per kilometre and the last leg with 0.6 points per kilometre. The altitude limit of 1000~m between the lowest point between "begin of unpowered flight" and the starting point and the highest point between the end point and the "end of unpowered flight" will be accounted  for.
+
+\subparagraph{Optimisation DMST 2005}
+This optimisation will find the best task according to the german DMSt 2005 rules. FAI tasks will be found, if possible.
+
+This will not check for pre-flight declared tasks. It's still up to you, to check that. But if you've finished a pre-flight declared task, you probably will know.
+
+
+\subparagraph{HOLC 2005}
+This optimisation will find the best task (maximum points)  for the hang-gliding/para-gliding online contest (rules of 2005). Triangular
+tasks, or FAI tasks will b used, if they'll have more points. Every logged data point is used (if it is valid).
+
+
+% ????????????????????????????
+\subparagraph{output of optimisation} If the optimisation is finished, a window with some information will appear.
+Some of them need to be explained. Time of departure: This is the time of the lowest position after begin of un-powered flight and the first way-point (start-point). Finish-time: This is the time of the highest position after the last way-point and the end of unpowered flight.
+
+
+\paragraph{OGIE -- 3d}
+Starts ogie with the currently opened flight-data file
+For details on ogie read section~\ref{ogie}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ZZZZZZZ REMOVE THIS CRAP SOMETIME
+%\paragraph{Logger read window (windows only)}
+%\red{I don't know whether this still works, as I remember some problems with these small DOS programs on XP. Consequently, this feature will be removed in the future.}\\
+%For each IGC approved logger a so called `small DOS program' has to be available for free.
+%The small Windows/DOS (they don't even run on every Windows ...) programs can be downloaded at the FAI web-pages.
+
+%To use these software from gpligc logger read window you should put the
+%\texttt{data-xxx.exe, vali-xxx.exe} and \texttt{conv-xxx.exe} somewhere in your
+%path (or in the gpligc installation directory, which should be in path).
+
+%Use this with caution! I know that (for example) some versions of data-sdi won't work on XP.
+%There may be problems with the others too.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\paragraph{OLC Flight claim}
+%Online flight claims are no longer supported.
+%This button will bring up a dialog box, where some information can be entered, which are necessary
+%for the online contest. You have to choose the country for your olc flight claim. If you have used the optimisation before, you can
+%use the task optimised by GPLIGC, otherwise the olc server will have to do the optimisation. After clicking OK, a web-browser will be started
+%and you will be directed to the olc flight claim form with many values filled in already.
+%The most important thing is, that the start and end of the un powered flight is set correctly. GPLIGC will try to check these automatically
+%but sometimes the determination of the release time will fail! In the case you have used an engine after the flight and before landing
+%(for example to avoid an out-landing) GPLIGC will fail finding the real end of un powered flight. Use the flight-view-window to check the
+%begin and the end of the un powered flight and mark these points by \texttt{s} and \texttt{f}.
+
+%\emph{This is tested for the normal online contest (gliders) only! I'm not sure about the claiming process for holc and dmst...}
+
+
+%% MENU
+\subsubsection{About/Info}
+Copyright information and a link to the gpligc/ogie web-site
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{The gpligc configuration file (.gpligcrc)}
+This paragraph describes the new configuration file format of gpligc, which was introduced with gpligc 1.5.
+Internally, gpligc stores all changeable configuration parameters in a `perl-hash'.
+This is a data-structure, which is represented by pairs of keys and values.
+Each key can be assigned to a value.
+To get a valid \texttt{.gpligcrc} file, you should start gpligc and use options/save configuration.
+This will write a \texttt{.gpligcrc} file, which includes \emph{all} valid keys and their default values.
+The file has one line for each key-value pair.
+The key is the first word, the value is enclosed in \texttt{"}.
+The value can be changed with a text editor.
+If you do this while gpligc is running, you need to select \emph{options/reread configuration} to trigger rereading of the changed configuration file.
+
+%On Windows systems this configuration file is named \texttt{gpligc.ini}
+
+Please refer to the section \ref{gpligcrc} to see what values are allowed.
+If illegal values are used, gpligc may behave unpredictable or just crash.
+
+
+%\subsection{Inter-process-communication with openGLIGCexplorer}
+%This is disabled in 1.4, because of serious rewriting... Will be back in...
+%Sorry not yet in 1.5.
+
+
+\subsection{Remarks for using IGC files with gpligc}
+GPLIGC does not check the integrity of the data.
+Some calculations may not work as supposed, if there is more then one flight recorded in a in single IGC file
+(e.g. the times of take-off, landing and flight duration will be wrong (starttime=starttime of first flight, landingtime=time of last landing)
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

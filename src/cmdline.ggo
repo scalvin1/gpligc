@@ -1,0 +1,201 @@
+package  "OGIE"
+version	  "1.10pre"
+
+purpose
+"OGIE (c) 2002-2014 by Hannes Krueger <Hannes.Krueger@gmail.com>
+Web: http://gpligc.sf.net
+
+openGL viewer for igc flight data files and/or digital elevation data
+from SRTM30, GTOPO30, GLOBE, etc. Digitised maps and airspace data 
+files can be used.
+
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions.
+
+The full GPLv3 license is included in the manual
+"
+
+option	"verbose"	v	"verbosity?"		flag	off
+option  "quiet"		-	"Quiet"			flag	off
+option	"query-gl"	q	"Querying openGL implementation" flag off
+option  "check"		-	"return exitcode 0"	flag 	off
+option	"compiler"	-	"info about build"	flag	off
+option  "debug"		-	"lots of output"	flag    off
+
+option	"igc-file"	i	"igc-file"		string	no
+option	"gpsd"		-	"live gps via gpsd"	flag	off
+option  "gpsd-server"   -       "address of gpsd server" string  no
+option  "gpsd-port"     -       "port of gpsd server"   int     no
+
+option	"gpsalt"	g	"use gps altitude"	flag 	off
+option  "baroalt"	b	"use barometric alt"	flag	off
+option  "use-all-fixes" -	"Use all position fixes" flag	off
+option  "lat"		-	"Latitude"		float	no
+option  "lon"		-	"Longitude"		float 	no
+option	"get-elevation" -	"Return elevation of lat/lon" flag off
+option  "config-file"   c	"config file"		string	no
+
+option  "ortho"		o	"2D Orthographic View"	flag	off
+option  "perspective"	-	"3D View"		flag	off
+
+option 	"aov"		-	"angle of view"		int	no
+
+option	"landscape"	l 	"landscape from dem"	flag	off
+option	"flat"		f	"flat underground"	flag	off
+option  "map"		m	"display digitized maps" flag	off
+option  "no-map"	-	"dont use maps"		flag	off
+option  "map-set-name"  -	"name of map set to use" string no
+option  "modulate"	-	"dem color and maps"	flag	off
+option  "no-modulate"	-	"no color modulation"	flag	off
+option  "maps-unlighted" -	"dont use lighting for unmodulated maps" flag off
+option  "maps-lighted" -	"use lighting for unmodulated maps" flag off
+option	"no-lighting"	-	"Dont use lighting for terrain" flag off
+option	"terrain-shading" -	"Use terrain shading (implies no-lighting)"	flag	off
+option	"shading-scale"	-	"shading-scale (1-10000)" float	no
+option	"light-direction" -	"direction for light (1-8)"	int no
+option  "airspace"	a	"Airspace visualization"	flag	off
+option  "airspace-wire" -	"Airspace as wireframe" flag	off
+option  "airspace-wire-col-r"  - "wire color red" 	float	no
+option  "airspace-wire-col-g"  - "wire color green" 	float	no
+option  "airspace-wire-col-b"  - "wire color blue" 	float	no
+option  "airspace-wire-width"	- "linewidth wires"	float	no
+option  "airspace-transparent" - "Airspace transparent" flag	off
+option 	"no-airspace"	-	"no Airspaces"		flag	off
+option	"airspace-file" - 	"use airspaces from file" string no
+option  "airspace-limit" -	"limit (FL) for airspaces" int  no
+option	"wire"		w	"wireframe landscape"	flag	off
+option  "filled"	-	"filled polygons"	flag	off
+
+option	"grayscale"	-	"grayscaled image"	flag	off
+option  "color"		-	"color image"		flag	off
+
+option	"stereo"	-	"stereoscopic"		flag	off
+option  "no-stereo"	-	"no stereoscopic view" flag	off
+option 	"stereo-rg"	-	"stereoscopic red/green" flag	off
+option  "no-stereo-rg"  - 	"no stereoscopic red/green"	flag	off
+option 	"stereo-rb"	-	"stereoscopic red/blue"  flag	off
+option 	"no-stereo-rb"	-	"no stereoscopic red/blue"	flag	off
+option  "stereo-hw"     -       "stereoscopic hardware" flag    off
+option  "no-stereo-hw"  -       "no stereoscopic hardware" flag off
+
+option 	"inverse-stereo"	-	"invert right/left image"	flag	off
+option	"no-inverse-stereo" -	"dont invert right/left"	flag	off
+option	"eye-dist"	-	"eye distance for stereoscopic view (km)"	float no
+
+option  "flat-shading"  -	"no gouraud"		flag	off
+option	"gouraud-shading" -	"use gouraud-shading"	flag	off
+option	"quads"		-	"use quadrilaterals"	flag	off
+
+option  "curtain"	-	"draw curtain"		flag 	off
+option 	"no-curtain"	-	"draw no curtain"	flag	off
+
+option  "haze"		-	"draw haze"		flag	off
+option	"no-haze"	-	"draw no haze"		flag	off
+option  "haze-density" - 	"haze density (0-0.5)"	float	no
+
+
+option	"colormap"	-	"no. of colormap to use" int	no
+option  "colormap-sea"  -	"colormap 2 (sea)"	int	no
+option  "colormap-min"  -	"mininum height"	int	no
+option	"colormap-max"  -	"maximum height"	int	no
+option  "sealevel"	-	"set sealevel"		int	no
+option  "sealevel2"	-	"set sealevel2"		int	no
+option  "sealevel3"	-	"set sealevel3"		int 	no
+option	"ignore-elev-min" -	"ignore range min"	int	no
+option	"ignore-elev-max" -	"ignore range max"	int	no
+
+option	"scalez"	s	"z axis scaling"	float   no
+option  "downscaling"   d	"dem raster downscaling" int 	no
+option  "upscaling"	-	"dem raster interpolation factor" int no
+
+option	"fullscreen"	-	"Fullscreen"		flag	off
+option  "window"	-	"start windowed"	flag	off
+option	"width"		- 	"Window width"		int	no
+option	"height"	-	"Window height"		int 	no
+
+option  "border"	-	"Border Lat and Lon"	float	no
+option  "border-lat"	-	"Border Lat"		float	no
+option  "border-lon"	-	"Border Lon"		float   no
+
+option  "offset"	-	"height offset in m"		int	no
+option  "airfield-elevation" e  "Elevation of airfield (take-off) in m" int no
+option  "marker-pos"	-	"Position of marker"	int	no
+option  "marker-time"	-	"Time of markerposition" string no
+option  "marker"	-	"Marker"		flag	off
+option	"marker-size"	-	"Size of the Marker"	float	no
+option	"no-marker"	-	"no Marker"		flag	off
+option  "info"		-	"Info text display"	flag	off
+option	"no-info"	-	"no info text display"	flag	off
+option  "text"          - 	"Text string to display" string no
+option  "no-position-info" -    "Turn off viewpoint position info" flag off
+option  "no-marker-pos-info" -  "Turn off marker position info" flag off 
+
+option	"text-size"	-	"Size of text for points/lifts (0.001-1.0)" float	no
+option 	"text-width"	-	"Width of text (1-20)"	float no
+
+option 	"lifts"	-		"GPLIGC liftsfile"	string no
+option	"lifts-info-mode" -	"which info to display (1-7)"	int	no
+
+option 	"waypoints-file" -	"waypointsfile"	string no
+option 	"waypoints"	-	"show waypoints"	flag off
+option 	"no-waypoints"	-	"dont show waypoints"	flag off
+option	"waypoints-info-mode" -	"which info to display (1-4)"	int	no
+option  "waypoints-offset" -	"offset for displaying waypoint text in 3D" int no
+option  "waypoints-offset-spheres" -	"offset for displaying waypoint spheres and text in 3D" int no
+
+option	"flighttrack-mode" -	"sets the mode of track display" int no
+option	"flighttrack-colormap" -	"sets the colourmap for flighttrack" int no
+option	"flighttrack-linewidth"	- "sets the linewidth of the flighttrack" float no
+
+option	"follow"	-	"viewpoint follows marker" flag	off
+option	"no-follow"	-	"viewpoint doesnt follow marker" flag off
+option 	"marker-range"	-	"range around marker is plottet" flag off
+option 	"no-marker-range" -	"full flight is displayed"	flag off
+option	"marker-ahead"	-	"define marker range"	int	no
+option	"marker-back"	-	"define marker range"	int	no
+option  "movie"		-	"start up in movie mode" flag   off
+option  "cycles"	-	"cycles for movie mode" int   no
+option  "spinning"      -       "spinning for movie mode" float  no
+
+
+option 	"smooth-mouse"	-	"smooth movement"	flag	off
+option  "parent-pid"	-	"PID of parent"		int	no
+
+option  "compression"   -	"Use texture map compression" flag	off
+option  "no-compression" - 	"Dont use texture map compression" flag  off
+
+option  "offscreen"	-	"Offscreen with GLX"		flag	off
+option 	"osmesa"	-	"Offscreen with Mesa"	flag	off
+option 	"os-outfile"	-	"outfile for offscreen rendering"  string no
+option	"jpeg-quality"	- "Quality (0-100) of jpeg output"  int  no
+option 	"image-format"	- "Image format for screenshots" string no
+option	"save-path"	-  "Path to save screenshots" string no
+option  "basename"	-  "Basename of screenshots" string no
+option  "clipping-far"  -  "clipping far" float no
+option  "clipping-near"  -  "clipping near" float no
+
+option 	"init-lat"	-	"set initial latitude"	float	no
+option	"init-lon"	-	"set initial longitude" float	no
+option	"init-alt"	-	"set initial altitude"	int	no
+option	"init-heading"	-	"set initial heading"	int	no
+option	"init-dive"	-	"set initial dive angle" int	no
+
+option 	"init-pos-N"	-	"set position North"	flag	off
+option 	"init-pos-E"	-	"set position East"	flag	off
+option 	"init-pos-S"	-	"set position South"	flag	off
+option 	"init-pos-W"	-	"set position West"	flag	off
+option 	"init-pos-NE"	-	"set position NE"	flag	off
+option 	"init-pos-SE"	-	"set position SE"	flag	off
+option 	"init-pos-SW"	-	"set position SW"	flag	off
+option 	"init-pos-NW"	-	"set position NW"	flag	off
+option	"init-pos-center" -	"set position center"	flag	off
+
+option	"init-ortho-lat" -	"set initial latitude for ortho mode" float no
+option	"init-ortho-lon" -	"set initial longitude for ortho mode" float no
+option	"init-ortho-width" -	"set initial ortho-view width [km]"	float no
+
+option	"projection-cyl-platt" - "set platt projection"  flag off
+option 	"projection-cyl-no1"   - "set cylindric projection 1" flag off
+option  "projection-pseudo-cyl-no1" - "set pseudocylindric projection 1" flag off
+option  "projection-cyl-mercator" - "set mercator projection" flag off

@@ -1,0 +1,29 @@
+check version numbers
+
++
+ * in pdfdoc/jpg (logo.jpg)
+ * in pdfdoc (GPLIGC_Manual.tex)  =>  sh compileit.sh
+
++ gpligc
+ * (configure.ac) => autoreconf -iv
+ * ChangeLog / README
+
+ * in src (cmdline.ggo) =>  gengetopt -G <cmdline.ggo
+ * in gpligc/perl/GPLIGC.pl
+ * in win (install_windows.pl, README_windows.txt)
+
+
+=> cvs commit, cvs tag  V1_10pre5  (svn equivalent?)
+ svn copy svn+ssh://pc12/usr/local/svnrepo/gpligc/trunk svn+ssh://pc12/usr/local/svnrepo/gpligc/tags/release-1.10pre8 -m "new release 1.10pre8"
+=> ./configure ; make distcheck
+=> webinstall-scripts on pc12...
+
+clean-up:
+make distclean
+sh cleaner.sh
+
+
+WINDOWS:
+cygwin (svn update),  in pdfdoc sh copyfrompc12
+mingw, in win VERSION=xx.y ./makedist
+

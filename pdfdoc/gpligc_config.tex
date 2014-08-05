@@ -1,0 +1,180 @@
+%$Id: gpligc_config.tex 3 2014-07-31 09:59:20Z kruegerh $
+%;;; Local IspellDict: "british"
+
+
+\section{The .gpligcrc configuration file}
+\label{gpligcrc}
+The \emph{GPLIGC} configuration file.
+The keys and values in this configurationfile are \emph{case-sensitive!}.
+
+The following list contains the config-keywords with default values and (for some)
+a short description including valid alternative values.
+
+%\textbf{Windows}: on windows platforms this file is named \texttt{gpligc.ini}
+
+\begin{itemize}
+
+\item \texttt{DEBUG    "0"} \\
+ This should be set to "1" for debugging purposes.
+
+\item \texttt{ENL\_noise\_limit    "500"}
+\item \texttt{altitude\_unit\_factor    "1"}
+\item \texttt{altitude\_unit\_name    "m"}
+\item \texttt{baro\_grid\_large    "1000"} \\
+ This changes the spacings of the gridlines in the barograph in the flight-view-window
+\item \texttt{baro\_grid\_small    "500"}
+\item \texttt{baro\_histo\_intervall    "50"}\\
+    Interval for the altitude histograms in m
+\item \texttt{browser    "/usr/local/mozilla/mozilla"}\\
+ Select your favourite browser here.
+\item \texttt{coordinate\_print\_format    "igch"}
+\item \texttt{cylinder\_linewidth    "3"}
+\item \texttt{distance\_unit\_factor    "1"}
+\item \texttt{distance\_unit\_name    "km"}
+\item \texttt{draw\_task "1"} \\
+defines, whether the task is drawn by default in flight-view-window (1) or not (0)
+\item \texttt{draw\_wpcyl "1"}\\
+defines, whether waypoint cylinders/sectors are drawn by default in flight-view-window (1) or not (0)
+\item \texttt{fvw\_grid    "yes"}
+
+\item \texttt{fvw\_baro\_grid    "yes"}
+
+%not used any longer
+%\item \texttt{fvw\_show\_help "1"}\\
+%Setting this to 0 will stop showing the help in fvw. Saves quite a bit of space.
+
+
+\item \texttt{fvw\_baro\_fraction "3"}\\
+This determines, how large the barogramm area is compared to the track area (in fvw).
+3 would result in 1/3. (the larger the number, the smaller the barogramm). Allowed values 1.1--10.
+Given number does not need to be an integer.
+
+\item \texttt{garmin\_download    "sudo gpspoint -dt -p /dev/ttyUSB2"} \\
+this command is used to download tracks from a GPS device.
+
+\item \texttt{geotag\_force\_overwrite    "0"} \\
+  by default (value 0) GPS tags in the exifdata are not overwritten. If set to 1, the geotag feature will 
+overwrite existing GPS tags in images (without further notice!).
+
+\item \texttt{gnuplot\_4\_terminal    "0"} \\
+ In case of "1" an additional gnuplot shell will be started for each gnu-plot
+\item \texttt{gnuplot\_draw\_style    "with lines"}
+\item \texttt{gnuplot\_grid\_state    "set grid"}
+\item \texttt{gnuplot\_major\_version    "4"}
+\item \texttt{gnuplot\_terminal    "x11"}
+\item \texttt{gnuplot\_terminal\_app    "xterm -e"}\\
+    The terminal application to be used for the gnuplot shell
+\item \texttt{gnuplot\_win\_exec    "wgnuplot.exe"}\\
+    Contains the filename of the gnuplot-binary on Windows platforms
+
+\item \texttt{gpsbabel\_tdownload  "sudo gpsbabel -t -i garmin -f /dev/ttyUSB2 -o igc -F "}\\
+  contains the command string to be used to download trackdata via \emph{gpsbabel}~\cite{gpsbabel}. The last option should be -F, since the output file name will be appended to this string.
+
+\item \texttt{integrate\_over    "10"}\\
+    Some of the data plots use integrated values. This will define how many data-points will
+    be used for  integration
+\item \texttt{libdir    "/usr/local/share/gpligc/"}\\
+    The path which will be used to load the library-files
+
+\item \texttt{map\_max\_tiles "30"}\\ Maximum number of tiles used on the screen (default 30). If this is exceeded the next smaller zoom level will be used.
+\item \texttt{map\_max\_scalesize "750"}\\ Maximal dimension for ``upscaling`` maptiles (default 750).
+If map tiles would be scaled beyond this limit, the next higher zoom level is used.
+\item \texttt{maps\_zoomlevel "8"}\\ The default map zoom-level (recommended: 8).
+\item \texttt{maps "1"}\\ can be 0 or 1. default behaviour maps on/off.
+\item \texttt{map\_path "HOME/.gpligc/map"}\\  
+default directory for maps. Default value depends on the platform. 
+%Windows: c:\textbackslash GPLIGC\textbackslash map, unix: HOME/.gpligc/map. 
+If an environment variable GPLIGCHOME is set, a "map" directory will be created within GPLIGCHOME.
+
+\item \texttt{map\_type "osm"}\\  osm=openstreetmap
+
+
+\item \texttt{marker\_linewidth    "3"}
+\item \texttt{mm\_download\_dirs    "Aufnahmen Fotos Videoclips"}\\
+	Directories, from where (multimedia) files will be copied (see mm\_mountpoint too)
+\item \texttt{mm\_mountpoint    "/mnt/sdC"} \\
+	Mountpoint for your multimedia recorder (e.g. mobile phone). Should be user mountable.
+\item \texttt{mm\_player    "mplayer"} \\
+	Player to be used for multimedia files (audio recordings, movies, etc)
+
+\item \texttt{new\_version\_message\_shown    "0.1"}
+
+\item \texttt{open\_additional\_info    "0"}\\
+    If set to 1, the ``additional info dialog'' is opened immediately in cases where no gpi-file is found.
+
+% pre 1.10    
+% \item \texttt{open\_flight\_view\_window    "1"}\\
+%     The flight-view-window will be opened for each igc file opened if set to 1.
+
+\item \texttt{optimizer\_cycles\_mmc    "20"} \\
+	For all of the \texttt{optimizer\_*} keys see section~\ref{optimise}
+\item \texttt{optimizer\_cycles\_sa    "5"}
+\item \texttt{optimizer\_debug    "0"}
+\item \texttt{optimizer\_method    "mmc"}
+\item \texttt{optimizer\_mmc    " -m 1000 -mmc 25000 -devisor 3 -refine 2 "}
+\item \texttt{optimizer\_sa    " -sima -m 1000 -sacycles 500 -saexp -sapara 15.0 -saparb 0.03 -devisor 3 -refine 2 "}
+\item \texttt{optimizer\_verbose    "0"}
+
+
+\item \texttt{photo\_path    "none"}
+\item \texttt{photos    "1"}
+\item \texttt{picture\_viewer    "internal"}\\
+    Whether to use the "internal" or any other picture viewer. My favourite is "kuickshow"
+\item \texttt{skip\_check    "1"}\\
+    With "1" a skip-check is performed. If the difference between to logged positions is larger than
+    skip\_limit\_minutes the skip will be marked.
+\item \texttt{skip\_del\_first\_after    "1"} \\
+	This circumvents a bug in the Garmin Geko tracklogs. The first position fix after a skip will be discarded.
+\item \texttt{skip\_limit\_minutes    "0.2"}\\
+    Limit to detect skips in the tracklog
+\item \texttt{speed\_histo\_intervall    "5"}\\
+    Interval for the speed histogram in km/h
+\item \texttt{speed\_unit\_factor    "1"}
+\item \texttt{speed\_unit\_name    "km/h"}
+\item \texttt{task\_linewidth    "3"}
+\item \texttt{terminal    "xterm -hold -e"} \\
+	terminal application to be used for some things (copying Multimedia files, downloading from Garmin)
+
+\item \texttt{te\_vario\_fallback "0"}\\
+The total energy compensated vario is usually calculated from the airspeed. Since many loggers dont log airspeed,
+the total energy compensation can be calculated from groundspeed (errors can be large in case of significant wind).
+
+\item \texttt{te\_warning    "1"}\\
+A warning on groundspeed total energy compensation can be disabled setting this to 0.
+ 
+\item \texttt{terminal	"xterm -hold -e"}\\
+Terminal command used for download of garmin-tracks and media
+
+\item \texttt{timezone    "0"}\\
+Offset to local timezone (e.g. timezone used in your camera) . Used for the photo locator.
+
+\item \texttt{vario\_histo\_intervall    "0.5"}\\
+    Interval for the vertical speed histograms in m/s
+\item \texttt{vertical\_speed\_unit\_factor    "1"}
+\item \texttt{vertical\_speed\_unit\_name    "m/s"}
+
+\item \texttt{viewclick\_res "1"}\\
+	If you experience serious delays in moving the crossmarks in the fvw by clicking close to the track, you may increase this number to a larger integer
+
+\item \texttt{waypoint\_linewidth    "3"}
+\item \texttt{wind\_analysis "1"} \\
+If set to "1", a airspeed-groundspeed difference is plottet with F5/F6/F7 statistics.
+
+\item \texttt{window\_height "500"} \\
+\item \texttt{window\_width "900"} \\
+size of the plotting area of the main window (pixels)
+
+
+\item \texttt{working\_directory    "/home/user1/IGC"}
+\item \texttt{zoom\_sidelength    "10"}\\
+    Sidelength of the zoom-window in km
+\item \texttt{zylinder\_names    "1"}
+\item \texttt{zylinder\_radius    "500m"}
+\item \texttt{zylinder\_wp\_type    "both"}
+
+\end{itemize}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "GPLIGC_manual.tex"
+%%% End:

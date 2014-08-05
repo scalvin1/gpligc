@@ -1,0 +1,292 @@
+# This is an exmaple configuration file for 
+# OGIE
+
+# lines beginning with #, space or empty lines are ignored
+
+##########################################################################
+# GENERAL OPTIONS
+
+# SAVE_PATH string  A Path, were to store screenshots
+# BASENAME string  A basename for screenshots
+# JPEG_QUALITY int (0-100)
+# IMAGE_FORMAT  (rgb or jpg)
+
+#start with mouse function
+#false is mouse control on!
+MOUSE false
+
+#more output (only for debugging reasons)
+VERBOSE false
+
+
+###########################################################################
+# Digital Elevation Model File Setup
+
+#This block can be used for Europe
+#(if you have GTOPO30 W020N90.DEM)
+#but set full path to file
+#DEM_FILE PREFIX/share/gpligc/data/dem/W020N90.DEM
+#DEM_ROWS 6000
+#DEM_COLUMNS 4800
+#DEM_LAT_MIN 40
+#DEM_LAT_MAX 90
+#DEM_LON_MIN -20
+#DEM_LON_MAX 20
+
+#if you have created a WORLD.DEM from the 33 GTOPO30 Tiles
+# or even the WORLD3.DEM (see manual)
+#DEM_FILE PREFIX/share/gpligc/data/dem/WORLD.DEM
+#DEM_ROWS 21600
+#DEM_COLUMNS 43200
+#DEM_LAT_MIN -90
+#DEM_LAT_MAX  90
+#DEM_LON_MIN -180
+#DEM_LON_MAX 180
+
+#if you have downloaded the TOPO30
+#(See documentation)
+#DEM_FILE PREFIX/share/gpligc/data/dem/topo30
+#DEM_ROWS 21600
+#DEM_COLUMNS 43200
+#DEM_LAT_MIN -90
+#DEM_LAT_MAX  90
+#DEM_LON_MIN 0
+#DEM_LON_MAX 360
+
+
+#resolution of DEM Model
+#0.008333333333 is 30 arc-sec
+#which will work for GTOPO30 and GLOBE
+DEM_GRID_LAT 0.008333333333
+DEM_GRID_LON 0.008333333333
+
+
+###########################################################################
+#  OPTIONS FOR DRAWING THE TERRAIN 
+
+# sealevels
+#SEALEVEL 0
+#SEALEVEL2 -22222
+#SEALEVEL3 -22222
+
+#default colormaps
+#1=max's special "LSD"-Map
+#2=max's "Atlas colormap"
+#3=hannes' "grayscale-moon-map"
+#4=dark green -> red
+#5=magenta -> light blue
+#6=extended LSD-Map
+COLORMAP 2
+COLORMAP_SEA 5
+
+LANDSCAPE  true
+WIRE false
+#MAXTRIANGLES float
+#AUTOREDUCE on
+#QUADS off
+
+#Gouraud-Shading (true) or flat shading (false)
+SHADE true
+
+#terrain border (in km)
+BORDER 30.0
+
+
+#############################################################################
+# GENERAL DRAWING OPTIONS
+
+# haze
+HAZE false
+HAZE_DENSITY 0.01
+
+#start fullscreen
+FULLSCREEN false
+#initial window size
+#if FULLSCREEN isnt enabled
+WINDOW_WIDTH  1024
+WINDOW_HEIGHT  768
+
+#Angle of view
+ANGLE_OF_VIEW 80
+
+PROJECTION 4
+#1=Cylindrical (platt)
+#2=MERCATOR
+#3=Cylindrical
+#4=pseudo cylindrical
+
+#default z-axis(height) scaling
+SCALE_Z	 3.0
+
+# BACKGROUND_COLOR_1_R  1.0 
+# BACKGROUND_COLOR_1_G  0.2  (floats 0-1)
+# BACKGROUND_COLOR_1_B  0.2
+# BACKGROUND_COLOR_2_R  0.0
+# BACKGROUND_COLOR_2_G  0.0
+# BACKGROUND_COLOR_2_B  0.0
+# BACKGROUND_STYLE 1 (1=one color (color 1), 2=vertical gradient 
+#			(color1=top), 3=horiz gradient (color1=left)
+
+
+#############################################################################
+# OPTIONS FOR DISPLAY OF INFORMATION
+
+# info text
+INFO true
+# INFOFONT_SIZE 40   (int 20-100)  window_height / INFOFONT_SIZE
+# INFOFONT_LINEWIDTH 1.0  (float 0.5-3.0)
+# INFO_STYLE 1  (1= new style [thanks to antonio ospite], 2=old style)
+
+
+#############################################################################
+# Units:
+# Use your favourite units. Calculate the conversion factor (from defaults)
+# Defaults (speed=km/h, vspeed=m/s, alt=m)
+
+#SPEED_UNIT_FAC 0.539957
+#SPEED_UNIT_NAME knots
+#SPEED_UNIT_FAC 0.621504
+#SPEED_UNIT_NAME mph
+#VSPEED_UNIT_FAC 1.94384
+#VSPEED_UNIT_NAME knots
+#VSPEED_UNIT_FAC 196.8
+#VSPEED_UNIT_NAME ft/min
+#ALT_UNIT_FAC 3.28
+#ALT_UNIT_NAME ft
+#TIME_ZONE  0
+#TIME_ZONE_NAME UTC
+
+
+#############################################################################
+# OPTIONS FOR DISPLAY OF FLIGHTS
+
+# FLIGHTSTRIPCOLUP_R 1.0
+# FLIGHTSTRIPCOLUP_G 0.0
+# FLIGHTSTRIPCOLUP_B 0.0
+# FLIGHTSTRIPCOLDOWN_R 0.0
+# FLIGHTSTRIPCOLDOWN_G 0.0
+# FLIGHTSTRIPCOLDOWN_B 0.0
+# FLIGHTSTRIP_LINEWIDTH 2.0   (float 1-7)
+# FLIGHTSTRIP_MODE 1  (0=classic,1=alt,2=speed,3=vario)
+# FLIGHTSTRIP_COLORMAP 1   (1-7)
+
+# A range of the flight will be displayed.
+MARKER_RANGE false
+
+# The displayed range can be defined here.
+MARKER_BACK 50
+MARKER_AHEAD 0
+
+# Viewpoint will follow Marker
+FOLLOW true
+
+# use GPS (true) or Barometric (false) altitude
+GPSALT false
+
+# draw marker
+MARKER true
+MARKER_SIZE 1.0
+# MARKERCOL_R 1.0
+# MARKERCOL_G 0.0
+# MARKERCOL_B 0.0
+
+# draw curtain
+CURTAIN true
+
+# SPINNING float 
+# MOVIE bool
+
+# MOVIE_REPEAT 
+# MOVIE_REPEAT_FACTOR 
+# MOVIE_REPEAT_FPS_LIMIT
+
+
+#######################################################################
+# OPTIONS FOR DRAWING AIRSPACES
+
+#OPEN_AIR_FILE PREFIX/share/gpligc/data/airspace/airspace.txt
+AIRSPACE false
+#AIRSPACE_LIMIT int
+#AIRSPACE_WIRE 	0
+#AIRSPACE_D	1
+#AIRSPACE_C	1
+#AIRSPACE_CTR 	1
+#AIRSPACE_R 	1
+#AIRSPACE_P 	1
+#AIRSPACE_Q 	1
+
+
+###########################################################################
+# OPTIONS FOR STEREOGRAPHIC DISPLAY
+# stereographic view
+# only one of the following three may be true
+STEREO false
+STEREO_RG false
+STEREO_RB false
+# swap stereographic images
+INVERSE_STEREO false
+# eye distance for stereographic images (km)
+EYE_DIST 0.1
+
+############################################################################
+# OPTIONS FOR DRAWING POINT INFORMATION (LIFTS/WAYPOINTS)
+
+#LIFTS_COLOR_R 1.0
+#LIFTS_COLOR_G 0.0
+#LIFTS_COLOR_B 0.0
+
+#WP_COLOR_R 0.0
+#WP_COLOR_G 0.0
+#WP_COLOR_B 0.0
+
+# for suitable file format see manual!
+#WAYPOINTS_FILE PREFIX/share/gpligc/data/waypoint/wpfile.gwpt
+#WAYPOINTS false
+
+#TEXT_COLOR_R 0.0
+#TEXT_COLOR_G 0.0
+#TEXT_COLOR_B 0.0
+
+#TEXT_LINEWIDTH 2.0
+
+
+############################################################################
+# OPTIONS FOR DRAWING OF THE MAPS
+
+# MAPS_UNLIGHTED
+# use MAPS
+MAP false
+# use DEM-Altitude-color with textured maps
+MODULATE true
+
+
+#######################################################################
+# Texture map Setup 
+
+#Texture map compression
+#with compression texture loading will need more time
+#but rendering is faster and will need fewer videomemory
+#but not supported by some openGL implementations
+
+COMPRESSION false
+
+#MAP_SET_NAME Osterholz
+
+#MAP_SHIFT_LAT 0.0
+#MAP_SHIFT_LON 0.0
+
+#MAP_FILE PREFIX/share/gpligc/data/map/bremen/bremen512x1024.jpg
+#MAP_TOP 53.5
+#MAP_RIGHT 9.3333333333
+#MAP_LEFT 8.6666666667
+#MAP_BOTTOM 52.8333333333
+
+#MAP_CUT
+
+#MAP_SET_NAME Innsbruck
+
+#MAP_FILE PREFIX/share/gpligc/data/map/innsbruck/n48e012.jpg
+#MAP_TOP 48
+#MAP_RIGHT 13
+#MAP_LEFT 12
+#MAP_BOTTOM 47
