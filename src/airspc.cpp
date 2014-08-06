@@ -1,5 +1,4 @@
 /*
- * $Id: airspc.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -37,9 +36,9 @@
 
 const double RADSTEP = 0.06;	// step in rad for drawing arcs
 
-const std::string rcsid_airspc_cpp =
-    "$Id: airspc.cpp 3 2014-07-31 09:59:20Z kruegerh $";
-const std::string rcsid_airspc_h = AIRSPC_H;
+//const std::string rcsid_airspc_cpp =
+//    "$Id: airspc.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const std::string rcsid_airspc_h = AIRSPC_H;
 
 
 //Callback function for the gluTesselation

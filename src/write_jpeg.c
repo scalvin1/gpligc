@@ -9,7 +9,6 @@
  ******************** JPEG COMPRESSION INTERFACE ***************************
  ***************************************************************************/
 
-/* CVS $Id: write_jpeg.c 3 2014-07-31 09:59:20Z kruegerh $ */
 
 #include <math.h>
 #include <setjmp.h>
@@ -17,8 +16,8 @@
 #include <stdio.h>
 #include <jpeglib.h>
 
-static const char *rcsid_write_jpeg_c =
-    "$Id: write_jpeg.c 3 2014-07-31 09:59:20Z kruegerh $";
+//static const char *rcsid_write_jpeg_c =
+//    "$Id: write_jpeg.c 3 2014-07-31 09:59:20Z kruegerh $";
 
 struct my_error_mgr {
 	struct jpeg_error_mgr pub;	/* "public" fields */

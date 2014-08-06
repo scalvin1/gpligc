@@ -1,6 +1,5 @@
 /*
- * $Id: points.h 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +27,8 @@ class for points (lifts, waypoints, etc)
 */
 
 #ifndef  POINTS_H
-#define  POINTS_H   "$Id: points.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define  POINTS_H  1
+// "$Id: points.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include <vector>
 #include <string>

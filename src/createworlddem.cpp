@@ -1,5 +1,4 @@
 /*
- * $Id: createworlddem.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -24,8 +23,8 @@
 #include <cstdlib>
 
 
-const std::string rcsid_createworld_cpp =
-    "$Id: createworlddem.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const std::string rcsid_createworld_cpp =
+//    "$Id: createworlddem.cpp 3 2014-07-31 09:59:20Z kruegerh $";
 using namespace std;
 
 int main(void)

@@ -1,6 +1,5 @@
 /*
- * $Id: merger.cpp 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,8 +34,8 @@ example:
 #include <vector>
 
 using namespace std;
-const string rcsid_etopo2merger_cpp =
-    "$Id: merger.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const string rcsid_etopo2merger_cpp =
+//    "$Id: merger.cpp 3 2014-07-31 09:59:20Z kruegerh $";
 
 float  smaxlat, sminlon, maxlat, minlon, sgrid, grid;
 string srcfile;

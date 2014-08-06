@@ -1,5 +1,4 @@
 /*
- * $Id: airspc.h 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -19,7 +18,8 @@
  */
 
 #ifndef AIRSPC_H
-#define AIRSPC_H   "$Id: airspc.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define AIRSPC_H  1
+// "$Id: airspc.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 
 

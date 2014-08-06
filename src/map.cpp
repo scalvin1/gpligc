@@ -1,5 +1,4 @@
 /*
- * $Id: map.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -41,9 +40,9 @@
 #include "GLexplorer.h"
 
 
-const std::string rcsid_map_cpp =
-    "$Id: map.cpp 3 2014-07-31 09:59:20Z kruegerh $";
-const std::string rcsid_map_h = MAP_H;
+//const std::string rcsid_map_cpp =
+//    "$Id: map.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const std::string rcsid_map_h = MAP_H;
 
 void
  Map::readMap(string filename, int _width, int _height)

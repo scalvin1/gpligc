@@ -1,6 +1,5 @@
 /*
- * $Id: value.h 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,7 +18,8 @@
  */
 
 #ifndef VALUE_H
-#define VALUE_H  "$Id: value.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define VALUE_H  1
+// "$Id: value.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include <iostream>
 

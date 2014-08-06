@@ -1,6 +1,5 @@
 /*
- * $Id: projection.cpp 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +24,9 @@
 #include <cmath>
 #include <cstdlib>
 
-const std::string rcsid_projection_cpp =
-    "$Id: projection.cpp 3 2014-07-31 09:59:20Z kruegerh $";
-const std::string rcsid_projection_h = PROJECTION_H;
+//const std::string rcsid_projection_cpp =
+//    "$Id: projection.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const std::string rcsid_projection_h = PROJECTION_H;
 
 Projection::Projection()
 {

@@ -1,6 +1,5 @@
 /*
- * $Id: etopo1merger.cpp 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,8 +41,8 @@ const double GTOPO30GRID = 1.0/120.0;
 const double ETOPO1GRID = 1.0/60.0;
 
 using namespace std;
-const string rcsid_etopo1merger_cpp =
-    "$Id: etopo1merger.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const string rcsid_etopo1merger_cpp =
+//    "$Id: etopo1merger.cpp 3 2014-07-31 09:59:20Z kruegerh $";
 
 short int etopo_array[10801][21601];
 

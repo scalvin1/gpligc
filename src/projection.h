@@ -1,6 +1,5 @@
 /*
- * $Id: projection.h 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,7 +19,8 @@
 
 
 #ifndef PROJECTION_H
-#define PROJECTION_H   "$Id: projection.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define PROJECTION_H  1
+// "$Id: projection.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 
 //definitions of usable projections:

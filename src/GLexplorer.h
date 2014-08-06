@@ -1,5 +1,4 @@
 /*
- * $Id: GLexplorer.h 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -19,11 +18,13 @@
  */
 
 #ifndef GLEXPLORER_H
-#define GLEXPLORER_H    "$Id: GLexplorer.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define GLEXPLORER_H  1
+//  "$Id: GLexplorer.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include <stdio.h>
 #include <jpeglib.h>
 #include "cmdline.h"
+#include "../config.h"
 
 
 // CMDLINE_PARSER_PACKAGE and CMDLINE_PARSER_VERSION taken from gengetopts cmdline.h
@@ -33,12 +34,18 @@ const std::string OGIE_PACKAGE = CMDLINE_PARSER_PACKAGE ;
 const std::string OGIE_PACKAGE = "OGIE" ;
 #endif
 
+/*
 #ifdef CMDLINE_PARSER_VERSION
 const std::string OGIE_VERSION = CMDLINE_PARSER_VERSION ;
 #else
 const std::string OGIE_VERSION = "?.?" ;
 #endif
+*/
 
+// this comes from ..config.h (autoconf)
+#ifdef VERSION
+const std::string OGIE_VERSION = VERSION ;
+#endif
 
 const std::string DEVELOPEMENT = "";
 const std::string COPYRIGHT = "(c) 2002-2014";

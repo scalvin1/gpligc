@@ -1,5 +1,4 @@
 /*
- * $Id: ego.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -23,9 +22,9 @@
 #include <cmath>
 #include <string>
 
-const std::string rcsid_ego_cpp =
-    "$Id: ego.cpp 3 2014-07-31 09:59:20Z kruegerh $";
-const std::string rcsid_ego_h = EGO_H;
+//const std::string rcsid_ego_cpp =
+//    "$Id: ego.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const std::string rcsid_ego_h = EGO_H;
 
 
 

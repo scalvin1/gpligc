@@ -1,5 +1,4 @@
 /*
- * $Id: flightdata.h 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -19,7 +18,8 @@
  */
 
 #ifndef  FLIGHTDATA_H
-#define  FLIGHTDATA_H   "$Id: flightdata.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define  FLIGHTDATA_H  1
+// "$Id: flightdata.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include <vector>
 #include <string>

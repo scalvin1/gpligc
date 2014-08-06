@@ -1,5 +1,4 @@
 /*
- * $Id: GLexplorer.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -142,9 +141,9 @@ features will be disabled, and therefore no GLUT or X11 is needed.
 
 using namespace std;
 
-const string rcsid_GLexplorer_cpp =
-    "$Id: GLexplorer.cpp 3 2014-07-31 09:59:20Z kruegerh $";
-const string rcsid_GLexplorer_h = GLEXPLORER_H;
+//const string rcsid_GLexplorer_cpp =
+//    "$Id: GLexplorer.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const string rcsid_GLexplorer_h = GLEXPLORER_H;
 
 //Global stuff
 Flightdata fd;			//flightdata object

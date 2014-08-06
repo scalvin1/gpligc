@@ -1,6 +1,5 @@
 /*
- * $Id: ego.h 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +27,8 @@ small class to save a position in cartesian coordinatesystem and move around
 */
 
 #ifndef  EGO_H
-#define EGO_H  "$Id: ego.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define EGO_H  1
+// "$Id: ego.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include<string>
 

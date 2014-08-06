@@ -1,5 +1,4 @@
 /*
- * $Id: landscape.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -36,9 +35,9 @@
 #endif
 
 
-const std::string rcsid_landscape_cpp =
-    "$Id: landscape.cpp 3 2014-07-31 09:59:20Z kruegerh $";
-const std::string rcsid_landscape_h = LANDSCAPE_H;
+//const std::string rcsid_landscape_cpp =
+//    "$Id: landscape.cpp 3 2014-07-31 09:59:20Z kruegerh $";
+//const std::string rcsid_landscape_h = LANDSCAPE_H;
 
 
 Landscape::Landscape()

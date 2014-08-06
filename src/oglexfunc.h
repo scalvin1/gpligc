@@ -1,6 +1,5 @@
 /*
- * $Id: oglexfunc.h 3 2014-07-31 09:59:20Z kruegerh $
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,7 +18,8 @@
  */
 
 #ifndef OGLEXFUNC_H
-#define OGLEXFUNC_H   "$Id: oglexfunc.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define OGLEXFUNC_H 1
+// "$Id: oglexfunc.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #ifndef OPTIMIZER
 

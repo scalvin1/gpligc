@@ -1,5 +1,4 @@
 /*
- * $Id: landscape.h 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
@@ -19,7 +18,8 @@
  */
 
 #ifndef LANDSCAPE_H
-#define LANDSCAPE_H   "$Id: landscape.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define LANDSCAPE_H  1
+// "$Id: landscape.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include <string>
 #include <vector>
