@@ -1,4 +1,3 @@
-# $Id: GPLIGCfunctions.pm 9 2014-08-01 10:52:42Z kruegerh $
 # (c) 2001-2014 Hannes Krueger
 # This file is part of the GPLIGC/ogie package
 #
@@ -19,11 +18,10 @@ package GPLIGCfunctions;
 
 #-------------------------------------------------------------------------------
 
-sub cvsversion {
-
-    return('$Id: GPLIGCfunctions.pm 9 2014-08-01 10:52:42Z kruegerh $');
-
-}
+# no keyword substitution since switched to git
+#sub cvsversion {
+#    return('$Id:$');
+#}
 
 
 sub igc2dec {

@@ -4,7 +4,7 @@
 my $version='1.10pre';
 my $copyright_years="2000-2014";
 my $copyright="(c) $copyright_years by Hannes Krueger";
-my $cvsversion = '$Id: GPLIGC.pl 3 2014-07-31 09:59:20Z kruegerh $';
+#my $cvsversion = '$Id:$';
 
 # new version welcome message
 my $new_version_message=<<ENDE;
@@ -256,8 +256,8 @@ if ($^O eq "MSWin32") {
 }
 
 # add libdir to infotext
-$text = $text."Library path: $config{'libdir'}\n";
-$text = $text."Data path: $config{'datadir'}";
+$text .= "Library path: $config{'libdir'}\n";
+$text .= "Data path: $config{'datadir'}\n";
 
 use File::Spec;
 my $curdir = File::Spec->curdir;
@@ -303,7 +303,7 @@ $SIG{'TERM'} = \&gpligcexit;
 
 require GPLIGCfunctions;
 
-$text .= "\n$cvsversion\n".GPLIGCfunctions::cvsversion()."\n";
+#$text .= "\n$cvsversion\n".GPLIGCfunctions::cvsversion()."\n";
 
 if ($^O eq "MSWin32") {
     my ($osname, $edition) = Win32::GetOSName();
