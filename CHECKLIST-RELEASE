@@ -1,27 +1,37 @@
-check version numbers
+what to check before making a distribution/release
+(check version numbers)
 
-+
- * in pdfdoc/jpg (logo.jpg)
- * in pdfdoc (GPLIGC_Manual.tex)  =>  sh compileit.sh
-
-+ gpligc
- * (configure.ac) => autoreconf -iv
- * ChangeLog / README
-
- * in src (cmdline.ggo) =>  gengetopt -G <cmdline.ggo
- * in gpligc/perl/GPLIGC.pl
- * in win (install_windows.pl, README_windows.txt)
+check
+ - ChangeLog
+ - README win/README_windows.txt
+ - pdfdoc (requirements, etc)
 
 
-=> cvs commit, cvs tag  V1_10pre5  (svn equivalent?)
- svn copy svn+ssh://pc12/usr/local/svnrepo/gpligc/trunk svn+ssh://pc12/usr/local/svnrepo/gpligc/tags/release-1.10pre8 -m "new release 1.10pre8"
+Version numbers
+
+in pdfdoc
+ * jpg/logo.jpg
+ * GPLIGC_Manual.tex
+ then =>  sh compileit.sh
+
+in /
+ * configure.ac
+ * ChangeLog
+ then => autoreconf -iv
+
+in perl
+ * GPLIGC.pl
+
+
 => ./configure ; make distcheck
 => webinstall-scripts on pc12...
 
-clean-up:
-make distclean
-sh cleaner.sh
+TEST the release tarball
 
+=> git commit, git -s tag VERSION (vX.Y)
+
+clean-up: (this should clean up everything down to the tracked files)
+=> sh cleaner.sh
 
 WINDOWS:
 cygwin (svn update),  in pdfdoc sh copyfrompc12
