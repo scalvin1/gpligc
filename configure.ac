@@ -49,7 +49,7 @@ LIBOSMESA=
   AS_IF(
     [test "x$enable_osmesa" != xno],
     [AC_CHECK_LIB([OSMesa], [OSMesaCreateContextExt], [], [if test "x$enable_osmesa" != xcheck; then
-      AC_MSG_FAILURE([--enable-osmesa was given, but test for osmesa failed])  
+      AC_MSG_FAILURE([--enable-osmesa was given, but test for osmesa failed])
       fi])
     ]
   )
@@ -64,7 +64,7 @@ LIBGPS=
   AS_IF(
     [test "x$with_gpsd" != xno],
     [AC_CHECK_LIB([gps], [read], [], [if test "x$with_gpsd" != xcheck; then
-      AC_MSG_FAILURE([--with-gpsd was given, but test for gpsd failed])  
+      AC_MSG_FAILURE([--with-gpsd was given, but test for gpsd failed])
       fi])
     ]
   )

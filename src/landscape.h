@@ -2,20 +2,20 @@
  * $Id: landscape.h 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- * 
+ *
  */
 
 #ifndef LANDSCAPE_H
@@ -48,7 +48,7 @@ class Landscape {
 	void setmax_lon (double _lon) {max_lon = _lon;}
 	void setmin_lat (double _lat) {min_lat = _lat;}
 	void setmax_lat (double _lat) {max_lat = _lat;}
-	
+
 	double getmin_lon (void) {return min_lon;}
 	double getmax_lon (void) {return max_lon;}
 	double getmin_lat (void) {return min_lat;}

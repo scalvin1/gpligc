@@ -1,4 +1,4 @@
-# This is an exmaple configuration file for 
+# This is an exmaple configuration file for
 # OGIE
 
 # lines beginning with #, space or empty lines are ignored
@@ -62,7 +62,7 @@ DEM_GRID_LON 0.008333333333
 
 
 ###########################################################################
-#  OPTIONS FOR DRAWING THE TERRAIN 
+#  OPTIONS FOR DRAWING THE TERRAIN
 
 # sealevels
 #SEALEVEL 0
@@ -118,13 +118,13 @@ PROJECTION 4
 #default z-axis(height) scaling
 SCALE_Z	 3.0
 
-# BACKGROUND_COLOR_1_R  1.0 
+# BACKGROUND_COLOR_1_R  1.0
 # BACKGROUND_COLOR_1_G  0.2  (floats 0-1)
 # BACKGROUND_COLOR_1_B  0.2
 # BACKGROUND_COLOR_2_R  0.0
 # BACKGROUND_COLOR_2_G  0.0
 # BACKGROUND_COLOR_2_B  0.0
-# BACKGROUND_STYLE 1 (1=one color (color 1), 2=vertical gradient 
+# BACKGROUND_STYLE 1 (1=one color (color 1), 2=vertical gradient
 #			(color1=top), 3=horiz gradient (color1=left)
 
 
@@ -193,11 +193,11 @@ MARKER_SIZE 1.0
 # draw curtain
 CURTAIN true
 
-# SPINNING float 
+# SPINNING float
 # MOVIE bool
 
-# MOVIE_REPEAT 
-# MOVIE_REPEAT_FACTOR 
+# MOVIE_REPEAT
+# MOVIE_REPEAT_FACTOR
 # MOVIE_REPEAT_FPS_LIMIT
 
 
@@ -261,7 +261,7 @@ MODULATE true
 
 
 #######################################################################
-# Texture map Setup 
+# Texture map Setup
 
 #Texture map compression
 #with compression texture loading will need more time

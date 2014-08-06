@@ -12,14 +12,14 @@ Mailing list
     https://lists.sourceforge.net/lists/listinfo/gpligc-announce
     This mailing list is also used by the author to estimate the number of users
 
-For detailed information about installation and usage 
+For detailed information about installation and usage
 read the manual (GPLIGC_Manual.pdf)
 
 Installation:
-    Before the installation can be performed using the 
+    Before the installation can be performed using the
     install_windows.pl
     script, Perl has to be installed. If you dont have Perl
-    installed, visit 
+    installed, visit
     http://www.strawberryperl.com
     to download and install the free Perl distribution.
 
@@ -43,7 +43,7 @@ which is included in the Manual (and file COPYING)
 This zip package does not contain the full source-code.
 The sources are available at the GPLIGC website.
 
-The executable files of this software (ogie, etc.) are compiled 
+The executable files of this software (ogie, etc.) are compiled
 using MinGW / MSYS (www.mingw.org).
 
 
@@ -51,11 +51,11 @@ This package contains third party software:
 
 libglut-0.dll
 	see freeglut.sourceforge.net
-	freeglut is a completely OpenSourced alternative to 
+	freeglut is a completely OpenSourced alternative to
 	the OpenGL Utility Toolkit (GLUT) library.
 	freeglut is released under the X-Consortium license.
 libjpeg-9.dll
-	Ogie is based in part on the work of the Independent 
+	Ogie is based in part on the work of the Independent
 	JPEG Group. Ogie uses the jpeg-library functions, therefore
 	a compiled (using mingw) version of this library is
 	included. For more information see:

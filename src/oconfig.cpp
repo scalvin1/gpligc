@@ -2,20 +2,20 @@
  * $Id: oconfig.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- * 
+ *
  */
 
 #include "oconfig.h"
@@ -196,7 +196,7 @@ Config::Config()
 
 	if (home != NULL) {
 		string homestring = home;
-		
+
 /* for version 1.9 use old and new names
  from 1.10 on, only new names for conf-file:
  .ogierc
@@ -231,7 +231,7 @@ Config::Config()
 	configfiles.push_back ("C:\\Programme\\GPLIGC\\openGLIGCexplorerrc");
 	configfiles.push_back ("D:\\Programme\\GPLIGC\\openGLIGCexplorer.ini");
 	configfiles.push_back ("D:\\Programme\\GPLIGC\\openGLIGCexplorerrc");
-	configfiles.push_back ("D:\\Programme\\GPLIGC\\ogie.ini");	
+	configfiles.push_back ("D:\\Programme\\GPLIGC\\ogie.ini");
 	configfiles.push_back ("C:\\Program files\\GPLIGC\\openGLIGCexplorer.ini");
 	configfiles.push_back ("C:\\Program files\\GPLIGC\\openGLIGCexplorerrc");
 	configfiles.push_back ("D:\\Program files\\GPLIGC\\openGLIGCexplorer.ini");
@@ -792,7 +792,7 @@ int Config::readConfigFile(void)
 			waypointsfile = arg2;
 			continue;
 		}
-		
+
 		if (strcasecmp(arg1, "WAYPOINTS") == 0) {
 			if (checkBOOL(arg2,arg1)) {
 				WAYPOINTS.on();
@@ -801,7 +801,7 @@ int Config::readConfigFile(void)
 			}
 			continue;
 		}
-		
+
 		if (strcasecmp(arg1, "WAYPOINTS_OFFSET_TEXT_ONLY") == 0) {
 			if (checkBOOL(arg2,arg1)) {
 				WAYPOINTS_OFFSET_TEXT_ONLY.on();
@@ -810,7 +810,7 @@ int Config::readConfigFile(void)
 			}
 			continue;
 		}
-		
+
 		if (strcasecmp(arg1, "WAYPOINTS_OFFSET") == 0) {
 			checkINT(arg2,arg1);
 			int _tmp;
@@ -823,7 +823,7 @@ int Config::readConfigFile(void)
 			airspacefile = arg2;
 			continue;
 		}
-		
+
 		if (strcasecmp(arg1, "AIRSPACE") == 0) {
 			if (checkBOOL(arg2,arg1)) {
 				AIRSPACE.on();

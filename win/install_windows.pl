@@ -93,13 +93,13 @@ print "\nYour operating system is: \"$osname\"  \"$edition\" \n";
 @autoexec_OSlist = qw(Win95 Win98 WinME);  # these OS's require ENV setting via autoexec.bat
 
 # these OS's require ENV setting via registry (not sure whether 2008/Win7 have the same structure of the registry... I hope so.
-@registry_OSlist = qw(WinNT Win2000 Win2003 WinHomeSrv WinXP WinVista Win2008 Win7); 
+@registry_OSlist = qw(WinNT Win2000 Win2003 WinHomeSrv WinXP WinVista Win2008 Win7);
 
 # untested, will try to use registy anyway
 @untested_OSlist = qw(Win2003 WinHomeSrv Win2008 Win8);
 
 foreach (@autoexec_OSlist) {
-    if ($osname =~ /$_/i) { 
+    if ($osname =~ /$_/i) {
       print "Sorry, $osname is not longer supported! Maybe it will work anyway..?\n";
       print "GPLIGC/OGIE will be installed anyway.\n";
       autoexec(); }
@@ -114,8 +114,8 @@ foreach (@registry_OSlist) {
 }
 
 foreach (@untested_OSlist) {
-    if ($osname =~ /$_/i) { 
-      untested(); 
+    if ($osname =~ /$_/i) {
+      untested();
       registry();
       }
 }

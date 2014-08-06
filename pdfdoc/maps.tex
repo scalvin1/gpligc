@@ -13,7 +13,7 @@ Since version 1.3 the \texttt{NUMBER\_OF\_MAPS} is not needed anymore.
 \paragraph{How to prepare maps}
 First of all you have to use a scanner or digital camera to get your maps into the computer (or just download stuff from the web).
 To avoid differences due to projections, the map should not be in one big tile, but many small pieces. The smaller the better. For a 1:500.000 map (like ICAO) pieces of 40' x 40' are a good choice (1$^\circ$ x 1$^\circ$ is probably also OK).
-For the further processing of the digitised maps a good image manipulation software is needed such as Gimp (the GNU image manipulation program \cite{gimp}). 
+For the further processing of the digitised maps a good image manipulation software is needed such as Gimp (the GNU image manipulation program \cite{gimp}).
 The pieces have to be cut out from the scanned raw image(s).
 Then the pieces have to be straighten out, to avoid any distortions. The latitude or longitude should be constant for each border.
 I use the transform tool (which can be used to straighten out perspective
@@ -22,7 +22,7 @@ distortions etc) to define a (distorted) box along the gridlines of the
 out to a perfect rectangular box: the map-tile, which should be scaled to
 some power-of-2 width and height (128x256 or 256x512 or 512x512 or 512x1024
 or or...) otherwise this has to be done internally in ogie, which will slow down things a little.
-Furthermore, you need to know the coordinates of each border. 
+Furthermore, you need to know the coordinates of each border.
 Then save the map tile as jpg image.
 
 \paragraph{Set up the \texttt{.ogierc} file}

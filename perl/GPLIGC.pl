@@ -191,7 +191,7 @@ BEGIN {
 # Tk-Module is needed!
 use Tk;
 
-# here we load the config (.gpligcrc) for the first time! 
+# here we load the config (.gpligcrc) for the first time!
 # later, we need to load it another time, because all defaults will be set
 # while building the menus in FlightView()
 load_config(1);
@@ -1373,11 +1373,11 @@ sub oeffnen {      ### open a File
     my($ofilename, $odirectories, $osuffix) = File::Basename::fileparse($file);
     $FlightView->configure(-title=>"$ofilename");#.$osuffix"); #<-- osuffix empty
     $busy=$FlightView->Unbusy;
-  
+
     #if ($config{'DEBUG'}) {
     #print "   >>>$osuffix<<\n";
     #}
-    
+
 }
 
 # oeffnen
@@ -1628,9 +1628,9 @@ sub schliessen {
     if (Exists($WPPlotWindow)) {$WPPlotWindow->destroy;}
     if (Exists($thermal_statistik)) {$thermal_statistik->destroy;}
     if (Exists($glide_statistik)) {$glide_statistik->destroy;}
-    
+
     #check for input-windows?!
-    
+
     # clear drawing
     if (@trackplot) {$canvas -> delete (@trackplot); undef @trackplot;}
     if (@mapplot) {$canvas -> delete (@mapplot); undef @mapplot;}
@@ -1683,7 +1683,7 @@ sub FVWsetInfo {
 #         $pictype = "gif";
 #         print "Tk::JPEG not available. Trying to use gif-logo!\n" if ($config{'DEBUG'});
 #     }
-    
+
 #     my $pic=$canvas->Photo();
 
 #     # Look in install-directory AND in ./ for appropriate files...
@@ -1769,8 +1769,8 @@ Move cursor:
 Measuring/select tool:
     (F5)=Set first point, (F6)=Set second point, (F7)=Measure
     (F11)=zoom to selection, (F12)=reset selection
-                
-Statistics: 
+
+Statistics:
     (F8)=Thermal statistics, (F9)=Glide statistics
 
 Set task markers:
@@ -1789,7 +1789,7 @@ Altitude:
     (e)levation calibration, Q(n)H calibration
 
 Drawing:
-    (g)rid on/off, (y) resize/redraw, (z)oom on/off, 
+    (g)rid on/off, (y) resize/redraw, (z)oom on/off,
     (M)aps on/off, (#)=re-download maps, (+)/(-) change map zoom level
     (F11)=zoom to selected
 
@@ -2613,11 +2613,11 @@ sub FlightView {
 
     my $top_text = $FlightView->Label(-textvariable=>\$fvwtext)->pack(-side=>"top");
 
-    
+
     # looks better with solid 1 relief
     $canvas_frame = $FlightView->Frame(-borderwidth=>0);  #-width=>$config{'window_width'},-borderwidth=>0);
-    
-    
+
+
     $trackheight = int ((     (1-(1/$config{'fvw_baro_fraction'}))*$config{'window_height'}    )+0.5)-2;
 
     # for some UNKNOWN reason the cavas is gonna be two pixels wider than requested !!!!!!!!!!!!!!!!!!
@@ -2634,13 +2634,13 @@ sub FlightView {
     $baroheight = int ( ($config{'window_height'}/ $config{'fvw_baro_fraction'})+0.5 )-2;
     $barocanvas = $canvas_frame->Canvas(-height=>$baroheight, -width=>$config{'window_width'}-2, -background=>"grey90",-borderwidth=>0,
         -scrollregion=>[0,0,$config{'window_width'}-2,$baroheight]);
- 
+
     $barocanvas->pack(-expand=>"yes",-fill=>"both");
     $barocanvas->CanvasBind('<B1-Motion>' => \&baroclick);
     $barocanvas->CanvasBind('<1>' => \&baroclick);
 
     $canvas_frame->pack(-expand=>"yes",-fill=>"both");
-    
+
     # box to determine fine pixel borders
     @debugboxlist=();
     if ($config{'DEBUG'}){
@@ -2649,14 +2649,14 @@ sub FlightView {
     push(@debugboxlist, $canvas->createLine(0,0,0,$trackheight,-fill=>"red"));
     push(@debugboxlist, $canvas->createLine(0,0,$config{'window_width'}-3,0, -fill=>"red"));
     }
-    
+
     if ($config{'DEBUG'}){
     push(@debugboxlist, $barocanvas->createLine(0,$baroheight-1,$config{'window_width'}-3,$baroheight-1 ,-fill=>"green"));
     push(@debugboxlist, $barocanvas->createLine($config{'window_width'}-3,0,$config{'window_width'}-3, $baroheight-1, -fill=>"green"));
     push(@debugboxlist, $barocanvas->createLine(0,0,0,$baroheight-1,-fill=>"green"));
     push(@debugboxlist, $barocanvas->createLine(0,0,$config{'window_width'}-3,0, -fill=>"green"));
     }
-    
+
     $nr=0;
 
     unzoomed();
@@ -2796,11 +2796,11 @@ sub FlightView {
             }
           });
 
-    $FlightView->bind("<Key-r>", sub{ 
+    $FlightView->bind("<Key-r>", sub{
       if ($filestat eq 'closed') { return; }
       Ausschnitt($DECLAT[$nr], $DECLON[$nr]); $FlightView->bell;
     });
-    
+
     $FlightView->bind("<Key-t>", sub{
 	    if ($filestat eq 'closed') { return; }
             if ($task_state == 0) {taskdraw(1);$task_state=1;return;}
@@ -3022,7 +3022,7 @@ sub FlightView {
     $FlightView->bind("<Key-H>", sub{
       #print "H".$drupa++."\n";
       print "$config{'fvw_grid'}=fvw_grid   $config{'fvw_baro_grid'}=fvw_baro_grid\n";
-      
+
       print @baroplot ." bp\n";
       print @baroplot_task ." bpt\n";
       print @trackplot ." tp\n";
@@ -3031,16 +3031,16 @@ sub FlightView {
       print @acc_lines ." accl\n";
       print @marks_lines ." ml\n";
       print @wpcyl_lines ." wpcl\n";
-      
+
       # ZZZZZZZZZ
       #this is purely for debugging one memory leak
       # VERY STRANGE
       # symptoms:
-      # repeatedly pressing H leaks some memory 
+      # repeatedly pressing H leaks some memory
       # ONLY if fvw_grid is "no" ???? WTF
       # fvw_grid isnt used at ALL in baroplot()
       #
-      
+
       #mapplot($dxp, $dyp, $minlat, $minlon);
       #trackplot($dxp, $dyp, $minlat, $minlon);
       #marksdraw();
@@ -3089,7 +3089,7 @@ sub mapplot {
     my $number_of_tiles_old=$tiles;
 
     $FlightView->Busy;
-    
+
     # set up path
     my $osmpath=$config{'map_path'}."/".$config{'map_type'};
 
@@ -3209,13 +3209,13 @@ sub mapplot {
             if (!-d "$osmpath/$zl/$xt") {File::Path::mkpath "$osmpath/$zl/$xt";}
             $resp = LWP::Simple::getstore($dladdr, "$osmpath/$zl/$xt/$yt.png");
             print "$resp DOWNLOAD: \"$dladdr\" ==> $osmpath/$zl/$xt/$yt.png\n" if ($config{'DEBUG'});
-            
-            if ($resp != 200) {print "$resp error: $dladdr\n" if ($config{'DEBUG'}); } 
+
+            if ($resp != 200) {print "$resp error: $dladdr\n" if ($config{'DEBUG'}); }
              else {
 		#if success, record min/max
 	       if (($config{'map_gms_v'}+$retry_gms_counter) < $map_gms_v_min) {$map_gms_v_min = $config{'map_gms_v'}+$retry_gms_counter;}
 	       if (($config{'map_gms_v'}+$retry_gms_counter) > $map_gms_v_max) {$map_gms_v_max = $config{'map_gms_v'}+$retry_gms_counter;}
-	      
+
 	      }
 
             if ($resp == 404 && $addlayer == 0 && ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh")) {
@@ -3242,24 +3242,24 @@ sub mapplot {
             my $img = Imager->new;
             $img->read(file => "$osmpath/$zl/$xt/$yt.png");
             my $newimg = $img->scale(xpixels=>$xsize+.5, ypixels=>$ysize+.5);
-            
+
             #my $zzz;
             #$newimg->write(data => \$zzz, type=>"png");  #OLD Method, mem-leak!
             $newimg->write(file => "${pfadftmp}tmp.png" , type=>"png"); # now, via tmp file
-            
+
             # this creates a horrible memory leak. see:
             # https://rt.cpan.org/Public/Bug/Display.html?id=29640
             # http://www.perlmonks.org/?node_id=986015
             #my $nmt= $FlightView->Photo(-data => encode_base64($zzz));
             my $nmt= $FlightView->Photo(-file => "${pfadftmp}tmp.png");
-            
+
             # new code, does NOT work
             #if (!defined $nmt) {
 	    #  $nmt = $FlightView->Photo();
             #}
             #$nmt->configure(-data => encode_base64($zzz));
 
-            
+
 #	print "Tile $xt,$yt: latmin:$tlatmin, lonmin:$tlonmin, latmax:$tlatmax, lonmax:$tlonmax\n";
 
             # calculate shift
@@ -3272,10 +3272,10 @@ sub mapplot {
 
             # load into canvas
             push(@mapplot, $canvas->createImage($cx,-$cy, -anchor=>"nw", -image => $nmt));
-            
+
             #$nmt->delete;
-            
-            
+
+
         } else {
 
             # file has 0 bytes:
@@ -3593,12 +3593,12 @@ sub baroplot {
     if ($filestat eq 'closed') {
         return;
     }
-    
+
         # erase all plotted stuff from previous and clean array!
     if (@baroplot){$barocanvas -> delete (@baroplot);}
     @baroplot = (0,1); undef @baroplot;
     @baroplot = ();
-    
+
     if (@baroplot_task){$barocanvas -> delete (@baroplot_task);}
     @baroplot_task=();
 
@@ -3644,7 +3644,7 @@ sub baroplot {
     my $y2 = int (($baroheight-1)-((($bmaxbaro*$config{'altitude_unit_factor'})-($bminbaro*$config{'altitude_unit_factor'}))/$dybaro));
 
     push (@baroplot, $barocanvas->createRectangle($x1,$y1,$x2,$baroheight,-fill=>"white",-outline=>"white"));
-    
+
       # plot selected statistics zone (red background)
       # this needs to be done before "start" and "finish" text
       if ( !($stat_start == 0 && $stat_end == $#BARO) && $bcut != 1) {
@@ -3654,7 +3654,7 @@ sub baroplot {
 	  my $ry2 = int ($baroheight);
 	  push (@baroplot, $barocanvas->createRectangle($rx1,$ry1,$rx2,$ry2,-fill=>"#FFEEEE",-outline=>"#FFEEEE"));
       }
-    
+
     push (@baroplot_task, $barocanvas->createText($x1, $y1,-anchor=>"n",-text=>"start" , -fill=>"black"));
     push (@baroplot_task, $barocanvas->createText($x2, $y2,-anchor=>"n",-text=>"finish" , -fill=>"black"));
 
@@ -3773,7 +3773,7 @@ sub marksdraw {
         return;
     }
     if (@marks_lines) {$canvas->delete(@marks_lines);}
-    
+
     @marks_lines=();
     foreach my $z ($task_start_time_index, $task_finish_time_index) {
         my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($DECLAT[$z], $DECLON[$z], 'point', 0, 359.99999);
@@ -3878,7 +3878,7 @@ sub unzoomed {
 
     $task_side_ratio=$max_kmdist_y/$max_kmdist_x;
 
-    # x (lon) is limiting 
+    # x (lon) is limiting
     if ($task_side_ratio <= $fvw_side_ratio ) {
 
         $delta_lon = $maxlon-$minlon;
@@ -4093,7 +4093,7 @@ sub FVWresize {
       print "baroconvh = $bch \n";
       print "canv_fra_h = $cffh \n";
     }
-  
+
     if (($config{'window_width'} != $canvas_frame->width) || ($config{'window_height'} != $canvas_frame->height)) {
 
         #print "resize $config{'window_width'} ->".$canvas->width."\n";
@@ -4103,14 +4103,14 @@ sub FVWresize {
 
         print "canvas_frame size is: $config{'window_width'} x $config{'window_height'} \n" if ($config{'DEBUG'});
 
-        $baroheight = int (( ($config{'window_height'}) / $config{'fvw_baro_fraction'})+0.5)-2; 
+        $baroheight = int (( ($config{'window_height'}) / $config{'fvw_baro_fraction'})+0.5)-2;
         $trackheight = int (( (1-(1/$config{'fvw_baro_fraction'}))*$config{'window_height'}  )+0.5)-2;
 
 	# fix for rounding error!
         if ( ($baroheight+$trackheight) - $canvas_frame->height == -3) {
           $baroheight--;
         }
-        
+
         #$trackheight = int (((2*$canvas_frame->height) / 3)+0.5)-2;
 
         # canvas will be two pixel larger than requested!
@@ -4121,7 +4121,7 @@ sub FVWresize {
         if ($config{'DEBUG'}) {
 	  print "baroheight=$baroheight, trackheight=$trackheight   sum=".($baroheight+$trackheight)."\n";
         }
-        
+
 	#
         if ($config{'DEBUG'}){
 	  $canvas->delete(@debugboxlist);
@@ -4130,14 +4130,14 @@ sub FVWresize {
 	  push(@debugboxlist, $canvas->createLine($config{'window_width'}-3,0,$config{'window_width'}-3, $trackheight, -fill=>"red"));
 	  push(@debugboxlist, $canvas->createLine(0,0,0,$trackheight,-fill=>"red"));
 	  push(@debugboxlist, $canvas->createLine(0,0,$config{'window_width'}-3,0, -fill=>"red"));
-	
+
 	  $barocanvas->delete(@debugboxlist);
 	  push(@debugboxlist, $barocanvas->createLine(0,$baroheight-1,$config{'window_width'}-3,$baroheight-1 ,-fill=>"green"));
 	  push(@debugboxlist, $barocanvas->createLine($config{'window_width'}-3,0,$config{'window_width'}-3, $baroheight-1, -fill=>"green"));
 	  push(@debugboxlist, $barocanvas->createLine(0,0,0,$baroheight-1,-fill=>"green"));
 	  push(@debugboxlist, $barocanvas->createLine(0,0,$config{'window_width'}-3,0, -fill=>"green"));
 	}
-        
+
         baroplot();
 
         if ($zoom == 1) {
@@ -4154,7 +4154,7 @@ sub FVWresize {
         if ($delta_lat == 0) {$delta_lat = 0.5;}
         $delta_lon = $maxlon-$minlon;
         if ($delta_lon == 0) {$delta_lon = 0.5;}
-        
+
         $dyp=($delta_lat)/($trackheight-1);
         $dxp=($delta_lon)/($config{'window_width'}-3);
 
@@ -4170,7 +4170,7 @@ sub FVWresize {
         $nr=FVWausg($nr);
   } else {
     print "nothing to resize\n" if ($config{'DEBUG'});
-  } 
+  }
 }
 
 
@@ -4302,7 +4302,7 @@ sub FVWausg {
 
     $canvas->delete($horizontal, $vertical);
     $barocanvas->delete($barovertical);
-    
+
     if ($FXAEXISTS eq "yes" ) {
       if (@acc_lines) {$canvas->delete(@acc_lines);}
       @acc_lines = ();
@@ -4742,7 +4742,7 @@ sub statistik {
 
     my($ofilename, $odirectories, $osuffix) = File::Basename::fileparse($file);
     my $message = "File: $ofilename\n";
-    
+
     $message .= sprintf("Time: $time\nTime: $delta_th\nAltitude difference: $delta_h_unit $config{'altitude_unit_name'} \nClimb rate: %.1f $config{'vertical_speed_unit_name'}", $climb );
 
     my $distance = GPLIGCfunctions::dist($DECLAT[$start], $DECLON[$start], $DECLAT[$end], $DECLON[$end]);
@@ -4912,10 +4912,10 @@ sub thermik_statistik {
     my $total_climb_alt = 0;
     my $total_climb_t = 0;
     my $thermal_stat_text = '';
-    
+
     my($ofilename, $odirectories, $osuffix) = File::Basename::fileparse($file);
     $thermal_stat_text .= "File: $ofilename\n";
-    
+
     my $thermal_r = 0;
     my $thermal_l = 0;
     my $thermal_lr = 0;
@@ -5102,7 +5102,7 @@ sub glide_statistik {
     my $total_glide_t = 0;
     my $total_glide_dist = 0;
     my $glide_stat_text = '';
-    
+
     my($ofilename, $odirectories, $osuffix) = File::Basename::fileparse($file);
     $glide_stat_text .= "File: $ofilename\n";
 
@@ -6435,7 +6435,7 @@ sub check_config {
 
   my @old_keys = qw (optimizer_montecarlo optimizer_metropolis_montecarlo optimizer_cycles open_flight_view_window fvw_show_help
   flight_view_baro_grid flight_view_window_grid
-  ); 
+  );
   my $oc;
 
   foreach $oc (@old_keys) {
@@ -6447,7 +6447,7 @@ sub check_config {
       $text .= "$oc ";
     } else {
       print "\n" if ($config{'DEBUG'});
-    } 
+    }
   }
 
   if ($YES) {Errorbox($text);}

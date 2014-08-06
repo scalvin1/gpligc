@@ -417,7 +417,7 @@ struct gengetopt_args_info
   const char *projection_pseudo_cyl_no1_help; /**< @brief set pseudocylindric projection 1 help description.  */
   int projection_cyl_mercator_flag;	/**< @brief set mercator projection (default=off).  */
   const char *projection_cyl_mercator_help; /**< @brief set mercator projection help description.  */
-  
+
   unsigned int help_given ;	/**< @brief Whether help was given.  */
   unsigned int version_given ;	/**< @brief Whether version was given.  */
   unsigned int verbose_given ;	/**< @brief Whether verbose was given.  */
@@ -661,7 +661,7 @@ void cmdline_parser_print_help(void);
 void cmdline_parser_print_version(void);
 
 /**
- * Initializes all the fields a cmdline_parser_params structure 
+ * Initializes all the fields a cmdline_parser_params structure
  * to their default values
  * @param params the structure to initialize
  */

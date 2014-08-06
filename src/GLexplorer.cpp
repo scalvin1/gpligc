@@ -2,20 +2,20 @@
  * $Id: GLexplorer.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- * 
+ *
  */
 
 /*
@@ -297,7 +297,7 @@ void menuMain(int val)
 	// this is needed for glutChangeToMenuEntry (which is done in current menu),
 	// if this is called from keypressed function and current menu is other than menuMain
 // 	glutSetMenu(menIdMain); // we dont changeToMenuEntry any more, here
-	
+
 	MENUPOPPED=true;
 
 	switch (val) {
@@ -573,10 +573,10 @@ void menuRecreate()
 	if (conf.DEBUG.get())
 	    cout << " re-creating menus"<< endl;
 	glutSetMenu(menIdAirspaceType);
-	
+
         if (conf.AIRSPACE_P.get()) {
 		glutChangeToMenuEntry(1, "Prohibited D off", 1);
-		
+
 	} else {
 		glutChangeToMenuEntry(1, "Prohibited P on", 1);
 	}
@@ -610,8 +610,8 @@ void menuRecreate()
 	} else {
 		glutChangeToMenuEntry(6, "CTR on", 6);
 	}
-	
-	// recreate/change main menu!	
+
+	// recreate/change main menu!
 	glutSetMenu(menIdMain);
 	if (conf.MAP.get()) {
 		glutChangeToMenuEntry(1, "Maps off", 1);
@@ -682,9 +682,9 @@ void menuRecreate()
 		glutChangeToMenuEntry(23, "2D orthographic view",
 				      41);
 	}
- 
+
 	MENUCHANGED=false;
-	
+
 }
 
 void menuMapSet(int val)
@@ -803,7 +803,7 @@ void menuStereo(int val)
 
 
 void menuColormap(int val)
-{	
+{
 	MENUPOPPED=true;
 	if (conf.colmapnumber.get() == val) {
 		return;
@@ -906,7 +906,7 @@ void GenMenu(void)
 
     // freeglut 3.0!
 // 	glutSetMenuFont(menIdMain, GLUT_BITMAP_TIMES_ROMAN_10);
-	
+
 	menIdMapSet = glutCreateMenu(menuMapSet);
 	vector < string > MapSets;
 	MapSets = conf.getMapSetName();
@@ -1136,7 +1136,7 @@ void menuStatus(int val, int x, int y)
 		MENUSTATE = true;
 		if (conf.DEBUG.get())
 			cout << "ON" << endl;
-		
+
 	}
 
 	if (val == GLUT_MENU_NOT_IN_USE) {
@@ -1693,7 +1693,7 @@ void GenLandscapeList()
 		 cout << "Terrain boundaries: " << land.getmax_lat() << "  " << land.getmin_lat() <<
 		 "   " << land.getmin_lon() << "  " << land.getmax_lon() << endl;
 		}
-		
+
 		land.setgrid_lat(conf.getdem_grid_lat());
 		land.setgrid_lon(conf.getdem_grid_lon());
 
@@ -1946,7 +1946,7 @@ void mouseMove(int xmouse, int ymouse)
 		lastmx = 0;
 		lastmy=0;
 		MENUPOPPED = false;
-		
+
 		//glutWarpPointer(conf.getwidth() / 2, conf.getheight() / 2);
 		//MOUSEWARPED = true;
 		return;
@@ -1973,12 +1973,12 @@ void mouseMove(int xmouse, int ymouse)
 	lastmy = ymouse;
 
 	//cout << "dx dy " << _dx << " " << _dy << endl;
-	
-	
+
+
 	// this should prevent "jumps" if the curser enters the window again!
 	// seems to be effective
 	if (abs(_dx)+abs(_dy) > 100) {
-	return; 
+	return;
 	}
 
 	if (!conf.ORTHOVIEW.get()) {
@@ -2042,7 +2042,7 @@ void Draw(void)
 		lifts.drawLiftsTxt(conf.STEREO_RB.get()
 				 || conf.STEREO_RG.get() || conf.BW.get(), &ego);
 	}
-	
+
 	if (conf.WAYPOINTS.get()) {
 		waypoints.drawWaypoints(conf.STEREO_RB.get()
 				 || conf.STEREO_RG.get() || conf.BW.get());
@@ -2777,27 +2777,27 @@ void IdleFunc(void)
 			if (conf.FLYING.get())
 				fd.marker_head();
 			GenFlightList();
-			
+
 			// leaving area!
-			
+
 			//cout << fd.getlat() << "  " << fd.getlon() << endl;
 			//cout <<"lim: "<< fd.getcenter_lat()+(conf.getborder_land_lat()/DEGDIST) <<
 			//"  " << fd.getcenter_lat()-(conf.getborder_land_lat()/DEGDIST) << endl;
 			//cout << "lim2: " << fd.getcenter_lon()+(conf.getborder_land_lon()/DEGDIST)
 			//<< " " << fd.getcenter_lon()-(conf.getborder_land_lon()/DEGDIST) << endl;
-			
+
 			if (conf.LANDSCAPE.get() && !conf.MAP.get()) {
 			  // hier noch die limits checken
 			  // in lat gehts manchmal ueber die kante..? ZZZZZ
 			  // immer noch? sieht ganz gut aus soweit
-			if (fd.getlat() > fd.getcenter_lat()-conf.getdem_grid_lat()*conf.getdownscalefactor()+((conf.getborder_land_lat()-0.0)/DEGDIST) 
-			  || fd.getlat() < fd.getcenter_lat()+conf.getdem_grid_lat()*conf.getdownscalefactor()-((conf.getborder_land_lat()-0.0)/DEGDIST) 
+			if (fd.getlat() > fd.getcenter_lat()-conf.getdem_grid_lat()*conf.getdownscalefactor()+((conf.getborder_land_lat()-0.0)/DEGDIST)
+			  || fd.getlat() < fd.getcenter_lat()+conf.getdem_grid_lat()*conf.getdownscalefactor()-((conf.getborder_land_lat()-0.0)/DEGDIST)
 			  || fd.getlon() > fd.getcenter_lon()-conf.getdem_grid_lon()*conf.getdownscalefactor()+(((conf.getborder_land_lon()-0.0)/DEGDIST)/
 				  cos(fd.getcenter_lat() * PI_180))
  			  || fd.getlon() < fd.getcenter_lon()+conf.getdem_grid_lon()*conf.getdownscalefactor()-(((conf.getborder_land_lon()-0.0)/DEGDIST)/
 				  cos(fd.getcenter_lat() * PI_180))
 			  ) {
-			  
+
 			  //cout << "REBUILDING LANDSCAPE" << endl;
 			   fd.setcenter_lat(fd.getlat());
 			   fd.setcenter_lon(fd.getlon());
@@ -2806,10 +2806,10 @@ void IdleFunc(void)
 			   fd.setlonmax(fd.getlon());
 			   fd.setlonmin(fd.getlon());
 			  GenLandscapeList();
-			  
+
 			}
 			}
-			
+
 		}
 	}
 
@@ -3735,8 +3735,8 @@ void DrawInfo(void)
 		if (conf.GPSD.get() && conf.FLYING.get() ) {
 			sprintf(buf, "GPS live mode / Position:");
 			lines.push_back(buf);
-			
-						
+
+
 		}
 
 		if (conf.GPSD.get() && !conf.FLYING.get() ) {
@@ -4525,7 +4525,7 @@ int main(int argc, char *argv[])
 		cout << "GPSD_API_MINOR_VERSION: " << GPSD_API_MINOR_VERSION << endl;
 #else
 		cout << endl << "GPSD _NOT_ supported"<< endl;
-#endif		
+#endif
 
 #ifdef HAVE_LIBOSMESA
 		cout << endl << "OSMesa supported" << endl;
@@ -4611,8 +4611,8 @@ int main(int argc, char *argv[])
 	lifts.set_conf_pointer(&conf);
 	waypoints.set_proj_pointer(&proj);
 	waypoints.set_conf_pointer(&conf);
-	
-	
+
+
 	if (args_info.cycles_given)
 		fd.setcycles(args_info.cycles_arg);
 
@@ -4674,27 +4674,27 @@ int main(int argc, char *argv[])
 	}
 
 	if (args_info.gpsd_given || args_info.gpsd_port_given || args_info.gpsd_server_given) {
-	
-#ifdef HAVE_LIBGPS	  
+
+#ifdef HAVE_LIBGPS
 #if GPSD_API_MAJOR_VERSION != 5
 		cerr << "We need libgps with GPSD_API_MAJOR_VERSION == 5 !!!" << endl
 		    << "Version " << GPSD_API_MAJOR_VERSION << " was found ;-(" << endl;
 		    Ende(1);
 #endif
 #endif
-		
-	  
+
+
 		conf.GPSD.on();
 		conf.MARKER.on();
 		conf.FOLLOW.on();
 		conf.FLYING.on();
-		
+
 		stringstream _sp;
-		
+
 		if (args_info.gpsd_port_given) {
 		   _sp << args_info.gpsd_port_arg;
 		}
-		
+
 		if (args_info.gpsd_server_given && !args_info.gpsd_port_given) {
 		  fd.initgps(args_info.gpsd_server_arg);
 		}
@@ -4707,7 +4707,7 @@ int main(int argc, char *argv[])
 		if (!args_info.gpsd_server_given && !args_info.gpsd_port_given) {
 		  fd.initgps();
 		}
-		
+
 	}
 
 
@@ -4747,7 +4747,7 @@ int main(int argc, char *argv[])
 			cout << "Lifts: " << conf.getLiftsFileName() << endl;
 		}
 	}
-	
+
 	if (args_info.waypoints_file_given) {
 		conf.WAYPOINTS.on();
 		conf.setWaypointsFileName(args_info.waypoints_file_arg);
@@ -4755,12 +4755,12 @@ int main(int argc, char *argv[])
 			cout << "Waypoints: " << conf.getWaypointsFileName() << endl;
 		}
 	}
-	
+
 	if (args_info.waypoints_given) { conf.WAYPOINTS.on();}
 	if (args_info.no_waypoints_given) { conf.WAYPOINTS.off();}
-	
+
 	if (args_info.waypoints_offset_given) { conf.waypoints_offset.set(args_info.waypoints_offset_arg);}
-	
+
 	if (args_info.waypoints_offset_spheres_given) { conf.waypoints_offset.set(args_info.waypoints_offset_spheres_arg);
 	  conf.WAYPOINTS_OFFSET_TEXT_ONLY.off();
 	}
@@ -4906,7 +4906,7 @@ if (args_info.marker_given && !(args_info.igc_file_given || argc == 2) )  {
 
 	if (args_info.lifts_info_mode_given)
 		conf.lifts_info_mode.set(args_info.lifts_info_mode_arg);
-	
+
 	if (args_info.waypoints_info_mode_given)
 		conf.waypoints_info_mode.set(args_info.waypoints_info_mode_arg);
 
@@ -5377,7 +5377,7 @@ if (args_info.marker_given && !(args_info.igc_file_given || argc == 2) )  {
 		float _lonmax = (fd.getlonmax() + border_deg_lon);
 		lifts.setDegRanges(_latmax,_latmin,_lonmax,_lonmin);
 	}
-	
+
 	if (conf.getWaypointsFileName() != "not available") {
 		waypoints.readWaypointsFile(conf.getWaypointsFileName());
 		float border_deg_lat = conf.getborder_land_lat() / DEGDIST;
@@ -5733,7 +5733,7 @@ if (args_info.marker_given && !(args_info.igc_file_given || argc == 2) )  {
 		// check GLUT_VERSION... (maybe this should be tested earlier?!
 		// but checking needs glutInit called before...
 		int _glut_version = glutGet(GLUT_VERSION);
-		
+
 		if (_glut_version > 10000 && _glut_version < 20801) {
 		  cout <<"    ****************************************************** " <<endl<<
 		         "    **   You are using an ancient version of Freeglut.  ** " <<endl<<
@@ -5741,7 +5741,7 @@ if (args_info.marker_given && !(args_info.igc_file_given || argc == 2) )  {
 		         "    **   the menus or worse. Consider updating          **" <<endl<<
 		         "    **   Freeglut to at least 2.8.1                     **" <<endl<<
 		         "    ******************************************************" << endl;
-		  
+
 		}
 
 		if (conf.DEBUG.get()) {

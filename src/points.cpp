@@ -2,20 +2,20 @@
  * $Id: points.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- * 
+ *
  */
 
 #include "points.h"
@@ -248,7 +248,7 @@ int
 	while (liftsfile) {
 		liftsfile.getline(zeile, 180, '\n');
 		line_counter++;
-		
+
 		// this is changed (from lifts)
 		// wpt format is:
 		// lat lon alt descshort namelong symbol
@@ -394,7 +394,7 @@ void Points::drawLifts(bool BW)
 
 
 	for (int _q = 0; _q < n; _q++) {
-		
+
 		if (lat[_q]>=latmin && lat[_q]<=latmax && lon[_q]>= lonmin && lon[_q] <=lonmax) {
 		glPushMatrix();
 		glTranslatef(x[_q],y[_q],z[_q]);
@@ -426,15 +426,15 @@ void Points::drawWaypoints(bool BW)
 	} else {
 		glColor3fv(col);
 	}
-	
+
 	float offset=0;
 	if (!conf_pointer->WAYPOINTS_OFFSET_TEXT_ONLY.get()) {
-	 offset=conf_pointer->waypoints_offset.get() / 1000.0; 
+	 offset=conf_pointer->waypoints_offset.get() / 1000.0;
 	}
 
 
 	for (int _q = 0; _q < n; _q++) {
-	  
+
 		if (lat[_q]>=latmin && lat[_q]<=latmax && lon[_q]>= lonmin && lon[_q] <=lonmax) {
 		glPushMatrix();
 		glTranslatef(x[_q],y[_q],z[_q]+offset);
@@ -524,10 +524,10 @@ void Points::drawWaypointsTxt(bool BW, Ego *egopointer)
 	} else {
 		glColor3fv(col);
 	}
-    
+
 	 float orthooffset=0;
 	 if (conf_pointer->ORTHOVIEW.get()) orthooffset=2.0;
-  
+
 	for (int _q = 0; _q < n; _q++) {
 
 		if (lat[_q]>=latmin && lat[_q]<=latmax && lon[_q]>= lonmin && lon[_q] <=lonmax) {
@@ -556,7 +556,7 @@ void Points::drawWaypointsTxt(bool BW, Ego *egopointer)
 		/*if (conf_pointer->waypoints_info_mode.get() == 5)
 			sprintf(txt,"%s",dec2humantime(dectime[_q],3).c_str());
 		if (conf_pointer->waypoints_info_mode.get() == 6)
-			
+
 		if (conf_pointer->waypoints_info_mode.get() == 7)
 			sprintf(txt,"%s",fname[_q].c_str());*/
 

@@ -16,7 +16,7 @@ or\\
 
 %\item{Windows}
 %From the command line (\texttt{cmd.exe} command prompt): \texttt{perl GPLIGC.pl} (from within the gpligc-directory)
-%or double-click \texttt{GPLIGC.pl} from windows explorer. 
+%or double-click \texttt{GPLIGC.pl} from windows explorer.
 %If windows asks you what application to open it with, you'll have to find your perl interpreter
 %(whereever/you/installed/perl/bin/perl.exe).
 
@@ -24,10 +24,10 @@ or\\
 \end{itemize}
 
 \subsection{Main Window}
-The flight-track will be displayed here. 
-Crossmarks indicate a single data fix point. 
+The flight-track will be displayed here.
+Crossmarks indicate a single data fix point.
 The corresponding data is shown above.
-The displayed data is based on the barometric altitude. 
+The displayed data is based on the barometric altitude.
 In the case, that the igc-file does not contain any barometric altitude,
 gpligc will switch to GPS-altitude.
 A message will inform you about this, and
@@ -38,7 +38,7 @@ the information ``GPS-Altitude modus'' is displayed.
 To move the crossmarks/cursor/indicators use F3 (move forward), F4 (fast forward), F2 (backward)  and F1 (fast backward).
 
 `\texttt{t}' toggles task-display.
-`\texttt{r}' sets the Gnuplot-range (side-length can be chosen in the menu) to the cross-mark position, 
+`\texttt{r}' sets the Gnuplot-range (side-length can be chosen in the menu) to the cross-mark position,
 `\texttt{c}' toggles waypoint-cylinders and sectors (on/off).
 
 Before using the waypoint sectors and cylinders you should delete doubled waypoints which may occur in the task declaration. E.g. if departure and start location are equal, or finish and landing.
@@ -48,12 +48,12 @@ Otherwise the FAI sectors cannot be calculated properly (maybe I'll implement so
 The 'distance to' can be changed by selecting a different waypoint in the task editor window.
 You can define a task start and finish point with "s" and "f", these points are
 used to calculate the task-speed. These points are marked with small black circles.
-They are used to mark the begin and end of unpowered flight also. 
+They are used to mark the begin and end of unpowered flight also.
 gpligc will try to detect the begin and end of unpowered flight, but this may fail sometimes and should be checked by the user.
 
-Waypoints can be set with \texttt{a}, \texttt{b} or \texttt{p} (\texttt{b} adds before actual wp, \texttt{a} after and \texttt{p}      
+Waypoints can be set with \texttt{a}, \texttt{b} or \texttt{p} (\texttt{b} adds before actual wp, \texttt{a} after and \texttt{p}
 replaces the actual wp - actual wp is that one which is shown in the task editor window, if opened).
-                                                                                             
+
 You can interactively zoom by selecting an area using the right mouse button. Return to full view using `\texttt{z}' key.
 Select points by clicking in the barograph or the track, crossmarks will move to the selected position.
 `\texttt{q}' will close the flight view window.
@@ -82,12 +82,12 @@ For each leg of the task the distance, speed, altitude gain/loss and the glide r
 The usage of maps needs internet (if new maptiles have to be downloaded).
 Changing the zoom or positions, will trigger automatic download of map-tiles, the window will be busy for a few seconds.
 
-The display of maps can be activated or deactivated by key `\texttt{M}'. 
+The display of maps can be activated or deactivated by key `\texttt{M}'.
 The status lines at the top of the window will show the zoom-level and the number of tiles used.
 If you want to change the zoom-level you can use the keys "$+$" and "$-$".
-Changing the zoom-status will sometimes change the map-zoomlevel. This is needed to prevent 
+Changing the zoom-status will sometimes change the map-zoomlevel. This is needed to prevent
 the use of too many tiles, or too large scaling of tiles.
-The behaviour of this can be changed with two config-keys: 
+The behaviour of this can be changed with two config-keys:
 \texttt{map\_max\_tiles}
 and \texttt{map\_max\_scalesize}, although not recommended.
 
@@ -140,7 +140,7 @@ This file can be used in ogie, and will be automatically loaded if ogie is start
 The barometrically recorded altitude is often shifted in respect to the real altitude.
 In the simplest case, this is a constant shift (constant option).
 To correct this, you can select a data point with known altitude
-(e.g. before take-off, known airport elevation) and press `\texttt{e}'. 
+(e.g. before take-off, known airport elevation) and press `\texttt{e}'.
 Then, enter the known altitude at this point, and the data will be shifted.
 The barometric option will use a barometric model, the shift will decrease with altitude.
 Chose the model according to your suspected error. Use `constant', if you have a constant systematic error in your altimeter.
@@ -209,7 +209,7 @@ Select the IGC file to open.
 Reloads the opened IGC-file.
 
 \paragraph{Download track (gpsbabel)}
-Uses \emph{gpsbabel} \cite{gpsbabel} to download trackdata from a GPS-device. 
+Uses \emph{gpsbabel} \cite{gpsbabel} to download trackdata from a GPS-device.
 The used command string can be defined using the configuration keyword \texttt{gpsbabel\_tdownload}.
 For details see section~\ref{gpligcrc}.
 %\red{Windows: I'm not sure whether this will work. Any users with gpsbabel out there for testing?}
@@ -239,7 +239,7 @@ If your photos/multimedia files are not in the same folder as your GPS track, yo
 
 \paragraph{Map settings}
 For using maps, you need to have the Imager perl-module installed.
-\emph{Use maps}, if enabled maps will be displayed in the flight-view-window. 
+\emph{Use maps}, if enabled maps will be displayed in the flight-view-window.
 This requires an internet connection, since maps are downloaded from the web.\\
 \emph{Openstreetmap}, if set, openstreetmap will be used as map-server.
 Openstreetmap data is \copyright\ OpenStreetMap (and) contributors, CC-BY-SA \cite{osm}.\\
@@ -302,7 +302,7 @@ Here you can select the display format for the coordinates.
 Select your preferred units (km/h, m/s, m, ft, knots, ft/min)
 
 \paragraph{Show accuracy}
-If accuracy data is included in the IGC-file, you can active or deactive its use. 
+If accuracy data is included in the IGC-file, you can active or deactive its use.
 If activated you'll find additional output in the flight-view-window.
 
 \paragraph{Photo locator}
@@ -326,7 +326,7 @@ This options will produce plots using Gnuplot.
 Diagrams of the flight data will be written to 'term' (selected under "Set term").
 Directly to X11 or after "Save-File-Dialog" to a file.
 
-For changing the appearance of the output change the gnuplot-related options, or chose to open 
+For changing the appearance of the output change the gnuplot-related options, or chose to open
 a gnuplot-shell for each plot for further processing.
 Gnuplot 4 also has some interactive features.
 
@@ -347,7 +347,7 @@ Useful to archive additional information on the flight.
 
 \paragraph{Flight statistics}
 Time of launch, landing, and flight will be available.
-The time of the begin and end of unpowered flight is shown also. 
+The time of the begin and end of unpowered flight is shown also.
 The unpowered flight can be defined in flight-view-window with the keys \texttt{s} and \texttt{f}, or will be determined automatically (this may fail in some cases).
 
 This section also shows calculations on the amount of oxygen, which should have been used according to \texttt{FAR 91.211}.
@@ -386,8 +386,8 @@ Several configuration keys can influence the algorithms.
 \texttt{optimizer\_sa} sets the commandline parameters for the optimizer run, if SA is used.
 
 If you want to play with that, check the source code of \texttt{optimizer.cpp}
-In general, the default settings for both methods should find a close to optimal task. 
-I'm looking for feedback on their speed and reliability. 
+In general, the default settings for both methods should find a close to optimal task.
+I'm looking for feedback on their speed and reliability.
 E.g. if they sometimes stuck at local maxima, missing the global one.
 
 \texttt{optimizer\_verbose} and \texttt{optimizer\_debug} may enable the corresponding output of the optimizer at the console.

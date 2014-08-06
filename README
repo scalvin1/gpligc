@@ -31,7 +31,7 @@ Configure options
     gpsd (gps daemon): optional support for gpsd will be built into the ogie binary, if libgps is found.
       to disable the checking for gpsd use --without-gpsd as an argument to ./configure
 
-    osmesa (offscreen rendering with Mesa): optional support for osmesa can be disabled by 
+    osmesa (offscreen rendering with Mesa): optional support for osmesa can be disabled by
       --disable-osmesa as an argument to ./configure
 
    more details on 'configure' can be found in the generic instructions in the file INSTALL

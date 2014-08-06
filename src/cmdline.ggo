@@ -6,7 +6,7 @@ purpose
 Web: http://gpligc.sf.net
 
 openGL viewer for igc flight data files and/or digital elevation data
-from SRTM30, GTOPO30, GLOBE, etc. Digitised maps and airspace data 
+from SRTM30, GTOPO30, GLOBE, etc. Digitised maps and airspace data
 files can be used.
 
 This program comes with ABSOLUTELY NO WARRANTY.
@@ -129,7 +129,7 @@ option  "info"		-	"Info text display"	flag	off
 option	"no-info"	-	"no info text display"	flag	off
 option  "text"          - 	"Text string to display" string no
 option  "no-position-info" -    "Turn off viewpoint position info" flag off
-option  "no-marker-pos-info" -  "Turn off marker position info" flag off 
+option  "no-marker-pos-info" -  "Turn off marker position info" flag off
 
 option	"text-size"	-	"Size of text for points/lifts (0.001-1.0)" float	no
 option 	"text-width"	-	"Width of text (1-20)"	float no

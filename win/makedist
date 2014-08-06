@@ -10,10 +10,10 @@
 #  jpeg-9a  ./configure --prefix=/mingw
 
 # configure and build (only ogie/src)
-cd .. 
+cd ..
 ./configure
 
-cd src 
+cd src
 make
 
 DOCS_WIN="../ChangeLog ../COPYING README_windows.txt"

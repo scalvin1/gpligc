@@ -2,20 +2,20 @@
  * $Id: flightdata.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- * 
+ *
  */
 
 #include "flightdata.h"
@@ -70,43 +70,43 @@ void Flightdata::initgps(const char* _serv, const char* _port)
 {
 #ifdef HAVE_LIBGPS
 
-  
+
 	if (conf_pointer->VERBOSE.get())
 		cout << "Trying to connect to gpsd at "<< _serv << ":" << _port << endl;
-	
+
 	stringstream _servstring;
 	_servstring << _serv << ":" << _port;
 	serverstring = _servstring.str();
-	
+
 // #if GPSD_API_MAJOR_VERSION == 5
  	//good
 // #else
 //  	cerr << "unsupported GPSD_API_MAJOR_VERSION == " << GPSD_API_MAJOR_VERSION << endl;
 // 	exit(0);
-// #endif		
+// #endif
 
-// #if GPSD_API_MAJOR_VERSION == 5	
+// #if GPSD_API_MAJOR_VERSION == 5
 	// create gpsmm object
 	gps = new gpsmm (_serv, _port);
-	
-		
+
+
 	if (gps->stream(WATCH_ENABLE|WATCH_JSON) == NULL) {
 	  cerr << "cannot connect to gpsd" << endl;
 	  exit (0);
 	}
-	
+
 	// waiting is timeout in mu-secs // blocking!
 	while (!gps->waiting(20000000)) { // 20 secs is ok at initialisation
 	 cout << "no answer gps->waiting, after 20e6 mu-secs!" << endl;
 	 exit (0);
 	}
-	
+
 	// data is here, so poll it!
 	if ( (gpsdata = gps->read()) == NULL) {
 	    cerr << "read error" << endl;
 	    exit(0);
 	}
-	
+
 	if (!gpsdata) {
 		cerr << "connection to gpsd failed! Error number " << errno << endl;
 		exit(0);
@@ -116,7 +116,7 @@ void Flightdata::initgps(const char* _serv, const char* _port)
 		if (conf_pointer->VERBOSE.get())
 		  cout << "connected to gpsd!"<< endl;
 		  //<< gpsdata->dev.ndevices << " devices connected to gpsd" <<endl;
-		
+
 		if (!gpsdata->set == DEVICEID_SET) {
 			cerr << "No GPS device connected to gpsd" << endl;
 			exit(0);
@@ -128,12 +128,12 @@ void Flightdata::initgps(const char* _serv, const char* _port)
  				cout << "gpsd API: " << gpsdata->version.proto_major << "." << gpsdata->version.proto_minor << endl;
  				cout << "external version (release): " << gpsdata->version.release << endl;
  				cout << "internal revision    (rev): " << gpsdata->version.rev << endl;
-				
-				cout << "Version Info from headers:" << endl << 
+
+				cout << "Version Info from headers:" << endl <<
 				  "GPSD_API_MAJOR_VERSION: "<< GPSD_API_MAJOR_VERSION << endl <<
 				  "GPSD_API_MINOR_VERSION: "<< GPSD_API_MINOR_VERSION <<  endl <<
 				  "sizeof gps_data_t  (8240 on pc12): " << sizeof (gps_data_t) << endl;
-				  
+
 			}
 		}
 	}
@@ -197,8 +197,8 @@ void Flightdata::initgps(const char* _serv, const char* _port)
 	    }
 	  //}
 	}
-	
-	
+
+
 	proj_pointer->set_center_lat(gpsdata->fix.latitude);
 	proj_pointer->set_center_lon(gpsdata->fix.longitude);
 
@@ -270,11 +270,11 @@ int Flightdata::querygps(void)
   // return 0, if a new fix is added
 #ifdef HAVE_LIBGPS
 	//gpsdata = gps->query("oqm\n");  //should be read in "o" as well  //old from gpsd 2.39
-	
+
 	// poll blocks! so check first if new data is available!
 	if (gps->waiting(1)) {gpsdata=gps->read();} else {return (1);}
-	
-	
+
+
 	// mode valid, and new time
 	if (gpsdata->fix.mode > 1 && (int)(gpsdata->fix.time+0.5) != oldgpstime) {
 
@@ -654,7 +654,7 @@ int Flightdata::readIGCFile(string _filename, bool USE_V)
 	}
 
 	if (conf_pointer->VERBOSE.get()) {
-	 cout << "IGC-File boundaries: " << latmax << "  " << latmin << "   " << lonmin << "  " <<lonmax << endl;	  
+	 cout << "IGC-File boundaries: " << latmax << "  " << latmin << "   " << lonmin << "  " <<lonmax << endl;
 	}
 
 	//real centers

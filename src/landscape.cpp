@@ -2,20 +2,20 @@
  * $Id: landscape.cpp 3 2014-07-31 09:59:20Z kruegerh $
  * (c) 2002-2013 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
- * 
+ *
  */
 
 #include "landscape.h"
@@ -137,7 +137,7 @@ calc_start:
 	int leftsteps = int (floor((min_lon - demlonmin) / grid_lon));
 	int rightsteps = int (ceil((max_lon - demlonmin) / grid_lon));
 
-	
+
 	// why 2* downscalefactor?
 	// changed to 1*downscalefact on 20100826, to check limits for landscape rebuild in gpsd mode
 	// seems to be good. check with maps needed (and with dsf) !
@@ -415,7 +415,7 @@ if (FAST)
 // remapping the edges to desired values:=========================================
 // to avoid overhanging textures
 if (conf_pointer->MAP.get()) {
-  
+
   cout << "MAPS used, terrain edges remapping active!" << endl;
   for (int zeile = 0; zeile < steps_lat; zeile += downscalefactor) {
 			float _xkmdist, _ykmdist;
@@ -425,17 +425,17 @@ if (conf_pointer->MAP.get()) {
 			//double pointlon =
 			  //  demlonmin + ((double) leftsteps) * (grid_lon) +
 			    //((double) spalte) * (grid_lon/(double)conf_pointer->getupscalefactor());
-    
+
 			    proj_pointer->get_xy(pointlat, min_lon, _xkmdist,
 					     _ykmdist);
-			    
+
     surface_x[zeile][0]=-_xkmdist;
-    
+
 			    proj_pointer->get_xy(pointlat, max_lon, _xkmdist,
 					     _ykmdist);
-    
+
     surface_x[zeile][steps_lon-1]=-_xkmdist;
-    
+
 	vector<int> _alt;
 	vector<float>_lat;
 	vector<float>_lon;
@@ -447,7 +447,7 @@ if (conf_pointer->MAP.get()) {
 	get_gnd_elevations(&_alt,&_lat,&_lon,conf_pointer);
 	surface_h[zeile][0]=_alt[0];
 	surface_h[zeile][steps_lon-1]=_alt[1];
-  
+
   }
 
   for (int spalte = 0; spalte < steps_lon; spalte += downscalefactor) {
@@ -458,17 +458,17 @@ if (conf_pointer->MAP.get()) {
 			double pointlon =
 			    demlonmin + ((double) leftsteps) * (grid_lon) +
 			    ((double) spalte) * (grid_lon/(double)conf_pointer->getupscalefactor());
-    
+
 			    proj_pointer->get_xy(max_lat, pointlon, _xkmdist,
 					     _ykmdist);
-			    
+
     surface_y[0][spalte]=-_ykmdist;
-    
+
 			    proj_pointer->get_xy(min_lat, pointlon, _xkmdist,
 					     _ykmdist);
-    
+
     surface_y[steps_lat-1][spalte]=-_ykmdist;
-    
+
     vector<int> _alt;
 	vector<float>_lat;
 	vector<float>_lon;
@@ -480,10 +480,10 @@ if (conf_pointer->MAP.get()) {
 	get_gnd_elevations(&_alt,&_lat,&_lon,conf_pointer);
 	surface_h[0][spalte]=_alt[0];
 	surface_h[steps_lat-1][spalte]=_alt[1];
-    
+
  }
 }
-//===================================================================================			
+//===================================================================================
 
 
 //if (conf_pointer->DEBUG.get() ) {cout <<  "entering normal-vector" <<  endl << flush ;}
@@ -500,16 +500,16 @@ Timecheck normaltime("Calc Normalvectors",conf_pointer);
 
 	// reset normalvektor at the edges
 	for (int zeile = 0; zeile < steps_lat; zeile += downscalefactor) {
-				    
+
 	      normalvectors[zeile][0][0] = 0;
 	      normalvectors[zeile][0][1] = 0;
 	      normalvectors[zeile][0][2] = 1.;
-	      normalvectors[zeile][steps_lon-1][0] = 0;		
-	      normalvectors[zeile][steps_lon-1][1] = 0;		
-	      normalvectors[zeile][steps_lon-1][2] = 1.;		
+	      normalvectors[zeile][steps_lon-1][0] = 0;
+	      normalvectors[zeile][steps_lon-1][1] = 0;
+	      normalvectors[zeile][steps_lon-1][2] = 1.;
 	}
 	for (int spalte = 0; spalte < steps_lon; spalte += downscalefactor) {
-			
+
 	      normalvectors[0][spalte][0]=0;
 	      normalvectors[0][spalte][1]=0;
 	      normalvectors[0][spalte][2]=1.;
@@ -517,11 +517,11 @@ Timecheck normaltime("Calc Normalvectors",conf_pointer);
 	      normalvectors[steps_lat-1][spalte][1]=0;
 	      normalvectors[steps_lat-1][spalte][2]=1.;
 	}
-	
-		
+
+
 //Do the calculation
-//ZZZZ here we should basically go the full range of the array und then we need i-1 and i+1 interpolated... 
-// 
+//ZZZZ here we should basically go the full range of the array und then we need i-1 and i+1 interpolated...
+//
 	for (int i = downscalefactor; i < steps_lat - downscalefactor;
 	     i += downscalefactor) {
 		for (int j = downscalefactor;
@@ -811,8 +811,8 @@ void Landscape::shadecolor(float *color, int zeile, int spalte, int downscalefac
 
 
 	float _diff;
-	if (zeile-downscalefactor >= 0 && spalte-downscalefactor >=0 
-	    && zeile+downscalefactor < steps_lat - 1*downscalefactor 
+	if (zeile-downscalefactor >= 0 && spalte-downscalefactor >=0
+	    && zeile+downscalefactor < steps_lat - 1*downscalefactor
 	    && spalte+downscalefactor < steps_lon -1 * downscalefactor
 	  ) {
 		 _diff = (

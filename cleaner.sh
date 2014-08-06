@@ -1,7 +1,7 @@
 echo "this cleans all files created by autotools..."
 echo "autoreconf --install   to re-create"
 
-rm -r autom4te.cache 
+rm -r autom4te.cache
 rm Makefile.in aclocal.m4 config.h.in configure
 rm depcomp install-sh missing
 rm gpligc-?.??*.tar.gz
