@@ -1,10 +1,9 @@
 #!/usr/bin/perl -w
 
 # version and copyleft
-my $version='1.10pre';
+my $version='1.10pre9';
 my $copyright_years="2000-2014";
 my $copyright="(c) $copyright_years by Hannes Krueger";
-#my $cvsversion = '$Id:$';
 
 # new version welcome message
 my $new_version_message=<<ENDE;

@@ -1,6 +1,4 @@
-# $Id: configure.ac 2 2014-07-31 09:55:02Z kruegerh $
-
-AC_INIT([gpligc], [1.10pre8])
+AC_INIT([gpligc], [1.10pre9])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CONFIG_HEADERS([config.h])
 
