@@ -1,6 +1,8 @@
 echo "this cleans all files created by autotools..."
 echo "autoreconf --install   to re-create"
 
+make distclean
+
 rm -r autom4te.cache
 rm Makefile.in aclocal.m4 config.h.in configure
 rm depcomp install-sh missing
