@@ -1,33 +1,16 @@
 /*
- * (c) 2002-2013 Hannes Krueger
+ * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 #ifndef LANDSCAPE_H
 #define LANDSCAPE_H  1
-// "$Id: landscape.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include <string>
 #include <vector>
 
 #include "projection.h"
 #include "oconfig.h"
-
-
 
 
 inline int runden(double a){return ((int)(a + 0.5));}
@@ -84,13 +67,11 @@ class Landscape {
 	double center_lat;
 	double center_lon;
 
-                // borders for the piece of terrain to be displayed
+	// borders for the piece of terrain to be displayed
 	double min_lon;
 	double max_lon;
 	double min_lat;
 	double max_lat;
-
-
 
 	short int **surface_h;  	// -22222 means this is watersurface at NN
 
@@ -98,12 +79,11 @@ class Landscape {
 	short int min_h;
 
 
-                // maybe these should come from conf     ?
+        // maybe these should come from conf     ?
 	double sealevel;  	//this is the border between the upper and lower colormap
 	double sealevel2;	 //if this is set (!= -22222) then the blue ocean surface is set to this alt
 			// if set to "0" water will be plotted, where the water-flag is set in dem
 	double sealevel3; 	// if this is set (!= -22222) then a transparent blue surface will be plottet
-
 
 	float **surface_x;
 	float **surface_y;

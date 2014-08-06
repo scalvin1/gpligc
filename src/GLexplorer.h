@@ -1,25 +1,10 @@
 /*
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 #ifndef GLEXPLORER_H
 #define GLEXPLORER_H  1
-//  "$Id: GLexplorer.h 3 2014-07-31 09:59:20Z kruegerh $"
 
 #include <stdio.h>
 #include <jpeglib.h>
@@ -27,26 +12,21 @@
 #include "../config.h"
 
 
-// CMDLINE_PARSER_PACKAGE and CMDLINE_PARSER_VERSION taken from gengetopts cmdline.h
+// CMDLINE_PARSER_PACKAGE is set to OGIE in gengetopts cmdline.h (via cmdline.ggo)
+// uswed because PACKAGE from autotools is gpligc
 #ifdef CMDLINE_PARSER_PACKAGE
 const std::string OGIE_PACKAGE = CMDLINE_PARSER_PACKAGE ;
 #else
 const std::string OGIE_PACKAGE = "OGIE" ;
 #endif
 
-/*
-#ifdef CMDLINE_PARSER_VERSION
-const std::string OGIE_VERSION = CMDLINE_PARSER_VERSION ;
-#else
-const std::string OGIE_VERSION = "?.?" ;
-#endif
-*/
-
 // this comes from ..config.h (autoconf)
+// the package version
 #ifdef VERSION
 const std::string OGIE_VERSION = VERSION ;
 #endif
 
+// DEVELOPEMENT and WEB2 can be erased, once all occurances checked and removed
 const std::string DEVELOPEMENT = "";
 const std::string COPYRIGHT = "(c) 2002-2014";
 const std::string AUTHOR = "Hannes Krueger";
@@ -57,7 +37,6 @@ const std::string WEB ="http://gpligc.sf.net";
 const int ESCAPE = 27;			//ASCII ESCAPE
 const double PI_180 = 0.017453292;		//Pi divided by 180
 const double DEGDIST = 111.1949266;	//1 in km on surface of the earth
-
 
 
 extern "C" {

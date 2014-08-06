@@ -1,37 +1,17 @@
 /*
  * (c) 2002-2014 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
  */
 
 /*
---------------------------------------------------------------------------------
-
 DESCRIPTION:
-small class to save a position in cartesian coordinatesystem and move around
---------------------------------------------------------------------------------
-
+small class to track a position in cartesian coordinatesystem and to move/rotate
 */
 
 #ifndef  EGO_H
-#define EGO_H  1
-// "$Id: ego.h 3 2014-07-31 09:59:20Z kruegerh $"
+#define  EGO_H  1
 
 #include<string>
-
 
 class Ego {
 
@@ -56,7 +36,6 @@ class Ego {
 	void shiftx(double x) {orthopos[0] += x;}
 	void shifty(double y) {orthopos[1] += y;}
 	void shiftz(double z) {orthopos[2] += z;}
-
 
 	//diffrerence vector position for marker_locked_pos
 	double getdx () const { return dpos[0];	}
@@ -104,7 +83,6 @@ class Ego {
 
 	double orthopos[3];
 	double dorthopos[3];
-
 
       private:
 	Ego ();
