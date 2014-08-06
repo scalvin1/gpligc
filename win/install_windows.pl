@@ -6,7 +6,6 @@ use Win32::TieRegistry(Delimiter=>"/");
 use File::Copy;
 
 $email ="Hannes.Krueger\@gmail.com";
-$version="1.10";
 
 $close_delay = 60;
 
@@ -15,7 +14,6 @@ print <<ENDE;
 
 GPLIGC and OGIE installation (Windows XP/Vista)
     should work on Win2003, Win2008 and Win7 too, but was not tested yet!
-Version $version
 
 (c) 2000-2014 by Hannes Krueger ($email)
 read the GPLIGC_Manual.pdf for more information
