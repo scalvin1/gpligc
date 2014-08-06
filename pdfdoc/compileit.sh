@@ -8,7 +8,7 @@ cd jpg
  convert logo.jpg -quality 95 -sample 400 logos.jpg
 
 cd ..
-
+#git describe >>gitversion
 #svnversion -n .. >svnversion-number
 
 echo "building pdf manual using pdflatex"
