@@ -34,6 +34,9 @@ clean-up: (this should clean up everything down to the tracked files)
 => sh cleaner.sh
 
 WINDOWS:
-cygwin (svn update),  in pdfdoc sh copyfrompc12
-mingw, in win VERSION=xx.y ./makedist
-
+cygwin:
+  git pull
+  autoreconf -iv
+  in pdfdoc sh copyfrompc12
+mingw:
+  in win: VERSION=xx.y-win32  makedist
