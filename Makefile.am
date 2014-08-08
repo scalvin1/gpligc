@@ -1,4 +1,4 @@
-# $Id: Makefile.am 2 2014-07-31 09:55:02Z kruegerh $
+# Makefile.am for the gpligc/ogie project
 
 SUBDIRS = src perl images
 dist_doc_DATA = ChangeLog README doc/GPLIGC_Manual.pdf

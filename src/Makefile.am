@@ -1,4 +1,4 @@
-# $Id: Makefile.am 3 2014-07-31 09:59:20Z kruegerh $
+# src/Makefile.am for the gpligc/ogie project
 
 bin_PROGRAMS = ogie merger optimizer etopo1merger etopo2merger createworld
 ogie_SOURCES = GLexplorer.cpp GLexplorer.h airspc.cpp airspc.h cmdline.c cmdline.h \

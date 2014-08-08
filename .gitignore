@@ -43,6 +43,7 @@ pdfdoc/jpg/logos.jpg
 doc/GPLIGC_Manual.pdf
 perl/gpligc
 *.[oa]
+*.exe
 src/createworld
 src/etopo1merger
 src/etopo2merger

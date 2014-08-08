@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # define VERSION on cmdline
+# usage:
 # VERSION=1.xx-win32 makedist
 
 # script for creating a windows distribution file
@@ -8,6 +9,8 @@
 #  additionally installed:
 #  freeglut-2.8.1  ./configure --without-x --prefix=/mingw
 #  jpeg-9a  ./configure --prefix=/mingw
+
+# we use and _ship_ gnuplot 4.2.6
 
 # configure and build (only ogie/src)
 cd ..
@@ -22,14 +25,16 @@ PERL_BIN="install_windows.pl ../perl/GPLIGC.pl ../perl/GPLIGCfunctions.pm ../per
 IMG="../images/logo*"
 CONF="../src/.ogierc"
 BIN_WIN="../src/*.exe"
+
+# gnuplot 4.2.6   --> other versions need to be checked / compiled on mingw (dependencies)
 GNUPLOT_BIN="../../gnuplot-4.2.6/bin/wgnuplot.exe"
 GNUPLOT_HELP="../../gnuplot-4.2.6/bin/wgnuplot.hlp"
 GNUPLOT_LIC="../../gnuplot-4.2.6/Copyright"
 
-# for build platform cygwin17/ jpeglib 9
+# dlls to ship
 DLL="/mingw/bin/libglut-0.dll /mingw/bin/libjpeg-9.dll /mingw/bin/libstdc++-6.dll /mingw/bin/libgcc_s_dw2-1.dll"
 
-# these have to be treated with unix2dos (DOCS_WIN also)
+# these have to be treated with unix2dos (files from DOCS_WIN need to be repeated here)
 TRANSL_WIN="*.pm *.pl ogie.ini COPYING ChangeLog *.txt"
 
 cd ../win
@@ -43,16 +48,18 @@ cp -v $CONF      GPLIGC-$VERSION/ogie.ini
 cp -v $BIN_WIN   GPLIGC-$VERSION/
 cp -v $DLL       GPLIGC-$VERSION/
 
-#gnuplot
+# gnuplot
 cp -v $GNUPLOT_BIN  GPLIGC-$VERSION/
 cp -v $GNUPLOT_HELP GPLIGC-$VERSION/
 cp -v $GNUPLOT_LIC  GPLIGC-$VERSION/Copyright-gnuplot
 
 cd GPLIGC-$VERSION ; unix2dos $TRANSL_WIN
 
+# default path in ogie.ini is changed to C:/GPLIGC
 cd ..
 perl -p -i.old  -e "s#PREFIX/share/gpligc#C:/GPLIGC#g" GPLIGC-$VERSION/ogie.ini
 rm GPLIGC-$VERSION/*.old
 
+# create archive
 zip -r gpligc-$VERSION.zip GPLIGC-$VERSION/
 rm -rf GPLIGC-$VERSION
