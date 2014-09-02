@@ -5,4 +5,6 @@
 1     open   win32     gpligc      file open dialog doubleclick error messages. 2nd click prob triggers callback in fvw?!
 2     open   pc12      ogie        white "spots" in terrain at flat viewing angles (ogie --lat 47 --lon 11)
                                    pc12: mesa 10.0.4 / nouveau:  confirmed
+                                   pc12: pure mesa (--osmesa): does NOT occur
                                    larissa: mesa 10.0.4 / intel DRI, not reproducable
+                                   ./ogie --lat 47 --lon 11 --border 30 --colormap-max 5000 --init-pos-NE --init-alt 4500 --init-dive 0
