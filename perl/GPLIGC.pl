@@ -1960,6 +1960,8 @@ sub FlightStatistics {
 
     my $exb=$FF->Button(-text=>"Exit",-command=>sub{$FF->destroy();});
     $exb->pack();
+
+    print "Flight statistics:\n".$fstattext  if ($config{'DEBUG'});
 }
 
 ################################################################################
