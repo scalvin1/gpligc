@@ -1272,7 +1272,10 @@ sub oeffnen {      ### open a File
         } else {
 
             #only if different from last one (avoid the doubled entries)
-            if ( substr($_,0,8) ne $WPIGCLAT[$j-1] && substr($_,8,9) ne $WPIGCLON[$j-1] ) {
+            if ( (substr($_,0,8) ne $WPIGCLAT[$j-1] && substr($_,8,9) ne $WPIGCLON[$j-1]) &&
+                   !( substr($_,0,7) eq "0000000" && substr($_,8,8) eq "00000000" )  # ignore 0/0 coordinates (invalid WPs) Bug #4
+               ) {
+
                 $WPIGCLAT[$j]=substr($_,0,8);
                 $WPIGCLON[$j]=substr($_,8,9);
                 $WPNAME[$j]=substr($_,17);

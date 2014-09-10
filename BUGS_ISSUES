@@ -2,7 +2,7 @@
 
 #no status platform  component description/testcase
 
-4   open   all       gpligc    illegal waypoints (0/0) used in task calculations (auto-remove them!)
+4   fixed  all       gpligc    illegal waypoints (0/0) used in task calculations (auto-remove them!)
                                improve output of task info calc / improve documentation!
 3   open   win32     ogie      curtain invisible from one side
 2   open   pc12      ogie      white "spots" in terrain at flat dive angles
