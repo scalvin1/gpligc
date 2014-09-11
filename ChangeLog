@@ -27,6 +27,7 @@ GPLIGC
 + adapted to perl 5.16 (deprecated defined (@array) warnings removed)
 + memory leak in accuracy plotting removed
 + display of "start" and "finish" in barogram fixed
++ task waypoints with coordinates 0.0N/0.0E/W will be ignored
 
 ogie
 + code adapted to freeglut 2.8.1
