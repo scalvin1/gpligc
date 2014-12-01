@@ -2,8 +2,9 @@
 
 #no status platform  component description/testcase
 
-5   open   all?      gpligc    endless loop of map redrawing..
-                                Test?: viel rumzoome?! mit maps an...
+5   open   all?      gpligc    endless loop, when moving over the end while zoomed:
+                                Deep recursion on subroutine "main::FVWausg" at /usr/local/bin/gpligc line 3940.
+                                Deep recursion on subroutine "main::zoom2" at /usr/local/bin/gpligc line 4339.
 4   fixed  all       gpligc    illegal waypoints (0/0) used in task calculations (auto-remove them!)
                                improve output of task info calc / improve documentation!
 3   open   win32     ogie      curtain invisible from one side
