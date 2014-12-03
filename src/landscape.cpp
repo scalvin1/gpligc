@@ -212,7 +212,7 @@ calc_start:
 				surface_h[i] = new short int[steps_lon];
 	}
 
-	// these arent required in fast mode
+	// these are not required in fast mode
                 if (!FAST) {
 			surface_x = new float *[steps_lat];
 			surface_y = new float *[steps_lat];
@@ -264,7 +264,7 @@ calc_start:
 			// -32768 is the ocean flag in srtm3 v 4.1 from cgiar (http://www.cgiar-csi.org/data/srtm-90m-digital-elevation-database-v4-1)
 			if (h == -32768) {
 				h = -22222;
-			}
+			} else // ELSE!!! otherwise fsckup!
 
 			// this is the water flag in WORLD3.DEM
 			if (h <= -16384) {
@@ -310,14 +310,17 @@ calc_start:
 	landtime.checknow("afterreadingDEM");
 //	if (conf_pointer->getupscalefactor() == 1) {
 		demfile.close();
+
+	// for upscaling (???)
 	if (conf_pointer->getupscalefactor() > 1) {
-	 get_gnd_elevations(&altitudes,&latitudes,&longitudes,conf_pointer);
+	  // get_gnd_elevation does interpolation (needed for upscaling)
+	  get_gnd_elevations(&altitudes,&latitudes,&longitudes,conf_pointer);
 
-	landtime.checknow("afterget_gnd_elev");
+	  landtime.checknow("afterget_gnd_elev");
 
-	int _x;
-	std::reverse(altitudes.begin(), altitudes.end());
-	for (int zeile = 0; zeile < steps_lat; zeile += downscalefactor) {
+	  int _x;
+	  std::reverse(altitudes.begin(), altitudes.end());
+	  for (int zeile = 0; zeile < steps_lat; zeile += downscalefactor) {
 		for (int spalte = 0; spalte < steps_lon;
 		     spalte += downscalefactor) {
 
@@ -326,7 +329,8 @@ calc_start:
 			altitudes.pop_back();
 			//altitudes.erase(altitudes.begin());
 
-			//cout << _x << "  ";
+			// CHECK SPECIAL CASES also for srtm3 with -32768
+			// also see get_gnd_elevtions in oglexfunc.cpp
 
 			if (_x <= -16384) {
 				_x += 16384;
@@ -350,9 +354,9 @@ calc_start:
 
 		}
 			//cout << endl;
-	}
+	  }
 
-	landtime.checknow("after remapping altitudes to surface_h");
+	  landtime.checknow("after remapping altitudes to surface_h");
 /*	for (int zeile = 0; zeile < steps_lat; zeile += downscalefactor) {
 		for (int spalte = 0; spalte < steps_lon;
 		     spalte += downscalefactor) { }}
