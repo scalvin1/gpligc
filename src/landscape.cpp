@@ -261,12 +261,16 @@ calc_start:
 				h =  (int) (  (float)h * conf_pointer->input_dem_factor.get()+0.5);
 			}
 
+			// -32768 is the ocean flag in srtm3 v 4.1 from cgiar (http://www.cgiar-csi.org/data/srtm-90m-digital-elevation-database-v4-1)
+			if (h == -32768) {
+				h = -22222;
+			}
+
 			// this is the water flag in WORLD3.DEM
 			if (h <= -16384) {
 				h += 16384;
 				if (sealevel2 == 0)
 					h = -22222;
-
 			}
 
 			if (h == -9999)	// -9999 is the index for water in GTOPO30
