@@ -91,10 +91,10 @@ print "\nYour operating system is: \"$osname\"  \"$edition\" \n";
 @autoexec_OSlist = qw(Win95 Win98 WinME);  # these OS's require ENV setting via autoexec.bat
 
 # these OS's require ENV setting via registry (not sure whether 2008/Win7 have the same structure of the registry... I hope so.
-@registry_OSlist = qw(WinNT Win2000 Win2003 WinHomeSrv WinXP WinVista Win2008 Win7);
+@registry_OSlist = qw(WinNT Win2000 Win2003 WinHomeSrv WinXP WinVista Win2008 Win7 Win8);
 
 # untested, will try to use registy anyway
-@untested_OSlist = qw(Win2003 WinHomeSrv Win2008 Win8);
+@untested_OSlist = qw(Win2003 WinHomeSrv Win2008);
 
 foreach (@autoexec_OSlist) {
     if ($osname =~ /$_/i) {
