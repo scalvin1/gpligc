@@ -11,6 +11,7 @@
 2   open   pc12      ogie      white "spots" in terrain at flat dive angles
                                 Test: ./ogie --lat 47 --lon 11 --border 30 --colormap-max 5000 --init-pos-NE --init-alt 4500 --init-dive 0
                                 pc12: mesa 10.0.4 / nouveau:  CONFIRMED  <<========
+                                pc12: mesa 10.3.7 / nouveau:  CONFIRMED!
                                 pc12: pure mesa (--osmesa): does NOT occur
                                 proteus: NVIDIA 304: does NOT occur
                                 larissa: mesa 10.0.4 / intel DRI: does NOT occur
