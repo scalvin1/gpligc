@@ -1,5 +1,5 @@
 /*
- * (c) 2002-2014 Hannes Krueger
+ * (c) 2002-2015 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -127,6 +127,10 @@ features will be disabled, and therefore no GLUT or X11 is needed.
 // #undef WITH_OSMESA
 // #endif
 
+// configure hasn't found glXCreatePbuffer
+#ifndef HAVE_GLXPBUFFER
+#define NOGLX
+#endif
 
 // no unix, no GLX, Mesa
 #ifndef __unix__

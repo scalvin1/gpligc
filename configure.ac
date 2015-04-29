@@ -37,9 +37,12 @@ AS_IF(
 
 
 # on pc12 this is needed as of ? now?
-AC_CHECK_LIB([GL], [glXCreatePbuffer])
+AC_CHECK_LIB([GL], [glBegin])
+#[glXCreatePbuffer])
 AC_CHECK_LIB([X11], [XOpenDisplay])
 
+AC_CHECK_FUNC([glXCreatePbuffer], [AC_DEFINE([HAVE_GLXPBUFFER], [1],
+                               [Define if glXCreatePbuffer exists.])])
 
 # use of osmesa is default, but optional
 AC_ARG_ENABLE([osmesa],
