@@ -2305,6 +2305,7 @@ sub FlightView {
 
     $mapmenu->checkbutton(-label =>"Use maps", -variable=>\$config{'maps'},-command=>sub{if (Exists($FlightView)) {updateFVW('i');}   });
     $mapmenu->radiobutton(-label => "Open street map",-variable => \$config{'map_type'},-value => "osm",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
+    $mapmenu->radiobutton(-label => "Open cycle map",-variable => \$config{'map_type'},-value => "osmC",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps",-variable => \$config{'map_type'},-value => "gmm",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps terrain",-variable => \$config{'map_type'},-value => "gmt",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps satellite",-variable => \$config{'map_type'},-value => "gms",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
@@ -3189,6 +3190,7 @@ sub mapplot {
 
             my $dladdr;
             $dladdr = "http://tile.openstreetmap.org/$zl/$xt/$yt.png" if ($config{'map_type'} eq "osm");
+            $dladdr = "http://a.tile.opencyclemap.org/cycle/$zl/$xt/$yt.png" if ($config{'map_type'} eq "osmC");
 
             $rand = int(rand(4));
             $dladdr = "http://mt$rand.google.com/vt/lyrs=t,r&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gmt");
