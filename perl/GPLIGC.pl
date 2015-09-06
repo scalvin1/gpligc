@@ -3484,28 +3484,18 @@ sub wpcyldraw {
                     # adding a very small value in the last line seems to circumvent some bug in perl?
                     # without it the result of zyl_rad * wprfac comes as integer wtf????
 
-                    #print "XXXXX:\n";
-                    #$config{'zylinder_radius'} = "0.5";
-                    #print '$config{\'zylinder_radius\'} :>>'.$config{'zylinder_radius'}."<<\n";
-                    #print '$WPRADFAC[$zaehl] :'.$WPRADFAC[$zaehl]."\n";
-                    #$config{'zylinder_radius'} *= 1.0;
-                    #$GGG= ($WPRADFAC[$zaehl]+0.000001) * $config{'zylinder_radius'};
-
-                    #print "GGG: $GGG \n";
-                    #$GGG= 1 * 0.5;
-                    #print "GGG: $GGG \n";
-
-                    #print "here: ". ($config{"zylinder_radius"} * $WPRADFAC[$zaehl]) ." $config{'zylinder_radius'} * $WPRADFAC[$zaehl]   \n";
-                    #my $ddtest=$config{'zylinder_radius'};
-                    #my $eetest=$WPRADFAC[$zaehl];
-                    #print "here2: ". $ddtest*$eetest ." $ddtest $eetest\n";
+                    if ($config{'DEBUG'}) {
+                     print "IS THIS A BUG in Perl ???:\n";
+                     print 'This is the value of the hash/key >>> $config{\'zylinder_radius\'} :>>'.$config{'zylinder_radius'}."<<\n";
+                     print 'This is the value of the array/index >>> $WPRADFAC[$zaehl] :>>'.$WPRADFAC[$zaehl]."<<\n";
+                     my $GGG1= $WPRADFAC[$zaehl] * $config{'zylinder_radius'};
+                     my $GGG2= ($WPRADFAC[$zaehl]+0.000000000001)* $config{'zylinder_radius'};
+                     print 'The product $WPRADFAC[$zaehl] * $config{\'zylinder_radius\'} = '.$GGG1."\n";
+                     print 'The product ($WPRADFAC[$zaehl]+0.000000000001) * $config{\'zylinder_radius\'} = '.$GGG2."\n";
+                     print "\n*******************\n  $GGG1 = $GGG2 \n*******************\n\n";
+                    }
 
                     for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
-
-#my $x1= 15+int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl]) -$minlon) /$dxp);
-#my $x2= 15+int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl+1]) -$minlon) /$dxp);
-#my $y1= int($config{'window_height'}-( ( ($WPLAT[$zaehl]+${$cylref_lat}[$xzaehl])   -$minlat )/$dyp))-15;
-#my $y2= int($config{'window_height'}-( ( ($WPLAT[$zaehl]+${$cylref_lat}[$xzaehl+1]) -$minlat )/$dyp))-15;
 
                         my $x1= int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl]) -$minlon) /$dxp);
                         my $x2= int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl+1]) -$minlon) /$dxp);
@@ -3545,11 +3535,6 @@ sub wpcyldraw {
                         ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($WPLAT[$zaehl], $WPLON[$zaehl], '3.0' , $sec2down, 180);  # FAI = 3.0 km sector
 
                         for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
-
-#my $x1= 15+int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl]) -$minlon) /$dxp);
-#my $x2= 15+int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl+1]) -$minlon) /$dxp);
-#my $y1= int($config{'window_height'}-( ( ($WPLAT[$zaehl]+${$cylref_lat}[$xzaehl])   -$minlat )/$dyp))-15;
-#my $y2= int($config{'window_height'}-( ( ($WPLAT[$zaehl]+${$cylref_lat}[$xzaehl+1]) -$minlat )/$dyp))-15;
 
                             my $x1= int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl]) -$minlon) /$dxp);
                             my $x2= int( ( ($WPLON[$zaehl]+${$cylref_lon}[$xzaehl+1]) -$minlon) /$dxp);
