@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 # version and copyleft
-my $version='1.10pre9';
+my $version='1.10pre11';
 my $copyright_years="2000-2015";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
