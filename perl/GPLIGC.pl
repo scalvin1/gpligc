@@ -1318,6 +1318,7 @@ sub oeffnen {      ### open a File
         $WPIGCLAT[1]="3515690S";
         $WPIGCLON[1]="14908123E";
         $WPNAME[1]="GPLIGC Headquarter";
+        $WPRADFAC[1]=1.0;
     }
 
     # convert all wp's to decimal format!
