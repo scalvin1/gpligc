@@ -86,8 +86,7 @@ default directory for maps. Default value depends on the platform.
 %Windows: c:\textbackslash GPLIGC\textbackslash map, unix: HOME/.gpligc/map.
 If an environment variable GPLIGCHOME is set, a "map" directory will be created within GPLIGCHOME.
 
-\item \texttt{map\_type "osm"}\\  osm=openstreetmap
-
+\item \texttt{map\_type "osm"}\\  osm=openstreetmap, osmC=openstreetmap Cycle
 
 \item \texttt{marker\_linewidth    "3"}
 \item \texttt{mm\_download\_dirs    "Aufnahmen Fotos Videoclips"}\\
@@ -102,7 +101,7 @@ If an environment variable GPLIGCHOME is set, a "map" directory will be created 
 \item \texttt{open\_additional\_info    "0"}\\
     If set to 1, the ``additional info dialog'' is opened immediately in cases where no gpi-file is found.
 
-% pre 1.10
+% before 1.10
 % \item \texttt{open\_flight\_view\_window    "1"}\\
 %     The flight-view-window will be opened for each igc file opened if set to 1.
 
@@ -131,6 +130,11 @@ If an environment variable GPLIGCHOME is set, a "map" directory will be created 
     Interval for the speed histogram in km/h
 \item \texttt{speed\_unit\_factor    "1"}
 \item \texttt{speed\_unit\_name    "km/h"}
+
+\item \texttt{starting\_line    "10"}\\
+  Length of the starting line in km. The line is displayed with the FAI-sectors for the first WP.
+
+
 \item \texttt{task\_linewidth    "3"}
 \item \texttt{terminal    "xterm -hold -e"} \\
 	terminal application to be used for some things (copying Multimedia files, downloading from Garmin)
@@ -158,7 +162,7 @@ Offset to local timezone (e.g. timezone used in your camera) . Used for the phot
 
 \item \texttt{waypoint\_linewidth    "3"}
 \item \texttt{wind\_analysis "1"} \\
-If set to "1", a airspeed-groundspeed difference is plottet with F5/F6/F7 statistics.
+If set to "1", an airspeed-groundspeed difference is plottet with F5/F6/F7 statistics.
 
 \item \texttt{window\_height "500"} \\
 \item \texttt{window\_width "900"} \\
@@ -168,8 +172,13 @@ size of the plotting area of the main window (pixels)
 \item \texttt{working\_directory    "/home/user1/IGC"}
 \item \texttt{zoom\_sidelength    "10"}\\
     Sidelength of the zoom-window in km
-\item \texttt{zylinder\_names    "1"}
-\item \texttt{zylinder\_radius    "500m"}
+
+\item \texttt{zylinder\_names    "1"}\\
+ Display waypoint names next to cylinders (0=no, 1=yes).
+ 
+\item \texttt{zylinder\_radius    "0.5"}\\
+ Radius (in km) of the waypoint cylinders (aka \emph{barrels}).
+
 \item \texttt{zylinder\_wp\_type    "both"}
 
 \end{itemize}
