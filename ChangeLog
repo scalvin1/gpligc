@@ -28,6 +28,8 @@ GPLIGC
 + memory leak in accuracy plotting removed
 + display of "start" and "finish" in barogram fixed
 + task waypoints with coordinates 0.0N/0.0E/W will be ignored
++ task editor takes radius factors to scale each waypoints cylinder-size
++ $config{'starting_line'}  length of starting line in km
 
 ogie
 + -32768 in DEM is recognised as 'no-data' (ocean), e.g. for use with srtm3 (v4.1)
