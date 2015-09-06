@@ -5,7 +5,7 @@ make distclean
 
 rm -r autom4te.cache
 rm Makefile.in aclocal.m4 config.h.in configure
-rm depcomp install-sh missing
+rm depcomp install-sh missing compile
 rm gpligc-?.??*.tar.gz
 rm perl/fit.log
 
