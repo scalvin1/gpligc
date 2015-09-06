@@ -3485,14 +3485,17 @@ sub wpcyldraw {
                     # without it the result of zyl_rad * wprfac comes as integer wtf????
 
                     if ($config{'DEBUG'}) {
+                     my $GGG1= $WPRADFAC[$zaehl] * $config{'zylinder_radius'};
+                     my $GGG2= ($WPRADFAC[$zaehl]+0.000000000001)* $config{'zylinder_radius'};
+
+                     if (abs($GGG1-$GGG2) > 0.1) {
                      print "IS THIS A BUG in Perl ???:\n";
                      print 'This is the value of the hash/key >>> $config{\'zylinder_radius\'} :>>'.$config{'zylinder_radius'}."<<\n";
                      print 'This is the value of the array/index >>> $WPRADFAC[$zaehl] :>>'.$WPRADFAC[$zaehl]."<<\n";
-                     my $GGG1= $WPRADFAC[$zaehl] * $config{'zylinder_radius'};
-                     my $GGG2= ($WPRADFAC[$zaehl]+0.000000000001)* $config{'zylinder_radius'};
                      print 'The product $WPRADFAC[$zaehl] * $config{\'zylinder_radius\'} = '.$GGG1."\n";
                      print 'The product ($WPRADFAC[$zaehl]+0.000000000001) * $config{\'zylinder_radius\'} = '.$GGG2."\n";
                      print "\n*******************\n  $GGG1 = $GGG2 \n*******************\n\n";
+                     }
                     }
 
                     for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
@@ -4463,9 +4466,16 @@ sub WpPlot {
     $wpframe->pack(-expand=>"yes",-fill=>"x");
 
     my $wpndf=$WPPlotWindow->Label(-textvariable=>\$myWPN);
-    my $WPRF=$WPPlotWindow->Entry(-textvariable=>\$myWPRF);
+
+    my $rfframe=$WPPlotWindow->Frame();
+
+    my $WPRFl=$rfframe->Label(-text=>"Radius factor");
+    my $WPRF=$rfframe->Entry(-textvariable=>\$myWPRF);
     $wpndf->pack(-fill=>"x");
-    $WPRF->pack(-fill=>"x");
+
+    $WPRFl->pack(-expand=>"yes",-side=>"left",-fill=>"x");
+    $WPRF->pack(-expand=>"yes",-side=>"left",-fill=>"x");
+    $rfframe->pack(-fill=>"x");
 
     my $coor_lat=$WPPlotWindow->Label(-textvariable=>\$wppwlat);
     my $coor_lon=$WPPlotWindow->Label(-textvariable=>\$wppwlon);
@@ -5725,7 +5735,7 @@ sub getWPreachedIndices {
                     push(@wpindex, $x);
                     push(@wpnames, $WPNAME[$z]);
                     $loopstart=$x;
-                    print "WP: $WPNAME[$z], $x, $dist  \n" if ($config{'DEBUG'});
+                    print "reached WP: $WPNAME[$z], $x, $dist  \n" if ($config{'DEBUG'});
                     last;
                 }
             }
