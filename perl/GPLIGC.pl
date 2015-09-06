@@ -449,6 +449,10 @@ sub updateFVW {
     trackplot($dxp, $dyp, $minlat, $minlon);
     marksdraw();
     baroplot();
+
+    if ($wpcyl_state == 1) {wpcyldraw(1);}
+    if ($task_state == 1) {taskdraw(1);}
+
     FVWausg($nr);
 }
 
@@ -2994,11 +2998,13 @@ sub FlightView {
     $FlightView->bind("<Key-M>", sub{
       if ($filestat eq 'closed') { return; }
             if ($config{'maps'}) {$config{'maps'}=0;}else{$config{'maps'}=1;}
-            mapplot($dxp, $dyp, $minlat, $minlon,"z");
-            trackplot($dxp, $dyp, $minlat, $minlon);
-            marksdraw();
-            baroplot();
-            FVWausg($nr);
+
+            updateFVW();
+            #mapplot($dxp, $dyp, $minlat, $minlon,"z");
+            #trackplot($dxp, $dyp, $minlat, $minlon);
+            #marksdraw();
+            #baroplot();
+            #FVWausg($nr);
 
           } );
 
