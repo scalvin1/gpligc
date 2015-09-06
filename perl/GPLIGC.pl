@@ -2,7 +2,7 @@
 
 # version and copyleft
 my $version='1.10pre9';
-my $copyright_years="2000-2014";
+my $copyright_years="2000-2015";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
 # new version welcome message
@@ -109,8 +109,9 @@ $config{'datadir'} = "zzDATADIRzz";  		# DATADIR PATH will be changed by the ins
 $config{'gnuplot_draw_style'}="with lines";
 $config{'gnuplot_grid_state'}='set grid';
 $config{'gnuplot_terminal'}="x11";
-$config{'zylinder_radius'}="500m";
+$config{'zylinder_radius'}=0.5;			# now in km (09/2015)
 $config{'zylinder_wp_type'}="both";
+$config{'starting_line'}=10;			# starting line length
 $config{'zylinder_names'}=1;
 $config{'zoom_sidelength'}="10";		# in km
 $config{'ENL_noise_limit'}=500;
@@ -573,6 +574,7 @@ sub oeffnen {      ### open a File
     @WPNAME=();
     @WPLAT=();
     @WPLON=();
+    @WPRADFAC=(); # WP radius factor (for cylinder/barrel)
 
     # I-extensions to the B-record
     $IASEXISTS =  "no";
@@ -1279,6 +1281,7 @@ sub oeffnen {      ### open a File
                 $WPIGCLAT[$j]=substr($_,0,8);
                 $WPIGCLON[$j]=substr($_,8,9);
                 $WPNAME[$j]=substr($_,17);
+                $WPRADFAC[$j]=1.0;
                 chop($WPNAME[$j]);  #cut CR
                 chop($WPNAME[$j]);  #cut LF
 
@@ -2199,14 +2202,15 @@ sub zylinder {
 
     Ausschnitt($lat, $lon);
 
-    if ($r eq "point") {$gpx=0.0008993216;} ### 100m for point-like marks
-    if ($r eq "200m") {$gpx=0.0017986432;}   ### /0.3km on great-circle on FAI-Spheroid
-    if ($r eq "300m") {$gpx=0.002697964;}   ### /0.3km on great-circle on FAI-Spheroid
-    if ($r eq "400m") {$gpx=0.0035972864;}   ### /0.3km on great-circle on FAI-Spheroid
-    if ($r eq "500m") {$gpx=0.004496608;}   ### /0.5km on great-circle on FAI-Spheroid
-    if ($r eq "1km") {$gpx=0.0089932161;}
-    if ($r eq "FAI") {$gpx=0.026979648;}    ### 3 km for FAI sector
-    if ($r eq "off") {$gpx=0;}
+    #if ($r eq "point") {$gpx=0.0008993216;} ### 100m for point-like marks
+    #if ($r eq "200m") {$gpx=0.0017986432;}   ### /0.3km on great-circle on FAI-Spheroid
+    #if ($r eq "300m") {$gpx=0.002697964;}   ### /0.3km on great-circle on FAI-Spheroid
+    #if ($r eq "400m") {$gpx=0.0035972864;}   ### /0.3km on great-circle on FAI-Spheroid
+    #if ($r eq "500m") {$gpx=0.004496608;}   ### /0.5km on great-circle on FAI-Spheroid
+    #if ($r eq "1km") {$gpx=0.0089932161;}
+    $gpx=0.0089932161 * $r;
+    #if ($r eq "FAI") {$gpx=0.026979648;}    ### 3 km for FAI sector
+    #if ($r eq "off") {$gpx=0;}
 
     my @dlat=();
     my @dlon=();
@@ -2306,6 +2310,7 @@ sub FlightView {
     $mapmenu->checkbutton(-label =>"Use maps", -variable=>\$config{'maps'},-command=>sub{if (Exists($FlightView)) {updateFVW('i');}   });
     $mapmenu->radiobutton(-label => "Open street map",-variable => \$config{'map_type'},-value => "osm",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Open cycle map",-variable => \$config{'map_type'},-value => "osmC",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
+    #$mapmenu->radiobutton(-label => "Open Sea map",-variable => \$config{'map_type'},-value => "oseam",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps",-variable => \$config{'map_type'},-value => "gmm",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps terrain",-variable => \$config{'map_type'},-value => "gmt",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps satellite",-variable => \$config{'map_type'},-value => "gms",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
@@ -2362,11 +2367,11 @@ sub FlightView {
     $zylmenu->radiobutton(-label => "Cylinders",-variable=>\$config{'zylinder_wp_type'},-value=>"cyl",-command=>\&updateCyl);
     $zylmenu->radiobutton(-label => "FAI Sec and Cylinders", -variable=>\$config{'zylinder_wp_type'}, -value=>"both", -command=>\&updateCyl);
     $zylmenu->radiobutton(-label => "None", -variable=>\$config{'zylinder_wp_type'}, -value=>"off", -command=>\&updateCyl);
-    $zylmenu->radiobutton(-label => "200m",-variable=>\$config{'zylinder_radius'},-value=>"200m",-command=>\&updateCyl);
-    $zylmenu->radiobutton(-label => "300m",-variable=>\$config{'zylinder_radius'},-value=>"300m",-command=>\&updateCyl);
-    $zylmenu->radiobutton(-label => "400m",-variable=>\$config{'zylinder_radius'},-value=>"400m",-command=>\&updateCyl);
-    $zylmenu->radiobutton(-label => "500m",-variable=>\$config{'zylinder_radius'},-value=>"500m",-command=>\&updateCyl);
-    $zylmenu->radiobutton(-label => "1km - DMSt start/finish", -variable=>\$config{'zylinder_radius'},-value=>"1km",-command=>\&updateCyl);
+    $zylmenu->radiobutton(-label => "200m",-variable=>\$config{'zylinder_radius'},-value=>0.2,-command=>\&updateCyl);
+    $zylmenu->radiobutton(-label => "300m",-variable=>\$config{'zylinder_radius'},-value=>0.3,-command=>\&updateCyl);
+    $zylmenu->radiobutton(-label => "400m",-variable=>\$config{'zylinder_radius'},-value=>0.4,-command=>\&updateCyl);
+    $zylmenu->radiobutton(-label => "500m",-variable=>\$config{'zylinder_radius'},-value=>0.5,-command=>\&updateCyl);
+    $zylmenu->radiobutton(-label => "1km - DMSt start/finish", -variable=>\$config{'zylinder_radius'},-value=>1.0,-command=>\&updateCyl);
     $zylmenu->checkbutton(-label => "Show names", -variable=>\$config{'zylinder_names'}, -command=>sub{updateCyl(); baroplot();});#_task();});
 
     $zoommenu = $menu_options->cget(-menu)->Menu();
@@ -2820,6 +2825,7 @@ sub FlightView {
             $MAXWP++;
             push(@WPLAT, $DECLAT[$nr]);
             push(@WPLON, $DECLON[$nr]);
+            push(@WPRADFAC, 1.0);
 
             WPPlotUpdate();
             baroplot(); #_task();
@@ -2837,6 +2843,7 @@ sub FlightView {
             splice(@WPNAME, $AKTWP+1 , 0 , "WP$freeWP");
             splice(@WPLAT, $AKTWP+1 , 0 , $DECLAT[$nr]);
             splice(@WPLON, $AKTWP+1 , 0 , $DECLON[$nr]);
+            splice(@WPRADFAC, $AKTWP+1 , 0 , 1.0);
             $freeWP++;
             $MAXWP++;
 
@@ -2856,6 +2863,7 @@ sub FlightView {
             splice(@WPNAME, $AKTWP , 0 , "WP$freeWP");
             splice(@WPLAT, $AKTWP , 0 , $DECLAT[$nr]);
             splice(@WPLON, $AKTWP , 0 , $DECLON[$nr]);
+            splice(@WPRADFAC, $AKTWP , 0 , 1.0);
             $freeWP++;
             $MAXWP++;
 
@@ -2878,6 +2886,7 @@ sub FlightView {
             splice(@WPNAME, $AKTWP , 1 , "WP$freeWP");
             splice(@WPLAT, $AKTWP , 1 , $DECLAT[$nr]);
             splice(@WPLON, $AKTWP , 1 , $DECLON[$nr]);
+            splice(@WPRADFAC, $AKTWP , 1 , 1.0);
             $freeWP++;
 
             WPPlotUpdate();
@@ -3192,6 +3201,9 @@ sub mapplot {
             $dladdr = "http://tile.openstreetmap.org/$zl/$xt/$yt.png" if ($config{'map_type'} eq "osm");
             $dladdr = "http://a.tile.opencyclemap.org/cycle/$zl/$xt/$yt.png" if ($config{'map_type'} eq "osmC");
 
+            # seems not to work, yet?
+            $dladdr = "http://t1.openseamap.org/seamark/$zl/$xt/$yt.png" if ($config{'map_type'} eq "oseam");
+
             $rand = int(rand(4));
             $dladdr = "http://mt$rand.google.com/vt/lyrs=t,r&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gmt");
             $dladdr = "http://mt$rand.google.com/vt/lyrs=m&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gmm" );
@@ -3461,7 +3473,26 @@ sub wpcyldraw {
 
                 # draw cylinders
                 if ($config{'zylinder_wp_type'} eq "cyl" || $config{'zylinder_wp_type'} eq "both") {
-                    my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($WPLAT[$zaehl], $WPLON[$zaehl], $config{'zylinder_radius'}, 0, 359.99999);
+                    my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2( $WPLAT[$zaehl], $WPLON[$zaehl], $config{'zylinder_radius'}*($WPRADFAC[$zaehl]+0.000000000001), 0, 359.99999);
+
+                    # adding a very small value in the last line seems to circumvent some bug in perl?
+                    # without it the result of zyl_rad * wprfac comes as integer wtf????
+
+                    #print "XXXXX:\n";
+                    #$config{'zylinder_radius'} = "0.5";
+                    #print '$config{\'zylinder_radius\'} :>>'.$config{'zylinder_radius'}."<<\n";
+                    #print '$WPRADFAC[$zaehl] :'.$WPRADFAC[$zaehl]."\n";
+                    #$config{'zylinder_radius'} *= 1.0;
+                    #$GGG= ($WPRADFAC[$zaehl]+0.000001) * $config{'zylinder_radius'};
+
+                    #print "GGG: $GGG \n";
+                    #$GGG= 1 * 0.5;
+                    #print "GGG: $GGG \n";
+
+                    #print "here: ". ($config{"zylinder_radius"} * $WPRADFAC[$zaehl]) ." $config{'zylinder_radius'} * $WPRADFAC[$zaehl]   \n";
+                    #my $ddtest=$config{'zylinder_radius'};
+                    #my $eetest=$WPRADFAC[$zaehl];
+                    #print "here2: ". $ddtest*$eetest ." $ddtest $eetest\n";
 
                     for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
 
@@ -3505,7 +3536,7 @@ sub wpcyldraw {
                         $sec1up = $secdir +45;  if ($sec1up < 0) { $sec1up = $sec1up + 360 ;} if ($sec1up > 360) { $sec1up = $sec1up - 360 ;}
                         $sec1down = $secdir -45;  if ($sec1down < 0) { $sec1down = $sec1down + 360 ;} if ($sec1down > 360) { $sec1down = $sec1down - 360 ;}
 
-                        ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($WPLAT[$zaehl], $WPLON[$zaehl], 'FAI' , $sec2down, 180);
+                        ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($WPLAT[$zaehl], $WPLON[$zaehl], '3.0' , $sec2down, 180);  # FAI = 3.0 km sector
 
                         for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
 
@@ -3535,7 +3566,7 @@ sub wpcyldraw {
                             my $y1= int($trackheight-( ( ($WPLAT[$zaehl])   -$minlat )/$dyp));
 
                             my $base_line = 3;
-                            if ($zaehl == 1 && ($whatline == 0 || $whatline==1)) {$base_line=10;}
+                            if ($zaehl == 1 && ($whatline == 0 || $whatline==1)) {$base_line=$config{'starting_line'}/2.0;}
                             $whatline++;
                             my ($lat, $lon) = GPLIGCfunctions::go($WPLAT[$zaehl],$WPLON[$zaehl], $_, $base_line);
 
@@ -3782,7 +3813,7 @@ sub marksdraw {
 
     @marks_lines=();
     foreach my $z ($task_start_time_index, $task_finish_time_index) {
-        my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($DECLAT[$z], $DECLON[$z], 'point', 0, 359.99999);
+        my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($DECLAT[$z], $DECLON[$z], '0.1', 0, 359.99999);  # point = 0.1
         for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
             my $x1= int( ( ($DECLON[$z]+${$cylref_lon}[$xzaehl]) -$minlon) /$dxp);
             my $x2= int( ( ($DECLON[$z]+${$cylref_lon}[$xzaehl+1]) -$minlon) /$dxp);
@@ -3795,7 +3826,7 @@ sub marksdraw {
     foreach my $z ($stat_start, $stat_end) {
 
         if ($z != 0 && $z != 999999) {
-            my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($DECLAT[$z], $DECLON[$z], 'point', 0, 359.99999);
+            my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2($DECLAT[$z], $DECLON[$z], '0.1', 0, 359.99999);
             for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
                 my $x1= int( ( ($DECLON[$z]+${$cylref_lon}[$xzaehl]) -$minlon) /$dxp);
                 my $x2= int( ( ($DECLON[$z]+${$cylref_lon}[$xzaehl+1]) -$minlon) /$dxp);
@@ -4330,7 +4361,7 @@ sub FVWausg {
     #draw accuracy circle if wanted
     if ($FXAEXISTS eq "yes" && $config{'draw_accuracy'}) {
 
-        my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2( $DECLAT[$nr], $DECLON[$nr], "$FXA[$nr]m", 0, 359.99999);
+        my ($cylref_lat, $cylref_lon) = GPLIGCfunctions::zylinder2( $DECLAT[$nr], $DECLON[$nr], ($FXA[$nr]/1000), 0, 359.99999);
 
         for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
 
@@ -4375,9 +4406,9 @@ sub WpPlot {
     my $pltb2d=$WPPlotWindow->Button(-text=>"plot 2D",-command=>sub{
 
             if ($MAXWP > 0) {
-                zylinder($WPLAT[$AKTWP],$WPLON[$AKTWP],$config{'zylinder_radius'},"1000");
+                zylinder($WPLAT[$AKTWP],$WPLON[$AKTWP],$config{'zylinder_radius'}*($WPRADFAC[$AKTWP]+0.000000000001),"1000");
                 $com1="plot";
-                $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}) $WPNAME[$AKTWP] "."\" with dots, \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
+                $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}*$WPRADFAC[$AKTWP]) $WPNAME[$AKTWP] "."\" with lines, \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
                 Ausgabe("2d");
                 $xmin = $xmax = $ymin = $ymax = $zmax = ''; $zmin = 0;
             }
@@ -4388,9 +4419,9 @@ sub WpPlot {
     my $pltb3d=$WPPlotWindow->Button(-text=>"plot 3D",-command=>sub{
 
             if ($MAXWP > 0 ) {
-                zylinder($WPLAT[$AKTWP],$WPLON[$AKTWP],$config{'zylinder_radius'},"1000");
+                zylinder($WPLAT[$AKTWP],$WPLON[$AKTWP],$config{'zylinder_radius'}*($WPRADFAC[$AKTWP]+0.000000000001),"1000");
                 $com1="splot";
-                $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}) $WPNAME[$AKTWP]"."\" with dots, \'${pfadftmp}3d.dat\' using (\$1):(\$2):(\$3*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
+                $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}*$WPRADFAC[$AKTWP]) $WPNAME[$AKTWP]"."\" with lines, \'${pfadftmp}3d.dat\' using (\$1):(\$2):(\$3*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
                 Ausgabe("3d");
                 $xmin = $xmax = $ymin = $ymax = $zmax = ''; $zmin = 0;
             }
@@ -4399,41 +4430,51 @@ sub WpPlot {
     $pltb3d->pack(-fill=>"x");
 
     $myWPN=$WPNAME[$AKTWP];
+    $myWPRF=$WPRADFAC[$AKTWP]; # WP Radius Factor local var
     $wppwlat=GPLIGCfunctions::coorconvert($WPLAT[$AKTWP],'lat',$config{'coordinate_print_format'});
     $wppwlon=GPLIGCfunctions::coorconvert($WPLON[$AKTWP],'lon',$config{'coordinate_print_format'});
 
     my $wpframe=$WPPlotWindow->Frame();
     my $LB=$wpframe->Button(-text=>'<<',-command=>sub{
             if ($MAXWP > 0) {
+		$WPRADFAC[$AKTWP]=$myWPRF;
                 $AKTWP--;
                 if ($AKTWP==0) {$AKTWP++;}
                 $myWPN=$WPNAME[$AKTWP];
+                $myWPRF=$WPRADFAC[$AKTWP];
                 $wppwlat=GPLIGCfunctions::coorconvert($WPLAT[$AKTWP],'lat',$config{'coordinate_print_format'});
                 $wppwlon=GPLIGCfunctions::coorconvert($WPLON[$AKTWP],'lon',$config{'coordinate_print_format'});
                 FVWausg($nr);
+                TaskUpdate();
             }
           });
 
     my $WPANZ=$wpframe->Label(-textvariable=>\$AKTWP);
     my $RB=$wpframe->Button(-text=>'>>',-command=>sub{
             if ($MAXWP > 0) {
+		$WPRADFAC[$AKTWP]=$myWPRF;
                 $AKTWP++;
                 if ($AKTWP>$MAXWP) {$AKTWP--;}
                 $myWPN=$WPNAME[$AKTWP];
+                $myWPRF=$WPRADFAC[$AKTWP];
                 $wppwlat=GPLIGCfunctions::coorconvert($WPLAT[$AKTWP],'lat',$config{'coordinate_print_format'});
                 $wppwlon=GPLIGCfunctions::coorconvert($WPLON[$AKTWP],'lon',$config{'coordinate_print_format'});
                 FVWausg($nr);
+                TaskUpdate();
             }
           });
 
     $LB->pack(-expand=>"yes",-side=>"left",-fill=>"x");
     $WPANZ->pack(-side=>"left",-fill=>"x");
+
     $RB->pack(-expand=>"yes",-side=>"left",-fill=>"x");
 
     $wpframe->pack(-expand=>"yes",-fill=>"x");
 
     my $wpndf=$WPPlotWindow->Label(-textvariable=>\$myWPN);
+    my $WPRF=$WPPlotWindow->Entry(-textvariable=>\$myWPRF);
     $wpndf->pack(-fill=>"x");
+    $WPRF->pack(-fill=>"x");
 
     my $coor_lat=$WPPlotWindow->Label(-textvariable=>\$wppwlat);
     my $coor_lon=$WPPlotWindow->Label(-textvariable=>\$wppwlon);
@@ -4524,6 +4565,7 @@ sub WPPlotUpdate {
     #print "$myWPN $wppwlat  $wppwlon\n";
 
     $myWPN=$WPNAME[$AKTWP];
+    $myWPRF=$WPRADFAC[$AKTWP];
     $wppwlat=GPLIGCfunctions::coorconvert($WPLAT[$AKTWP],'lat',$config{'coordinate_print_format'});
     $wppwlon=GPLIGCfunctions::coorconvert($WPLON[$AKTWP],'lon',$config{'coordinate_print_format'});
 
@@ -5334,6 +5376,14 @@ sub load_config {
     }
     print "$count parameters read.\n\n" if ($config{'DEBUG'});
 
+    # legacy to deal with old config files.
+    $config{'zylinder_radius'} = 0.2 if ($config{'zylinder_radius'} eq "200m");
+    $config{'zylinder_radius'} = 0.3 if ($config{'zylinder_radius'} eq "300m");
+    $config{'zylinder_radius'} = 0.4 if ($config{'zylinder_radius'} eq "400m");
+    $config{'zylinder_radius'} = 0.5 if ($config{'zylinder_radius'} eq "500m");
+    $config{'zylinder_radius'} = 1.0 if ($config{'zylinder_radius'} eq "1km");
+
+
 }
 
 sub load_gpi {
@@ -5348,7 +5398,7 @@ sub load_gpi {
     foreach (@in) {
         if ($_ =~ /(\w+)\s+\"(.*?)\"/) { $count++;}
 
-        print "$1=\"$2\" \n" if ($config{'DEBUG'});
+        print "$1= >>$2<< \n" if ($config{'DEBUG'});
         $gpi{$1} = $2;
     }
     print "$count parameters read.\n\n" if ($config{'DEBUG'});
@@ -5671,11 +5721,12 @@ sub getWPreachedIndices {
         my $loopstart=1;
         for (my $z=1; $z <= $MAXWP; $z++) {
 
-            my $limit = 0;
-            if ($config{'zylinder_radius'} eq "300m") {$limit = 0.3;}
-            if ($config{'zylinder_radius'} eq "500m") {$limit = 0.5;}
-            if ($config{'zylinder_radius'} eq "1km")   {$limit = 1.0;}
-            if ($config{'zylinder_wp_type'} eq "sec") {$limit = 3.0;}
+            #my $limit = 0;
+            my $limit = $config{'zylinder_radius'};
+            #if ($config{'zylinder_radius'} eq "300m") {$limit = 0.3;}
+            #if ($config{'zylinder_radius'} eq "500m") {$limit = 0.5;}
+            #if ($config{'zylinder_radius'} eq "1km")   {$limit = 1.0;}
+            #if ($config{'zylinder_wp_type'} eq "sec") {$limit = 3.0;}
 
             for (my $x=$loopstart; $x <= $#DECLAT; $x++) {
                 my $dist = GPLIGCfunctions::dist($DECLAT[$x], $DECLON[$x], $WPLAT[$z], $WPLON[$z]);

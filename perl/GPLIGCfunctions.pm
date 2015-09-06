@@ -1,4 +1,4 @@
-# (c) 2001-2014 Hannes Krueger
+# (c) 2001-2015 Hannes Krueger
 # This file is part of the GPLIGC/ogie package
 #
 # This program is free software: you can redistribute it and/or modify
@@ -436,25 +436,25 @@ sub zylinder2 {
 
     #Ausschnitt($lat, $lon);
 
-    if ($r eq "off") {return (\@dlat, \@dlon);}
-    if ($r eq "point") {$gpx=0.0008993216;} ### 100m for point-like marks
+    #if ($r eq "off") {return (\@dlat, \@dlon);}
+    # gibts nirgendwo mehr # if ($r eq "point") {$gpx=0.0008993216;} ### 100m for point-like marks
 
 #if ($r eq "200m") {$gpx=0.0017986432;}   ### /0.3km on great-circle on FAI-Spheroid
 #if ($r eq "300m") {$gpx=0.002697964;}   ### /0.3km on great-circle on FAI-Spheroid
 #if ($r eq "400m") {$gpx=0.0035972864;}   ### /0.3km on great-circle on FAI-Spheroid
 #if ($r eq "500m") {$gpx=0.004496608;}	### /0.5km on great-circle on FAI-Spheroid
-    if ($r eq "1km") {$gpx=0.0089932161;}
-    if ($r eq "FAI") {$gpx=0.026979648;}	### 3 km for FAI sector
+    #if ($r eq "1km") {$gpx=0.0089932161;}
+    #if ($r eq "FAI") {$gpx=0.026979648;}	### 3 km for FAI sector
 
     #if ($r eq "500m") {$gpx=0.2;} # make it really huge for testing!
 
     #print "$r\n";
-    if ($r =~/(\d+)m/){
+    #if ($r =~/(\d+)m/){
 
         #print "$1 \n";
-        $gpx= $1 * 0.000008993216;
+        $gpx= $r * 0.0089932161;
 
-    }
+    #}
 
     my $step = 0.0314;
 
