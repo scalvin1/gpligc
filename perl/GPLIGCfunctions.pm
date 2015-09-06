@@ -18,12 +18,6 @@ package GPLIGCfunctions;
 
 #-------------------------------------------------------------------------------
 
-# no keyword substitution since switched to git
-#sub cvsversion {
-#    return('$Id:$');
-#}
-
-
 sub igc2dec {
 
  # converts igc-file-formatted coordinates (D)DDMMMMM(N|S|E|W) into decimal form
@@ -431,30 +425,7 @@ sub zylinder2 {
     my @dlat=();
     my @dlon=();
 
-    #print "start   $startangle   $start   \n";
-    #print "end     $endangle    $end   \n";
-
-    #Ausschnitt($lat, $lon);
-
-    #if ($r eq "off") {return (\@dlat, \@dlon);}
-    # gibts nirgendwo mehr # if ($r eq "point") {$gpx=0.0008993216;} ### 100m for point-like marks
-
-#if ($r eq "200m") {$gpx=0.0017986432;}   ### /0.3km on great-circle on FAI-Spheroid
-#if ($r eq "300m") {$gpx=0.002697964;}   ### /0.3km on great-circle on FAI-Spheroid
-#if ($r eq "400m") {$gpx=0.0035972864;}   ### /0.3km on great-circle on FAI-Spheroid
-#if ($r eq "500m") {$gpx=0.004496608;}	### /0.5km on great-circle on FAI-Spheroid
-    #if ($r eq "1km") {$gpx=0.0089932161;}
-    #if ($r eq "FAI") {$gpx=0.026979648;}	### 3 km for FAI sector
-
-    #if ($r eq "500m") {$gpx=0.2;} # make it really huge for testing!
-
-    #print "$r\n";
-    #if ($r =~/(\d+)m/){
-
-        #print "$1 \n";
-        $gpx= $r * 0.0089932161;
-
-    #}
+    $gpx= $r * 0.0089932161;
 
     my $step = 0.0314;
 
