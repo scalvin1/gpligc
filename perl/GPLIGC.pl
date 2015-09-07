@@ -5286,8 +5286,8 @@ sub save_tsk {
 
     for ($i=1; $i<=$#WPNAME; $i++){
 
-        print "$WPNAME[$i]  $WPLAT[$i]  $WPLON[$i]  $WPRADFAC[$i]\n" if ($config{'DEBUG'});
-        print GP "$WPNAME[$i]  $WPLAT[$i]  $WPLON[$i]  $WPRADFAC[$i]\n";
+        print "\"$WPNAME[$i]\"  $WPLAT[$i]  $WPLON[$i]  $WPRADFAC[$i]\n" if ($config{'DEBUG'});
+        print GP "\"$WPNAME[$i]\"  $WPLAT[$i]  $WPLON[$i]  $WPRADFAC[$i]\n";
 
     }
     close GP;
