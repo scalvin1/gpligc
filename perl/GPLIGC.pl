@@ -4392,7 +4392,7 @@ sub WpPlot {
             if ($MAXWP > 0 ) {
                 zylinder($WPLAT[$AKTWP],$WPLON[$AKTWP],$config{'zylinder_radius'}*($WPRADFAC[$AKTWP]+0.000000000001),"1000");
                 $com1="splot";
-                $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}*$WPRADFAC[$AKTWP]) $WPNAME[$AKTWP]"."\" with lines, \'${pfadftmp}3d.dat\' using (\$1):(\$2):(\$3*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
+                $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}*$WPRADFAC[$AKTWP]) $WPNAME[$AKTWP]"."\" with dots, \'${pfadftmp}3d.dat\' using (\$1):(\$2):(\$3*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
                 Ausgabe("3d");
                 $xmin = $xmax = $ymin = $ymax = $zmax = ''; $zmin = 0;
             }
@@ -4458,6 +4458,10 @@ sub WpPlot {
     my $coor_lon=$WPPlotWindow->Label(-textvariable=>\$wppwlon);
     $coor_lat->pack(-fill=>"x");
     $coor_lon->pack(-fill=>"x");
+
+    my $savebut=$WPPlotWindow->Button(-text=>"Save Task (.tsk)",-command=>sub{
+      save_tsk();
+    })->pack(-fill=>"x");
 
     my $delbut=$WPPlotWindow->Button(-text=>"Delete Waypoint",-command=>sub{
             if ($MAXWP > 0) {
@@ -5278,10 +5282,14 @@ sub save_tsk {
     my $tskfile = substr($file, 0, -3)."tsk";
     open(GP,">$tskfile") || die "$tskfile cannot be written";
 
-    print "Writing task to file...\n" if ($config{'DEBUG'});
+    print "Writing task to file \"$tskfile\"\n" if ($config{'DEBUG'});
 
-    # code for writing task
+    for ($i=1; $i<=$#WPNAME; $i++){
 
+        print "$WPNAME[$i]  $WPLAT[$i]  $WPLON[$i]  $WPRADFAC[$i]\n" if ($config{'DEBUG'});
+        print GP "$WPNAME[$i]  $WPLAT[$i]  $WPLON[$i]  $WPRADFAC[$i]\n";
+
+    }
     close GP;
 }
 
