@@ -3041,7 +3041,6 @@ sub FlightView {
           } );
 
     $FlightView->bind("<Key-H>", sub{
-      #print "H".$drupa++."\n";
       print "$config{'fvw_grid'}=fvw_grid   $config{'fvw_baro_grid'}=fvw_baro_grid\n";
 
       print @baroplot ." bp\n";
@@ -3062,11 +3061,8 @@ sub FlightView {
       # fvw_grid isnt used at ALL in baroplot()
       #
 
-      #mapplot($dxp, $dyp, $minlat, $minlon);
-      #trackplot($dxp, $dyp, $minlat, $minlon);
-      #marksdraw();
       baroplot();
-      #FVWausg($nr);
+
     } );
 
     $FlightView->bind("<Escape>", sub{$FlightView->destroy; gpligcexit();}  );
@@ -3125,7 +3121,7 @@ sub mapplot {
     my $maxlat = $minlat + $dyp * ($trackheight-1);
     my $maxlon = $minlon + $dxp * ($config{'window_width'}-1);
 
-# jump address for reload at changed zl (if zl has to be changed because of limits)
+    # jump address for reload at changed zl (if zl has to be changed because of limits)
     mapreload:
 
     # calc upper left and lower right tile at this zl
@@ -3147,7 +3143,7 @@ sub mapplot {
     my $xt=$x1;
     my $yt=$y1;
 
-# check for maximum scaling before entering the loop! prevents uneccessary reloading of the map
+    # check for maximum scaling before entering the loop! prevents uneccessary reloading of the map
     my ($tlatmin,$tlonmin,$tlatmax,$tlonmax) =GPLIGCfunctions::Project( $xt,$yt,$zl);
 
     # calculate resizing of tile (they ship as 256x256)
@@ -3167,8 +3163,6 @@ sub mapplot {
         if ($zl == 18 && $xsize > $config{'map_max_scalesize'} ) {
             print "mapplot: accepting large scaling. Very small track?\n" if ($config{'DEBUG'});
 
-            #$config{'maps'}=0;
-            #Errorbox("Track seems too small for use of maps. Maps disabled.");
         } else {
             goto mapreload;
         }
@@ -3226,7 +3220,7 @@ sub mapplot {
                 goto load_map_tiles;
             }
 
-# for sat and hybrid load sat layer
+	    # for sat and hybrid load sat layer
             $dladdr = "http://khm$rand.google.com/kh/v=".($config{'map_gms_v'}+$retry_gms_counter)."&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh" );
 
             $dladdr = "http://mt$rand.google.com/vt/lyrs=h&hl=en&x=$xt&y=$yt&z=$zl" if ($addlayer == 1);
@@ -3251,7 +3245,7 @@ sub mapplot {
             if ($retry_gms_counter > 0) {$config{'map_gms_v'} += $retry_gms_counter;  print "Map Version updated\n" if ($config{'DEBUG'}); }
 
           # not needed evt for later use by ogie?! solange er kein png versteht
-          #system ("convert $osmpath/$zl/$xt/$yt.png $osmpath/$zl/$xt/$yt.jpg");
+          # system ("convert $osmpath/$zl/$xt/$yt.png $osmpath/$zl/$xt/$yt.jpg");
         }
 
         # load image and resize
@@ -3284,16 +3278,10 @@ sub mapplot {
             #}
             #$nmt->configure(-data => encode_base64($zzz));
 
-
-#	print "Tile $xt,$yt: latmin:$tlatmin, lonmin:$tlonmin, latmax:$tlatmax, lonmax:$tlonmax\n";
-
             # calculate shift
             my $cx = ($tlonmin - $minlon)/$dxp ;
             my $cy =  ($tlatmax - $maxlat)/$dyp;
 
-            #	print "tlatmax, maxlat dyp= $tlatmax, $maxlat,  $dyp \n";
-            #	print "trackheight= $trackheight \n";
-            #	print "cx,cy= $cx, $cy \n";
 
             # load into canvas
             push(@mapplot, $canvas->createImage($cx,-$cy, -anchor=>"nw", -image => $nmt));
@@ -3601,11 +3589,6 @@ sub taskdraw {
         $canvas->delete(@task_lines);
         @task_lines=();
         for (my $zaehl=1 ; $zaehl<=$#WPLAT-1; $zaehl++) {
-
-            #my $x1= 15+int(($WPLON[$zaehl]-$minlon)/$dxp);
-            #my $x2= 15+int(($WPLON[$zaehl+1]-$minlon)/$dxp);
-            #my $y1= int($config{'window_height'}-(($WPLAT[$zaehl]-$minlat)/$dyp))-15;
-            #my $y2= int($config{'window_height'}-(($WPLAT[$zaehl+1]-$minlat)/$dyp))-15;
             my $x1= int(($WPLON[$zaehl]-$minlon)/$dxp);
             my $x2= int(($WPLON[$zaehl+1]-$minlon)/$dxp);
             my $y1= int($trackheight-(($WPLAT[$zaehl]-$minlat)/$dyp));
@@ -3764,7 +3747,8 @@ sub baroplot {
     $FlightView->Unbusy;
 }
 
-# wilol be called from baroplot only
+
+# will be called from baroplot only
 sub baroplot_task {
     if (!Exists($FlightView)) {return;}
 #    if (@baroplot_task){$barocanvas -> delete (@baroplot_task);}
@@ -3985,9 +3969,6 @@ sub viewclick {
 
     my $lat_click = ($trackheight - $canvas_y) * $dyp    +  $minlat;
     my $lon_click =  $canvas_x * $dxp + $minlon;
-
-    #print "clicked at :  $lat_click,    $lon_click  \n";
-    # which is the index of the nearest point ......
 
     my $index_of_nearest=1;
     my $minimum_distance=5000;
@@ -4391,12 +4372,7 @@ sub WpPlot {
     $WPPlotWindow=$FlightView->Toplevel();
     $WPPlotWindow->configure(-title=>"Task Editor");
 
-    #$WPPlotWindow->wm("geometry", "200x170");
-
-    #iconload($WPPlotWindow);
     setexit($WPPlotWindow);
-
-    #$WPPlotWindow->wm("iconbitmap",'@'.$config{'libdir'}.'/gpligc.xbm');
 
     my $pltb2d=$WPPlotWindow->Button(-text=>"plot 2D",-command=>sub{
 
@@ -5298,6 +5274,18 @@ sub save_gpi {
     print "$count parameters written....\n\n" if ($config{'DEBUG'});
 }
 
+sub save_tsk {
+    my $tskfile = substr($file, 0, -3)."tsk";
+    open(GP,">$tskfile") || die "$tskfile cannot be written";
+
+    print "Writing task to file...\n" if ($config{'DEBUG'});
+
+    # code for writing task
+
+    close GP;
+}
+
+
 ########################################
 
 # get rid of old config file in 1.10!
@@ -5378,7 +5366,7 @@ sub load_config {
     }
     print "$count parameters read.\n\n" if ($config{'DEBUG'});
 
-    # legacy to deal with old config files.
+    # legacy code to deal with old config files.
     $config{'zylinder_radius'} = 0.2 if ($config{'zylinder_radius'} eq "200m");
     $config{'zylinder_radius'} = 0.3 if ($config{'zylinder_radius'} eq "300m");
     $config{'zylinder_radius'} = 0.4 if ($config{'zylinder_radius'} eq "400m");
