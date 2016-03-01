@@ -23,7 +23,7 @@ GPLIGC
 + resize (key-y) repaired
 + startup / introtext (info, if no file opened)
 + check_config repaired
-+ gnuplot terminal modes updated / checked
++ gnuplot terminal modes updated / checked (qt/x11) added
 + adapted to perl 5.16 (deprecated defined (@array) warnings removed)
 + memory leak in accuracy plotting removed
 + display of "start" and "finish" in barogram fixed
