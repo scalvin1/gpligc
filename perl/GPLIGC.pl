@@ -2,7 +2,7 @@
 
 # version and copyleft
 my $version='1.10pre11';
-my $copyright_years="2000-2015";
+my $copyright_years="2000-2016";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
 # new version welcome message
@@ -1428,7 +1428,7 @@ sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
     my $linuxquiet = '';
     if ($^O ne "MSWin32") {$linuxquiet =' 2>/dev/null >&2';}
 
-    if ($config{'gnuplot_terminal'} ne 'x11'){
+    if ( ($config{'gnuplot_terminal'} ne 'x11') && ($config{'gnuplot_terminal'} ne 'qt')){
         if ($savname eq 'no'){$savname=save();}
         if ($savname eq 'no'){close BPIPE;return;}
         if ($savname ne 'no'){print BPIPE "set term $config{'gnuplot_terminal'}\n";
@@ -2350,6 +2350,7 @@ sub FlightView {
     $gpmenu->cascade(-label=>"Gnuplot terminal", -menu=> $termmenu);
 
     $termmenu->radiobutton(-label => "x11",-variable => \$config{'gnuplot_terminal'},-value => "x11");
+    $termmenu->radiobutton(-label => "qt",-variable => \$config{'gnuplot_terminal'},-value => "qt");
     $termmenu->radiobutton(-label => "pngcairo",-variable => \$config{'gnuplot_terminal'},-value => "pngcairo");
     $termmenu->radiobutton(-label => "epscairo",-variable => \$config{'gnuplot_terminal'},-value => "epscairo");
     $termmenu->radiobutton(-label => "pdfcairo",-variable => \$config{'gnuplot_terminal'},-value => "pdfcairo");
