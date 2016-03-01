@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 # version and copyleft
-my $version='1.10pre11';
+my $version='1.10pre';
 my $copyright_years="2000-2016";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
@@ -1435,6 +1435,7 @@ sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
             print BPIPE "set output "."\'".$savname."\'"."\n";}
         $w32_persist = "";
     } else {
+        print BPIPE "set term $config{'gnuplot_terminal'}\n";
         $w32_persist = "-";
     }
 
