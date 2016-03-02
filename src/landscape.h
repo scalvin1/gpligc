@@ -1,5 +1,5 @@
 /*
- * (c) 2002-2014 Hannes Krueger
+ * (c) 2002-2016 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  */
 

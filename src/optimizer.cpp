@@ -1,5 +1,5 @@
 /*
- * (c) 2002-2014 Hannes Krueger
+ * (c) 2002-2016 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  *
  * This program is free software: you can redistribute it and/or modify
@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 
 
 	if (VERBOSE) {
-		cerr << "Optimizer by Hannes Krueger (c) 2002-2009 " << endl; // << rcsid_optimizer_cpp << endl;
+		cerr << "Optimizer by Hannes Krueger (c) 2002-2016 " << endl; // << rcsid_optimizer_cpp << endl;
 		cerr << "Optimize \"" << filename << "\"" << endl
 		    << "between " << low_index << " and " << high_index <<
 		    endl << wps << " Waypoints" << endl;
