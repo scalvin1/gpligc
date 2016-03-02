@@ -2,7 +2,7 @@
 %;;; Local IspellDict: "british"
 
 
-\newenvironment{keys}
+\newenvironment{hkkeys}
     {\begin{list}{}
         {
         \setlength{\leftmargin}{9em}
@@ -22,141 +22,141 @@ The keys are case sensitive!
 
 \subsection*{Movement}
 
-\begin{keys}
-\item[a]        fast backward
-\item[s]        backward
-\item[g]        forward
-\item[space]    fast forward
-\item[d]        left
-\item[f]        right
-\item[t]        up
-\item[z]        down
-\item[q,esc]    escape
-\item[left,right] rotation around marker
-\item[up,down] rotation around marker
-\item[shift-left, shift-right]
+\begin{hkkeys}
+\item[\keys{a}]        fast backward
+\item[\keys{s}]        backward
+\item[\keys{g}]        forward
+\item[\keys{space}]    fast forward
+\item[\keys{d}]        left
+\item[\keys{f}]        right
+\item[\keys{t}]        up
+\item[\keys{z}]        down
+\item[\keys{q}, \keys{esc}]    escape
+\item[\keys{\arrowkeyleft}, \keys{\arrowkeyright}] rotation around marker
+\item[\keys{\arrowkeyup}, \keys{\arrowkeydown}] rotation around marker
+\item[\keys{\shift+\arrowkeyleft}, \keys{\shift+\arrowkeyright}]
             rotation around center
-\item[shift-up, shift-down]
+\item[\keys{\shift+\arrowkeyup}, \keys{\shift+\arrowkeydown}]
             rotation around center
 
-\end{keys}
+\end{hkkeys}
 
 
 
-\subsection*{Viewing Modes}
+\subsection*{Viewing modes}
 
-\begin{keys}
-\item[l]        terrain on/off (build up from DEM data)
-\item[L]        wireframe mode on/off
-\item[b]        maps on/off (if texture maps specified in config-file)
-\item[x,c] 	switch to previous/next map-set
-\item[w]        fullscreen on/off
-\item[o]        switch 2D-ortho/3D-perspective view mode
-\item[h]        curtain on/off
-\item[B]        toggle Grayscale/Color-mode
+\begin{hkkeys}
+\item[\keys{l}]        terrain on/off (build up from DEM data)
+\item[\keys{L}]        wireframe mode on/off
+\item[\keys{b}]        maps on/off (if texture maps specified in config-file)
+\item[\keys{x}, \keys{c}] 	switch to previous/next map-set
+\item[\keys{w}]        fullscreen on/off
+\item[\keys{o}]        switch 2D-ortho/3D-perspective view mode
+\item[\keys{h}]        curtain on/off
+\item[\keys{B}]        toggle Grayscale/Color-mode
 
-\item[1]  max's special colormap
-\item[2]  atlas colormap
-\item[3]  single color (gray-ramp)
-\item[4]  dark green $\rightarrow$ yellow $\rightarrow$ red
-\item[5]  magenta $\rightarrow$ dark blue $\rightarrow$ turquois
-\item[6]  black $\rightarrow$ rainbow $\rightarrow$ white
+\item[\keys{1}]  max's special colormap
+\item[\keys{2}]  atlas colormap
+\item[\keys{3}]  single color (gray-ramp)
+\item[\keys{4}]  dark green $\rightarrow$ yellow $\rightarrow$ red
+\item[\keys{5}]  magenta $\rightarrow$ dark blue $\rightarrow$ turquois
+\item[\keys{6}]  black $\rightarrow$ rainbow $\rightarrow$ white
 
-\item[F10,F11] decrease, increase number of lower colormap
+\item[\keys{F10}, \keys{F11}] decrease, increase number of lower colormap
 
-\item[shift-F5, shift-F6]
+\item[\keys{\shift+F5}, \keys{\shift+F6}]
         switch flight linestrip mode: up/down, altitude, speed, vario
 
-\item[shift-F7, shift-F8]
+\item[\keys{\shift+F7}, \keys{\shift+F8}]
         decrease, increase colormap applied to flight linestrip
 
-\item[shift-F3, shift-F4]
+\item[\keys{\shift+F3}, \keys{\shift+F4}]
         decreas, increase Fligh linestrip width (1-5)
 
 
 
-\item[O]        flat shading on/off
-\item[j]        fog on/off
-\item[9,0]      decrease, increase fog-density
-\item[7,8]      decrease, increase field-of-view-angle
+\item[\keys{O}]        flat shading on/off
+\item[\keys{j}]        fog on/off
+\item[\keys{9}, \keys{0}]      decrease, increase fog-density
+\item[\keys{7}, \keys{8}]      decrease, increase field-of-view-angle
 
-\item[+,-]      increase, decrease z-axis scaling
+\item[\keys{{+}}, \keys{--}]      increase, decrease z-axis scaling
 
-\item[F5]       Reset Viewpoint to initial position
-\item[F6]       Info on/off
+\item[\keys{F5}]       Reset Viewpoint to initial position
+\item[\keys{F6}]       Info on/off
 
-\item[M]        Lock position relative to marker (follow-mode)
-\item[U]        Display a part of the flight only  on/off
-\item[I]        Move Marker automatically forward... (Movie-Mode)
-\item[J]        Turn joystick on/off
+\item[\keys{M}]        Lock position relative to marker (follow-mode)
+\item[\keys{U}]        Display a part of the flight only  on/off
+\item[\keys{I}]        Move Marker automatically forward... (Movie-Mode)
+\item[\keys{J}]        Turn joystick on/off
 
-\item[shift-F1, shift-F2]
+\item[\keys{\shift+F1}, \keys{\shift+F2}]
         decrease, increase framerepeat  in moviemode. Use to slow down animation.
 
-\item[F8]       Modulate (texture maps with coloured surface elevation) on/off
-\item[F9]       Airspace on/off
-\item[shift-F9] Airspace wireframe mode on/off
-\end{keys}
+\item[\keys{F8}]       Modulate (texture maps with coloured surface elevation) on/off
+\item[\keys{F9}]       Airspace on/off
+\item[\keys{\shift+F9}] Airspace wireframe mode on/off
+\end{hkkeys}
 
 
 \subsection*{Marker}
 
-\begin{keys}
-\item[F1]       marker fast backward
-\item[F2]       marker backward
-\item[F3]       marker forward
-\item[F4]       marker fast forward
-\item[F7]       Marker on/off
-\item[page-up]  increase size of marker
-\item[page-down] decrease size of marker
-\end{keys}
+\begin{hkkeys}
+\item[\keys{F1}]       marker fast backward
+\item[\keys{F2}]       marker backward
+\item[\keys{F3}]       marker forward
+\item[\keys{F4}]       marker fast forward
+\item[\keys{F7}]       Marker on/off
+\item[\keys{page-up}]  increase size of marker
+\item[\keys{page-down}] decrease size of marker
+\end{hkkeys}
 
 
-\subsection*{Other Options}
+\subsection*{Other options}
 
-\begin{keys}
-\item[m]        mouse control on/off
-\item[p]        screenshot (jpeg's are written as frameNUMBER.jpg)
+\begin{hkkeys}
+\item[\keys{m}]        mouse control on/off
+\item[\keys{p}]        screenshot (jpeg's are written as frameNUMBER.jpg)
         with NUMBER starts at 0000 each session.
 
-\item[P]        continous screenshots
+\item[\keys{P}]        continous screenshots
         (each rendered frame will be saved as jpeg).
 
-\item[y]        texture map compression on/off (on supported systems)
+\item[\keys{y}]        texture map compression on/off (on supported systems)
 
-\item[u,i]      increase, decrease elevation offset
+\item[\keys{u}, \keys{i}]      increase, decrease elevation offset
         (shifts flight against terrain)
-\end{keys}
+\end{hkkeys}
 
 
 \subsection*{Lifts}
-\begin{keys}
-\item[shift-page-up] increases text size
-\item[shift-page-down] decreases text size
-\item[pos1] switches info up
-\item[end] switches info down
-\end{keys}
+\begin{hkkeys}
+\item[\keys{\shift+page-up}] increases text size
+\item[\keys{\shift+page-down}] decreases text size
+\item[\keys{Pos1}] switches info up
+\item[\keys{End}] switches info down
+\end{hkkeys}
 
 \subsection*{Waypoints}
-\begin{keys}
-\item[F12] showing waypoints on/off
-\item[shift-page-up] increases text size
-\item[shift-page-down] decreases text size
-\item[shift-pos1] switches info up
-\item[shift-end] switches info down
-\end{keys}
+\begin{hkkeys}
+\item[\keys{F12}] showing waypoints on/off
+\item[\keys{\shift+page-up}] increases text size
+\item[\keys{\shift+page-down}] decreases text size
+\item[\keys{\shift+Pos1}] switches info up
+\item[\keys{\shift+End}] switches info down
+\end{hkkeys}
 
 
-\subsection*{Stereoscopic View modes}
+\subsection*{Stereoscopic view modes}
 
-\begin{keys}
-\item[S]        stereoscopic double-image
-\item[D]        Red-Green stereoscopic
-\item[F]        Red-Blue stereoscopic
-\item[A]        swap images (right/left)
-\item[Q]        decrease eye distance by 50m
-\item[W]        increase eye distance by 50m
-\end{keys}
+\begin{hkkeys}
+\item[\keys{S}]        stereoscopic double-image
+\item[\keys{D}]        Red-Green stereoscopic
+\item[\keys{F}]        Red-Blue stereoscopic
+\item[\keys{A}]        swap images (right/left)
+\item[\keys{Q}]        decrease eye distance by 50m
+\item[\keys{W}]        increase eye distance by 50m
+\end{hkkeys}
 
 
 

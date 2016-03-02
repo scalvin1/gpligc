@@ -23,7 +23,7 @@ or\\
 %You cannot avoid that a cmd window pops up too, just ignore or minimise it.
 \end{itemize}
 
-\subsection{Main Window}
+\subsection{Main window}
 The flight-track will be displayed here.
 Crossmarks indicate a single data fix point.
 The corresponding data is shown above.
@@ -35,29 +35,29 @@ the information ``GPS-Altitude modus'' is displayed.
 
 \textbf{Attention!} Some of the key-shortcuts are case-sensitive!
 
-To move the crossmarks/cursor/indicators use F3 (move forward), F4 (fast forward), F2 (backward)  and F1 (fast backward).
+To move the crossmarks/cursor/indicators use \keys{F3} (move forward), \keys{F4} (fast forward), \keys{F2} (backward) and \keys{F1} (fast backward).
 
-`\texttt{t}' toggles task-display.
-`\texttt{r}' sets the Gnuplot-range (side-length can be chosen in the menu) to the cross-mark position,
-`\texttt{c}' toggles waypoint-cylinders and sectors (on/off).
+\keys{t} toggles task-display.
+\keys{r} sets the Gnuplot-range (side-length can be chosen in the menu) to the cross-mark position,
+\keys{c} toggles waypoint-cylinders and sectors (on/off).
 
 Before using the waypoint sectors and cylinders you should delete doubled waypoints which may occur in the task declaration. E.g. if departure and start location are equal, or finish and landing.
 Otherwise the FAI sectors cannot be calculated properly (maybe I'll implement some auto-detection of that sometime).
 
-`\texttt{z}' zooms in or out!
+\keys{z} zooms in or out!
 The 'distance to' can be changed by selecting a different waypoint in the task editor window.
-You can define a task start and finish point with "s" and "f", these points are
+You can define a task start and finish point with \keys{s} and \keys{f}, these points are
 used to calculate the task-speed. These points are marked with small black circles.
 They are used to mark the begin and end of unpowered flight also.
 gpligc will try to detect the begin and end of unpowered flight, but this may fail sometimes and should be checked by the user.
 
-Waypoints can be set with \texttt{a}, \texttt{b} or \texttt{p} (\texttt{b} adds before actual wp, \texttt{a} after and \texttt{p}
+Waypoints can be set with \keys{a}, \keys{b} or \keys{p} (\keys{b} adds before actual wp, \keys{a} after and \keys{p}
 replaces the actual wp - actual wp is that one which is shown in the task editor window, if opened).
 
-You can interactively zoom by selecting an area using the right mouse button. Return to full view using `\texttt{z}' key.
+You can interactively zoom by selecting an area using the right mouse button. Return to full view using \keys{z} key.
 Select points by clicking in the barograph or the track, crossmarks will move to the selected position.
-`\texttt{q}' will close the flight view window.
-\texttt{Esc} exits gpligc
+\keys{q} will close the flight view window.
+\keys{Esc} exits gpligc
 
 A list of the most important key-shortcuts can be accessed from the info menu.
 
@@ -73,8 +73,8 @@ The config-key \texttt{fvw\_baro\_fraction "$n$"}, with $2 \le n \le 10$ sets th
 The task (which is given in the recent task definition; defined by the task-editor, via optimisation, or from igc-file) is shown regardless whether the waypoints are reached or not.
 The task speed is calculated from the total task distance and the unpowered flight time, which may be adjusted as described above.
 
-The third section will show the flown task, only way-points which you have reached are taken into account. A way-point is reached, if one logged data point is closer to the way-point as the cylinder radius (or 3km if only FAI sectors are chosen). The time of reaching the way-point is taken from the first point inside the way-point radius.
-For exact analysis of speed you should use the F5, F6, F6 measuring function.
+The third section will show the flown task, only way-points which you have reached are taken into account. A way-point is reached, if one logged data point is closer to the way-point as the cylinder radius (or 3~km if only FAI sectors are chosen). The time of reaching the way-point is taken from the first point inside the way-point radius.
+For exact analysis of speed you should use the \keys{F5}, \keys{F6}, \keys{F7} measuring function.
 For each leg of the task the distance, speed, altitude gain/loss and the glide ratio (calculated from distance wp1-wp2 and altitude gain/loss) is displayed.
 
 
@@ -82,9 +82,9 @@ For each leg of the task the distance, speed, altitude gain/loss and the glide r
 The usage of maps needs internet (if new maptiles have to be downloaded).
 Changing the zoom or positions, will trigger automatic download of map-tiles, the window will be busy for a few seconds.
 
-The display of maps can be activated or deactivated by key `\texttt{M}'.
+The display of maps can be activated or deactivated by key \keys{M}.
 The status lines at the top of the window will show the zoom-level and the number of tiles used.
-If you want to change the zoom-level you can use the keys "$+$" and "$-$".
+If you want to change the zoom-level you can use the keys \keys{{+}} and \keys{--}.
 Changing the zoom-status will sometimes change the map-zoomlevel. This is needed to prevent
 the use of too many tiles, or too large scaling of tiles.
 The behaviour of this can be changed with two config-keys:
@@ -93,19 +93,19 @@ and \texttt{map\_max\_scalesize}, although not recommended.
 
 The default map zoom-level is set by \texttt{maps\_zoomlevel} (recommended: 8).
 
-Downloaded map tiles are stored in \texttt{.gpligc/maps}. Pressing the hash-key `\texttt{\#}' re-downloads the displayed map tiles.
+Downloaded map tiles are stored in \texttt{.gpligc/maps}. Pressing the hash-key \keys{\#} re-downloads the displayed map tiles.
 
 
 \subsubsection{Postscript output}
-output of flightviewWindow to postscript is possible by pressing `\texttt{o}' (flight-track)
-or `\texttt{i}' (barogram)
+Output of flightviewWindow to postscript is possible by pressing \keys{o} (flight-track)
+or \keys{i} (barogram)
 
 \subsubsection{Resizing the window}
-After resizing the window you need to press `\texttt{y}' to redraw the content (so far I couldn't find a suitable callback function in Perl/Tk).
+After resizing the window you need to press \keys{y} to redraw the content (so far I couldn't find a suitable callback function in Perl/Tk).
 
 
 \subsubsection{Statistics (thermals/glide)}
-Thermal statistic (F8) will open two windows. One with some statistics and a
+Thermal statistic (\keys{F8}) will open two windows. One with some statistics and a
 second one with a list of thermals (double click on a list-entry will jump
 to that thermal in flight-view-window)
 Glide statistics (F9) will open two windows. One with some statistics and a
@@ -113,23 +113,22 @@ second one with a list of glide-distances (double-click will jump to that
 glide-distance)
 
 \subsubsection{Statistics (selected range) and wind analysis}
-(F5, F6, F7) can be used to set a first (F5) and a second (F6) point and
-display some statistics (F7) for the selected range. The selected points will be
+(\keys{F5}, \keys{F6}, \keys{F7}) can be used to set a first (\keys{F5}) and a second (\keys{F6}) point and
+display some statistics (\keys{F7}) for the selected range. The selected points will be
 marked with small green circles and the time-span will be marked in red in the barogram.
 
-To obtain a better view of the selected range press F11. The rest of the track will be omitted, and the
-barogram will be zoomed to the selected range (F11 again will restore the previous view).
+To obtain a better view of the selected range press \keys{F11}. The rest of the track will be omitted, and the
+barogram will be zoomed to the selected range (\keys{F11} again will restore the previous view).
 
 Furthermore, a difference plot of airspeed$-$groundspeed is performed via gnuplot. Even if no airspeed is present
-(then its assumed as 0), information about the wind can be derived. The difference is plotted vs. the heading,
+(then it is assumed as 0), information about the wind can be derived. The difference is plotted vs. the heading,
 so select a range where many different headings are present (e.g. circling). A sinus function is fitted to the plot.
-
 The amplitude of the sine function will give the wind speed, the direction can be read from the position of the maxima (direction of smalles ground speed).
 
 
 
 \subsubsection{Save lifts / points of interest}
-You may save interesting points (extraordinary lifts, wave-entry positions and the like) by pressing F10.
+You may save interesting points (extraordinary lifts, wave-entry positions and the like) by pressing \keys{F10}.
 The actual position including altitude, vertical speed, time etc. is saved to \texttt{filename.lif}.
 This file is being appended, so you have to delete it, in order to start from scratch.
 
@@ -140,7 +139,7 @@ This file can be used in ogie, and will be automatically loaded if ogie is start
 The barometrically recorded altitude is often shifted in respect to the real altitude.
 In the simplest case, this is a constant shift (constant option).
 To correct this, you can select a data point with known altitude
-(e.g. before take-off, known airport elevation) and press `\texttt{e}'.
+(e.g. before take-off, known airport elevation) and press \keys{e}.
 Then, enter the known altitude at this point, and the data will be shifted.
 The barometric option will use a barometric model, the shift will decrease with altitude.
 Chose the model according to your suspected error. Use `constant', if you have a constant systematic error in your altimeter.
@@ -151,21 +150,21 @@ The calibration data is saved withing the additional info (see section~\ref{add_
 
 \subsubsection{QNH and reference pressure calibration}
 If your recorded track has the altitude referenced to MSL, you can enter an QNH (normalised pressure) to benefit from more accurate pressures and Flight Levels.
-(Using key `\texttt{n}', entering only pressure for QNH, leaving 0 for reference pressure).
+(Using key \keys{n}, entering only pressure for QNH, leaving 0 for reference pressure).
 
-If you recorded track is referenced to a known pressure-level (e.g. 1013.25~hPa) you can change the reference to MSL by entering the reference-pressure and the QNH via `\texttt{n}'.
+If you recorded track is referenced to a known pressure-level (e.g. 1013.25~hPa) you can change the reference to MSL by entering the reference-pressure and the QNH via \keys{n}.
 
 
-\subsubsection{View Photos / Multimedia}
-By pressing `\texttt{v}', the closest photo or multimedia file will be displayed, either in
+\subsubsection{View photos / multimedia}
+By pressing \keys{v}, the closest photo or multimedia file will be displayed, either in
 the internal viewer, or in an external one.
 
-To set the viewer the configuration key \texttt{picture\_viewer} can be changed. ``internal''would tell
+To set the viewer the configuration key \texttt{picture\_viewer} can be changed. ``internal'' would tell
 gpligc to use the internal one (only for pictures), every other value will be used as executable. For example you may use
 ``kuickshow'' or ``/path/to/any/strange/picture/Viewer/you/like/view''.
 For other multimedia (audio recordings, movies) the configuration key ``mm\_player'' is used (defaults to mplayer).
 
-To show/hide the files at the track, use key `\texttt{h}' in the flight-view-window to toggle. Pressing `\texttt{m}' will bring up a list of associated files.
+To show/hide the files at the track, use key \keys{h} in the flight-view-window to toggle. Pressing \keys{m} will bring up a list of associated files.
 
 \subsubsection{Photo time calibration and geotagging}
 \label{photo_time}
@@ -173,13 +172,13 @@ Often, the clock of the digital camera (or cell phone) isn't exactly in sync wit
 Therefore, we need to synchronise with the GPS time.
 This can be done, if we have the exact time or position of one photo.
 (I use to take one photograph of my GPS showing the GPS-time [preferrably UTC]).
-The procedure in gpligc: (1) view the photo in question (using key \texttt{v}).
-GPLIGC will remember it. (2) press `\texttt{x}' and enter the exact time (in UTC).
+The procedure in gpligc: (1) view the photo in question (using key \keys{v}).
+GPLIGC will remember it. (2) press \keys{x} and enter the exact time (in UTC).
 The determined shift will then applied to all photographs.
 GPLIGC will write a file (\texttt{.GPLIGC-timeshift}) in the directory of the photos, so that this correction will be remembered.
 To avoid all this the best method would be to have the cameras time in sync with the GPS-time. To make the correction easier it is a good idea to take a photo of your GPS showing the time.
 
-After you have done the calibration you may want to geo-tag your photographs. Pressing \texttt{u} will do the job: The GPS coordinates will be written into the Exif headers of the images.
+After you have done the calibration you may want to geo-tag your photographs. Pressing \keys{u} will do the job: The GPS coordinates will be written into the Exif headers of the images.
 If any GPS tag is found (GPSAltitude, GPSLatitude, GPSLongitude or GPSTimeStamp) the file will not be altered.
 If you want to overwrite existing GPS tags you have to set the configuration key \texttt{geotag\_force\_overwrite} to ``1''.
 
@@ -259,7 +258,7 @@ The option \emph{Open Gnuplot-shell} will open a Gnuplot-shell for each plot, wh
 
 Grid on/off controls the use of grid lines in Gnuplot.
 
-\subparagraph{Draw Options}
+\subparagraph{Draw options}
 Chose between \emph{Lines}, \emph{Dots} and \emph{Linespoints}. These are Gnuplot styles.
 
 
@@ -283,19 +282,19 @@ turn the way-point names in \emph{flight view window} on or off.
 
 
 \paragraph{WP-Plot side-length}
-Selects the plot range for waypoint-plots (in gnuplot: the ranges used in x and y).
+Selects the plot range for waypoint-plots (in gnuplot: the ranges used in $x$ and $y$).
 This also affects the size of the view in flight-view-window (if zoomed).
-Options are 1,3,5 oder 10km. (In the flight-view-window the side length
+Options are 1, 3, 5 oder 10km. (In the flight-view-window the side length
 is used in y-direction (latitude), the x-direction is scaled automatically to
 prevent distortion).
-If you use "Set range" (key r) in the \emph{flight view window}, this value will be used to set the
+If you use "Set range" (\keys{r}) in the \emph{flight view window}, this value will be used to set the
 Gnuplot plotting ranges.
 
-\paragraph{Set Noise Level Limit}
+\paragraph{Set noise level limit}
 All recorded position fixes with a noise level above that limit will be
 plotted in green (in flight-view-window).
 
-\paragraph{Coordinate Format}
+\paragraph{Coordinate format}
 Here you can select the display format for the coordinates.
 
 \paragraph{Speed, vertical speed, altitude and distance units}
@@ -321,7 +320,7 @@ This will reread the \texttt{.gpligcrc} configuration file.
 This option allows you to change some configuration setting with an text editor while gpligc is running.
 
 
-\subsubsection{Plots-2D, Plots-3D}
+\subsubsection{Plots-2D, plots-3D}
 This options will produce plots using Gnuplot.
 Diagrams of the flight data will be written to 'term' (selected under "Set term").
 Directly to X11 or after "Save-File-Dialog" to a file.
@@ -348,7 +347,7 @@ Useful to archive additional information on the flight.
 \paragraph{Flight statistics}
 Time of launch, landing, and flight will be available.
 The time of the begin and end of unpowered flight is shown also.
-The unpowered flight can be defined in flight-view-window with the keys \texttt{s} and \texttt{f}, or will be determined automatically (this may fail in some cases).
+The unpowered flight can be defined in flight-view-window with the keys \keys{s} and \keys{f}, or will be determined automatically (this may fail in some cases).
 
 This section also shows calculations on the amount of oxygen, which should have been used according to \texttt{FAR 91.211}.
 FAA requires 1l/min per 10.000ft (using a regular cannula or mask). Up to FL180 Oxymizer cannulas may be used (they use 1/3 of the oxygen, values given in brackets).
@@ -453,15 +452,6 @@ For details on ogie read section~\ref{ogie}
 %% MENU
 \subsubsection{About/Info}
 Copyright information and a link to the gpligc/ogie web-site
-
-
-
-
-
-
-
-
-
 
 
 
