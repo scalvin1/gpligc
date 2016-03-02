@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 # $Id: gpsp2igcfile.pl 3 2014-07-31 09:59:20Z kruegerh $
-# (c) 2002-2013 Hannes Krueger
+# (c) 2002-2016 Hannes Krueger
 # This file is part of the GPLIGC/ogie package
 #
 # This program is free software: you can redistribute it and/or modify

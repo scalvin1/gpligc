@@ -1,6 +1,6 @@
 # configure.ac for the gpligc/ogie project
 
-AC_INIT([gpligc], [1.10pre12])
+AC_INIT([gpligc], [1.10])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CONFIG_HEADERS([config.h])
 
