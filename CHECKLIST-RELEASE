@@ -5,6 +5,8 @@ check
  - ChangeLog
  - README win/README_windows.txt
  - pdfdoc (requirements, etc)
+ - (all new options/keys/etc in Manual? cmp ChangeLog<->Manual)
+ - links in Manual
 
 
 Version numbers
@@ -33,10 +35,11 @@ TEST the release tarball
 clean-up: (this should clean up everything down to the tracked files)
 => sh cleaner.sh
 
+
 WINDOWS:
 cygwin:
   git pull
   autoreconf -iv
   in pdfdoc sh copyfrompc12
 mingw:
-  in win: VERSION=xx.y-win32  makedist
+  in win VERSION=xx.y-win32  makedist

@@ -9,12 +9,11 @@
 \texttt{ogie --help} \\
 Commandline arguments override configuration file settings, which override
 compiled-in-defaults. For most options there is an option to turn the feature on, and another option to turn it off, so you are able to override all
-possible configuration file settings. But most of the features can be changed at runtime too.
-
+possible configuration file settings. 
 Many of the options can be changed at runtime via keyboard input or menus, but some are \emph{start-time-options}, which can be activated or set at the time the program is started, only.
 These are marked (ST).
 
-Options marked as \emph{default} are active by default (compiled in). This may be overridden by the configuration-file.
+Options marked as \emph{default} are active by default (compiled in). This may be overridden by the configuration-file, or commandline switches.
 
 Some of the commandline-switches (or commandline-options) require  additional parameters (\texttt{INT, FLOAT, FILE} or \texttt{STRING}), the meaning of these can be read in section \ref{config}.
 
@@ -54,10 +53,10 @@ Try to connect to local gpsd, retrieve position data, and start in live-mode (ST
 Ogie has to be compiled with gpsd support (See section \ref{unix_install}).
 
 \item \texttt{--gpsd-server=STRING} \\
-network address of gpsd server
+network address of gpsd server (ST)
 
 \item \texttt{--gpsd-port=INT} \\
-port number of gpsd server
+port number of gpsd server (ST)
 
 
 \item \texttt{-g, --gpsalt} \\
