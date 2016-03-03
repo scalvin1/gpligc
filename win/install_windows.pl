@@ -94,7 +94,7 @@ print "\nYour operating system is: \"$osname\"  \"$edition\" \n";
 @registry_OSlist = qw(WinNT Win2000 Win2003 WinHomeSrv WinXP WinVista Win2008 Win7 Win8);
 
 # untested, will try to use registy anyway
-@untested_OSlist = qw(Win2003 WinHomeSrv Win2008);
+@untested_OSlist = qw(Win2003 WinHomeSrv Win2008 Win10);
 
 foreach (@autoexec_OSlist) {
     if ($osname =~ /$_/i) {
