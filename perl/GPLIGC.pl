@@ -303,8 +303,6 @@ $SIG{'TERM'} = \&gpligcexit;
 
 require GPLIGCfunctions;
 
-#$text .= "\n$cvsversion\n".GPLIGCfunctions::cvsversion()."\n";
-
 if ($^O eq "MSWin32") {
     my ($osname, $edition) = Win32::GetOSName();
     $text .= "Windows version: $osname - $edition\n";

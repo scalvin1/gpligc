@@ -2,7 +2,7 @@ ChangeLog of the gpligc & ogie project
 
 ********************************************************************************
 
- Version 1.10  x/201y
+ Version 1.10  03/2016
 
 + license changed to GPLv3
 + package migrated to autotools (./configure && make && make install)
@@ -24,7 +24,7 @@ GPLIGC
 + startup / introtext (info, if no file opened)
 + check_config repaired
 + gnuplot terminal modes updated / checked (qt/x11) added
-+ adapted to perl 5.16 (deprecated defined (@array) warnings removed)
++ adapted to perl >5.16 (deprecated defined (@array) warnings removed)
 + memory leak in accuracy plotting removed
 + display of "start" and "finish" in barogram fixed
 + task waypoints with coordinates 0.0N/0.0E/W will be ignored
@@ -40,7 +40,7 @@ ogie
 
 docs
 + new installation procedure
-+ manual updated ... not yet finished
++ manual updated
 
 VCS
 + moved to git (last CVS tag: last-CVS-before-svn)
