@@ -2022,7 +2022,7 @@ sub FSupdate {
     $fstattext .= sprintf("Oxygen totals:\nRecommended: %.1f l (%.1f l)\n",$rec,$rec_oxy);
     $fstattext .= sprintf ("FAA: %.1f l (%.1f l)\n",$faa,$faa_oxy);
 
-    $fstattext.="----------\n";
+    $fstattext.="-----\n"; #5
 
     # sum all legs (plain task)
     my $entf=0;
@@ -2051,7 +2051,7 @@ sub FSupdate {
 
     if ($dec_task_time != 0) { $task_speed= $entf / $dec_task_time ;} else { $task_speed = "42";} #this is an egg :)
 
-    $fstattext.= "--------\n";
+    $fstattext.= "-----\n"; #5
 
     # calculate partial distances
     my @anteil=();
@@ -2065,8 +2065,6 @@ sub FSupdate {
         $anteil[$zaehl] = sprintf ("%5.2f",$anteil[$zaehl]);
         my $p_entf=sprintf ("%6.2f",$entf[$zaehl]*$config{'distance_unit_factor'});
         $fstattext.="$anteil[$zaehl] % $p_entf $config{'distance_unit_name'} $WPNAME[$zaehl] -> $WPNAME[$zaehl+1]\n";
-
-#$entf[$zaehl]=GPLIGCfunctions::dist($WPLAT[$zaehl],$WPLON[$zaehl],$WPLAT[$zaehl+1],$WPLON[$zaehl+1]);
     }
 
     my $print_entf=sprintf("%.4f", $entf*$config{'distance_unit_factor'});
@@ -2103,7 +2101,7 @@ sub FSupdate {
         # triangular task
         if (  (($z == 4) && ($WPNAME[1] eq $WPNAME[5])) || (($z == 4) &&  (GPLIGCfunctions::dist($WPLAT[1],$WPLON[1],$WPLAT[5],$WPLON[5]) <= 0.2 * $entf) ) ) {
 
-            $fstattext.="\n--------\nTriangular task (start and finish on leg)\n";
+            $fstattext.="\n-----\nTriangular task (start and finish on leg)\n";
 
             my $print_close = (GPLIGCfunctions::dist($WPLAT[1],$WPLON[1],$WPLAT[5],$WPLON[5])/$entf)*100;
             $print_close = sprintf("%.1f",$print_close);
@@ -2124,7 +2122,6 @@ sub FSupdate {
 
                 $fstattext.="$anteil[$zaehl-1] % $p_entf $config{'distance_unit_name'} $WPNAME[$zaehl] -> $WPNAME[$zaehl+1]\n";
 
-#$entf[$zaehl]=GPLIGCfunctions::dist($WPLAT[$zaehl],$WPLON[$zaehl],$WPLAT[$zaehl+1],$WPLON[$zaehl+1]);
             }
 
             $anteil[3] = ($entf[3]/$entf)*100 if $entf != 0;
@@ -2176,8 +2173,7 @@ sub FSupdate {
         $fstattext.="\n";
     }
 
-    # This is the new (040427) flown task statistic
-    $fstattext.="----------\n\nFlown task:\n";
+    $fstattext.="-----\nFlown task:\n";
     my ($wpinxref, $wpnameref) = getWPreachedIndices();
 
     for (my $idx=0; $idx < $#{$wpinxref}; $idx++) {
