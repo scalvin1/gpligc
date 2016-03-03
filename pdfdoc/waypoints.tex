@@ -19,7 +19,7 @@ You'll find a gpsbabel-style (\texttt{gpligcwpt.gpsbabelstyle}) file in the PREF
 Here is an example how to convert a cambridge waypoint file to the needed format:\\
 
 \texttt{gpsbabel -i cambridge -f cambridgefile  -o xcsv,style=gpligcwpt.gpsbabelstyle -F mywpts.gwpt}\\
-The important part is the output format option ``xcsv,style='' using the provided style file.\\
+The important part is the output format option `xcsv,style=' using the provided style file.\\
 However, \emph{gpsbabel} is cool, you should have a look at it anyway.
 You can even download your waypoints from a Garmin device like this:\\
 \texttt{gpsbabel -i garmin -f /dev/ttyS1 -o xcvs,style=gpligcwpt.gpsbabelstyle -F outfile.gwpt}

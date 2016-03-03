@@ -1,12 +1,9 @@
-%$Id: explorer.tex 3 2014-07-31 09:59:20Z kruegerh $
-%;;; Local IspellDict: "british"
-
 
 \section{OGIE}
 \label{ogie}
 
 \subsection{Get started}
-To start \emph{OGIE} press the "OGIE -- 3d" button in \emph{GPLIGC},
+To start \emph{OGIE} select \menu{Tools>OGIE -- 3d} in \emph{GPLIGC},
 or type \texttt{ogie igcfile.igc}
 at the command line.% (xterm, console):\\% or MS-DOS prompt): \\
 
@@ -123,7 +120,7 @@ Yes, the spelling of \emph{colour} in all parameters and cmdline options is \emp
 \paragraph{Optimising colourmaps}
 By default the colourmaps scale their colour-ranges from minimum to NN,
 and from NN to maximum elevation (of displayed terrain).
-If you want some more "aggressive" colourscaling you can
+If you want some more aggressive colourscaling you can
 specify the minimum and maximum by giving \texttt{--colormap-min m} and \texttt{--colormap-max m}
 Arguments are heights in Meters.
 If the sealevel is outside the range (min, max) only one of the colourmaps will
@@ -147,11 +144,11 @@ surface at an elevation of n meters.
 
 \subsection{Maps}
 If you have defined map-sets (as described in \ref{maps}) and turn them on,
-(\texttt{--map} or \texttt{MAP true}, by menu or pressing "b") then only the terrain covered by the
+(\texttt{--map} or \texttt{MAP true}, by menu (\menu{Maps on/off}) or pressing \keys{b}) then only the terrain covered by the
 defined maps will be displayed. If you're using an elevation model as well, the
 maps will be put on the surface (if the terrain-mode is active: \texttt{--landscape},
-\texttt{LANDSCAPE true}, or activated by menu or pressing "l").
-The modulation mode (or coloured map mode) can modulate the the maps with colourscaling (on/off F8, "coloured maps" from menu. Another way would be to put \texttt{MODULATE on} in the configuration file).
+\texttt{LANDSCAPE true}, or activated by \menu{Terrain on/off} or pressing \keys{l}).
+The modulation mode (or coloured map mode) can modulate the maps with colourscaling (on/off \keys{F8}, or \menu{Colored maps on/off} from menu. Another way would be to put \texttt{MODULATE on} in the configuration file).
 
 \input{maps.tex}
 
@@ -322,7 +319,7 @@ If it is too fast, you can define a \texttt{MOVIE\_REPEAT\_FACTOR int}, which wi
 \emph{deprecated slow-down method} \\
 A default delay can be set in the configurationfile:
 \texttt{MOVIE\_TIMER} the argument is in milliseconds. (compiled-in default is 1 msec).
-This introduces a ``sleep'' command, which reduces the responsiveness of the program. Not recommended.
+This introduces a `sleep' command, which reduces the responsiveness of the program. Not recommended.
 
 %%% Local Variables:
 %%% mode: latex

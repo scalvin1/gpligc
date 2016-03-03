@@ -31,7 +31,7 @@ The displayed data is based on the barometric altitude.
 In the case, that the igc-file does not contain any barometric altitude,
 gpligc will switch to GPS-altitude.
 A message will inform you about this, and
-the information ``GPS-Altitude modus'' is displayed.
+the information `GPS-Altitude modus' is displayed.
 
 \textbf{Attention!} Some of the key-shortcuts are case-sensitive!
 
@@ -159,10 +159,10 @@ If you recorded track is referenced to a known pressure-level (e.g. 1013.25~hPa)
 By pressing \keys{v}, the closest photo or multimedia file will be displayed, either in
 the internal viewer, or in an external one.
 
-To set the viewer the configuration key \texttt{picture\_viewer} can be changed. ``internal'' would tell
+To set the viewer the configuration key \texttt{picture\_viewer} can be changed. `internal' would tell
 gpligc to use the internal one (only for pictures), every other value will be used as executable. For example you may use
-``kuickshow'' or ``/path/to/any/strange/picture/Viewer/you/like/view''.
-For other multimedia (audio recordings, movies) the configuration key ``mm\_player'' is used (defaults to mplayer).
+`kuickshow' or `/usr/local/bin/whatever-viewer'.
+For other multimedia (audio recordings, movies) the configuration key \texttt{mm\_player} is used (defaults to mplayer).
 
 To show/hide the files at the track, use key \keys{h} in the flight-view-window to toggle. Pressing \keys{m} will bring up a list of associated files.
 
@@ -180,7 +180,7 @@ To avoid all this the best method would be to have the cameras time in sync with
 
 After you have done the calibration you may want to geo-tag your photographs. Pressing \keys{u} will do the job: The GPS coordinates will be written into the Exif headers of the images.
 If any GPS tag is found (GPSAltitude, GPSLatitude, GPSLongitude or GPSTimeStamp) the file will not be altered.
-If you want to overwrite existing GPS tags you have to set the configuration key \texttt{geotag\_force\_overwrite} to ``1''.
+If you want to overwrite existing GPS tags you have to set the configuration key \texttt{geotag\_force\_overwrite} to `1'.
 
 
 \textbf{Important!}  IGC files use UTC. Your camera probably uses local time. Therefore, gpligc has to know about your local time. The offset should be set in \texttt{.gpligcrc} (key "timezone"). The timezone offset can be set independently for each IGC-file using the \emph{additional flight info dialog} (see section~\ref{add_info}).
