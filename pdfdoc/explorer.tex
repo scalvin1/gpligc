@@ -71,7 +71,7 @@ To use this mode \emph{ogie} has to be build with gpsd support.
 
 \paragraph{Example}
 I have my Germin Geko301 (serial) with an serial-to-usb adapter conntected to my laptop. The Geko is set to NMEA-mode. From my \texttt{messages} I know, that the serial-to-usb adapter is at \texttt{/dev/ttyUSB2}. Gpsd is easy to invoke \texttt{sudo /usr/sbin/gpsd /dev/ttyUSB2}.
-Now, \texttt{ogie --gpsd} starts the fun!
+Now, \texttt{ogie --gpsd} starts ogie in GPS live mode.
 
 \input{waypoints.tex}
 
@@ -235,7 +235,7 @@ Commandlineswitch \texttt{--offscreen} is needed and
 a filename for the output can be given by \texttt{--os-outfile filename}
 
 \paragraph{Mesa offscreen (osmesa)}
-\emph{This doesn't work with the precompiled binaries! Special compilation is needed}
+%\emph{This doesn't work with the precompiled binaries. Special compilation is needed}
 Commandlineswitch \texttt{--os-mesa} is needed and
 a filename for the output can be given by \texttt{--os-outfile filename}
 In this mode the rendering is done with the mesa library, but it is hardware independent, no X-Server and no graphics hardware is needed.

@@ -11,25 +11,25 @@ I won this day 0.1~km/h faster than the second pilot in the 15~m FAI class. The 
 You can download the igc file of this flight from the GPLIGC web site (download/examples), to practice using GPLIGC.
 
 \subsubsection{General information, altitude calibration}
-Right after opening the igc file in GPLIGC, we will see a lot of confusing waypoints (fig.~\ref{flightview}).
-What has gone wrong can be seen in the flight information window (fig.~\ref{flightinfo}).
+Right after opening the igc file in GPLIGC, we will see a lot of confusing waypoints (Fig.~\ref{flightview}).
+What has gone wrong can be seen in the flight information window (Fig.~\ref{flightinfo}).
 The flight information window shows all the header lines which are contained in the igc file.
 We can check all available information about pilot, plane and logger here.
 We also can see, that two tasks are defined, the one from the previous competition days is still present in the file.
-We will open the task editor window (fig.~\ref{taskeditor}) and delete all waypoints from the previous days task.
+We will open the task editor window (Fig.~\ref{taskeditor}) and delete all waypoints from the previous days task.
 The remaining task should look like \texttt{AP 3 TUTTLING - KIRNBERGSEE - FREUDENSTADT - HOHENZOLLERN - HARBURG - ZL 2 KLIPPENE}.
-The flight view window will show the task like this (fig.~\ref{flightview2}).
+The task will be shown like this (Fig.~\ref{flightview2}).
 The altitude measurement of the logger uses a fixed reference pressure.
 To get valid MSL altitudes we have to calibrate the data.
 As we know the elevation of Klippeneck airfield (970~m MSL) we can do this easily.
-We have to find a logged position (by left-clicking in the flight view windows barogram strip or using \keys{F1}--\keys{F4} to move the cursor),
+We have to find a logged position (by left-clicking in the barogram strip or using \keys{F1}--\keys{F4} to move the cursor),
 where the plane was on the airfield, right before take-off. Logged altitude is about 920~m.
 Then we have to press \keys{e} and enter the real altitude of this position (970~m).
 Now the calibration has been done.
 
 \subsubsection{Starting and finishing time, overall task speed, task distance}
 To determine the overall task speed we have to define the time of crossing the starting line as well as the time of reaching the finishing line.
-To do this we will zoom (drag a zooming box using the right mouse button) into the starting point/line (fig.~\ref{start}).
+To do this we will zoom (drag a zooming box using the right mouse button) into the starting point/line (Fig.~\ref{start}).
 We have to find the last position before the plane crossed the starting line.
 We will find this at 11:02:03 UTC. To define this as starting point we press \keys{s} with the cursor marking this position.
 The starting position will be marked with a black circle after this procedure.
@@ -37,10 +37,10 @@ The altitude of the plane while crossing the starting line was 1930~m which is b
 but luckily I did not get any penalty points for that.
 
 Now, we zoom out (pressing \keys{z}) and then in again (dragging a box with right mouse button) to magnify the area at the finish.
-We will find the first point after crossing the finishing line at 15:47:16 (fig.~\ref{finish}) and mark it with \keys{f}.
+We will find the first point after crossing the finishing line at 15:47:16 (Fig.~\ref{finish}) and mark it with \keys{f}.
 A black circle is shown here also.
 
-After defining the start and finish times we can open the flight statistics window (fig.~\ref{flightstatistic}).
+After defining the start and finish times we can open the flight statistics window (Fig.~\ref{flightstatistic}).
 The first part shows information on the flight (take-off and landing time,
 total time of flight) and also the defined task start and finishing times and total time of task.
 The second part of the window gives information of the task, as defined in the task editor.
@@ -51,7 +51,7 @@ The first point, which is closer than 3~km is used for this statistics.
 For each leg of the task some information are given. For exact analysis of speeds for some legs you should use the \keys{F5}, \keys{F6}, \keys{F7} statistics (see \ref{f5f6f7}).
 
 \subsubsection{Thermal and glide statistics}
-Pressing \keys{F8} or \keys{F9} in the flight view window will open a list of thermals (fig.~\ref{thermals}) or a list of glide distances (fig.~\ref{glide}).
+Pressing \keys{F8} or \keys{F9} will open a list of thermals (Fig.~\ref{thermals}) or a list of glide distances (Fig.~\ref{glide}).
 Additional to each list another small statistics window is opened. The lists and statistics will be evaluated between the set start and finish time.
 The thermal statistic points out, that we gained 8272~m of altitude while circling in 25 thermals. The best one had a lift of 3.44~m/s, the worst 0.67~m/s.
 The average lift was 1.64~m/s (this is calculated from total altitude climbed and total time spend circling).
@@ -61,7 +61,7 @@ This way we can find out, that the most altitude (616~m) was gained at a lift of
 In this uplift I was circling 11 times to the right which needs 6 minutes.
 
 The list with gliding distances shows, that the longest gliding distance was the final glide of 33~km.
-It took me 12 minutes with an average descending speed of 1.95m/s. The average speed was 165~km/h, the average heading was 245$^\circ$.
+It took me 12 minutes with an average descending speed of 1.95~m/s. The average speed was 165~km/h, the average heading was 245$^\circ$.
 Average L/D ratio is calculated to 24. Another very nice glide can be found at 12:01:59.
 It only needs 5.5 minutes at 159~km/h to fly 14.6~km with an average L/D ratio of 88.
 The small glide statistics window provides some sums of the gliding list.
@@ -84,22 +84,8 @@ point (pressing \keys{s}) to the release from tow, and the finish time (pressing
 I found 10:15:07 for release and 15:47:43 for landing. Now we can start the optimisation from the task editor.
 The optimisation will find the best olc-task between the release and the landing time. It's 438.14~km.
 
-% not valid anymore
-%After selecting olc flight claim from task editor window, we have to fill in some details. Also we can chose to use the GPLIGC optimised task, or to let the optimisation up to the olc-server. Subsequently GPLIGC will point us to the olc-website, where we could finish the flight claim.
-
-
-% old!
-% \begin{figure}[h]
-% \caption{\label{main}The GPLIGC main window}
-% \begin{center}
-% \includegraphics[width=\textwidth]{png/gpligc-main}
-% \end{center}
-% \end{figure}
-
-
-
 \begin{figure}[h]
-\caption{\label{flightview}The GPLIGC flight view window showing a flight with two tasks}
+\caption{\label{flightview}The GPLIGC window showing a flight with two tasks}
 \begin{center}
 \includegraphics[width=\textwidth]{png/flightview-1}
 \end{center}
@@ -112,7 +98,6 @@ The optimisation will find the best olc-task between the release and the landing
 \end{center}
 \end{figure}
 
-
 \begin{figure}[h]
 \caption{\label{taskeditor}The GPLIGC task editor window}
 \begin{center}
@@ -121,7 +106,7 @@ The optimisation will find the best olc-task between the release and the landing
 \end{figure}
 
 \begin{figure}[h]
-\caption{\label{flightview2}The GPLIGC flight view window, with the valid task}
+\caption{\label{flightview2}The GPLIGC window, with the valid task}
 \begin{center}
 \includegraphics[width=\textwidth]{png/flightview-2}
 \end{center}
@@ -164,13 +149,10 @@ The optimisation will find the best olc-task between the release and the landing
 \end{center}
 \end{figure}
 
-
 \clearpage
 
-
 \subsection{Innsbruck F\"ohn flight 2009-04-16-GAR-000-02.igc}
-
-This nice example of a classical Innsbruck F\"ohn flight was done with our club DuoDiscus T in april 2009.
+This nice example of a classical Innsbruck F\"ohn flight was done with our club DuoDiscus T in April 2009.
 
 \subsubsection{Flight Information (additional)}
 This tool allows us to enter/update some additional information. The date is shown correct, but the pilots name is missing.
@@ -178,13 +160,13 @@ Plane and callsign can be entered too, the QHN can be set to 1006 (if I remember
 
 \subsubsection{Calibration of the altitude}
 The track was recorded with a Garmin Geko 301.
-Using the Flight View Window (fvw) the cursor can be set some point right before the take-off (e.g. 13:35).
+The cursor can be set at some point right before the take-off (e.g. 13:35).
 As can be seen here, the recorded altitude is quite close to 580~m (which is the elevation of Innsbruck airport). The Geko's
 auto calibration function did a good job (it corrects the reference pressure with averaged GPS altitudes).
 Subsequently, the right elevation of Innsbruck LOWI (580~m) can be entered by pressing \keys{e}. If the \emph{save} button of the additional flight information tool is used, the calibration is saved and will be available later (after opening this file again). In this case the calibration is not really needed, since the offset is ca. three or four meters, only.
 
 \subsubsection{Winch}
-Using the fvw and the cursor (move with \keys{F1}--\keys{F4} or with the mouse), the winch take-off can be found between 13:35:26 and 13:36:05. To analyse the winch launch mark the first point with \keys{F5}, the second with \keys{F6}. Statistics is then calculated with \keys{F7}.
+Using the cursor (move with \keys{F1}--\keys{F4} or with the mouse), the winch take-off can be found between 13:35:26 and 13:36:05. To analyse the winch launch mark the first point with \keys{F5}, the second with \keys{F6}. Statistics is then calculated with \keys{F7}.
 The launch took 42 seconds, the gain in altitude was 343~m with an average climbing rate of 8.2~m/s. The heading was 81$^\circ$, which is in good agreement with the runway 08. The speed of 91~km/h looks too small for a DuoDiscus, but the value reflects the projected groundspeed, not the airspeed. Change in altitude and the wind is not taken into account.
 
 \subsubsection{Ridge soaring}
@@ -193,7 +175,7 @@ The lift at the ridge was entered at 13:36:38 and until 13:43:35 (within 7~min) 
 \subsubsection{Wave}
 The first climb in the wave was found (after ATC clearence) at 13:56:20. In the following 10~min, ca.~1700m with an average of 2.8~m/s were climbed to the maximum of the ATC clearence. Subsequently airbrakes had to be used to limit the altitude.
 As you can see in the barogram I really enjoyed beeing on top (for more than one hour). A feet heating device helped to stay warm at about -20$^\circ$C, and of course oxygen was used. Figure~\ref{foehngap} shows the view to the wave clouds and the typical foehn gap above the Inn valley.
-The pictures are not included in the example, but the photo-locator option would look like Fig.~\ref{pic88}, showing the positions of the pictures. Btw. Fig.~\ref{pic88} was created using the postscript output from fvw via the keys \keys{o} and \keys{i}.
+The pictures are not included in the example, but the photo-locator option would look like Fig.~\ref{pic88}, showing the positions of the pictures. Btw. Fig.~\ref{pic88} was created using the postscript output via the keys \keys{o} and \keys{i}.
 
 \begin{figure}[h]
 \caption{\label{foehngap}Foehn gap and massive wave clouds above the Inn valley. The picture was taken in ca.~5000~m, the top of the Ac Len is probably higher than FL200.}
@@ -214,7 +196,7 @@ The pictures are not included in the example, but the photo-locator option would
 
 \subsubsection{Analysis of wind}
 To analyse the wind, which causes such nice lifts, we have to select parts of the track including many different directions flown. Circling works very well, but some figure-of-eight turns can be used too.
-13:36:29--13:39:35 corresponds to the first lift at the ridge up to ca.~1500m. Selecting this range (\keys{F5}/\keys{F6}) and pressing \keys{F7} will analyse the wind. The opened gnuplot window, shows how the groundspeed depends on the heading (if airspeed is recorded -- as e.g. in some Zander loggers -- the difference groundspeed-airspeed is used). A sinus function is fitted to the data, which gives the direction and speed of the wind. In this case its ca.~40km/h from 137$^\circ$. The direction is typical for this part of the Inn valley in foehn situations.
+13:36:29--13:39:35 corresponds to the first lift at the ridge up to ca.~1500~m. Selecting this range (\keys{F5}/\keys{F6}) and pressing \keys{F7} will analyse the wind. The opened gnuplot window, shows how the groundspeed depends on the heading (if airspeed is recorded -- as e.g. in some Zander loggers -- the difference groundspeed-airspeed is used). A sinus function is fitted to the data, which gives the direction and speed of the wind. In this case its ca.~40km/h from 137$^\circ$. The direction is typical for this part of the Inn valley in foehn situations.
 
 Another interesting part is from 14:06:29 to 14:18:53, which includes some circles and figure-of-eight turns in the wave just north of Nockspitze and Axamer Lizum. The analysis shows a wind from 190$^\circ$ with 50~km/h only, which is surprisingly low for such a strong wave.
 The wave north of the Glungezer (14:25:14--14:56:32) shows a bit higher wind speed of 60~km/h and ca.~200$^\circ$.

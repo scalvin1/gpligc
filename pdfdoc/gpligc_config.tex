@@ -1,7 +1,7 @@
 \section{The .gpligcrc / gpligc.ini configuration file}
 \label{gpligcrc}
 The \emph{GPLIGC} configuration file.
-The keys and values in this configurationfile are \emph{case-sensitive!}.
+The keys and values in this configurationfile are \emph{case-sensitive}.
 
 The following list contains the config-keywords with default values and (for some)
 a short description including valid alternative values.
@@ -17,7 +17,7 @@ a short description including valid alternative values.
 \item \texttt{altitude\_unit\_factor    "1"}
 \item \texttt{altitude\_unit\_name    "m"}
 \item \texttt{baro\_grid\_large    "1000"} \\
- This changes the spacings of the gridlines in the barograph in the flight-view-window
+ This changes the spacings of the gridlines.
 \item \texttt{baro\_grid\_small    "500"}
 \item \texttt{baro\_histo\_intervall    "50"}\\
     Interval for the altitude histograms in m
@@ -28,15 +28,15 @@ a short description including valid alternative values.
 \item \texttt{distance\_unit\_factor    "1"}
 \item \texttt{distance\_unit\_name    "km"}
 \item \texttt{draw\_task "1"} \\
-defines, whether the task is drawn by default in flight-view-window (1) or not (0)
+defines, whether the task is drawn by default (1) or not (0)
 \item \texttt{draw\_wpcyl "1"}\\
-defines, whether waypoint cylinders/sectors are drawn by default in flight-view-window (1) or not (0)
+defines, whether waypoint cylinders/sectors are drawn by default (1) or not (0)
 \item \texttt{fvw\_grid    "yes"}
 
 \item \texttt{fvw\_baro\_grid    "yes"}
 
 \item \texttt{fvw\_baro\_fraction "3"}\\
-This determines, how large the barogramm area is compared to the track area (in fvw).
+This determines, how large the barogramm area is compared to the track area.
 3 would result in 1/3. (the larger the number, the smaller the barogramm). Allowed values 1.1--10.
 Given number does not need to be an integer.
 
@@ -45,7 +45,7 @@ this command is used to download tracks from a GPS device.
 
 \item \texttt{geotag\_force\_overwrite    "0"} \\
   by default (value 0) GPS tags in the exifdata are not overwritten. If set to 1, the geotag feature will
-overwrite existing GPS tags in images (without further notice!).
+overwrite existing GPS tags in images (without further notice).
 
 \item \texttt{gnuplot\_4\_terminal    "0"} \\
  In case of "1" an additional gnuplot shell will be started for each gnu-plot
@@ -145,7 +145,7 @@ Offset to local timezone (e.g. timezone used in your camera) . Used for the phot
 \item \texttt{vertical\_speed\_unit\_name    "m/s"}
 
 \item \texttt{viewclick\_res "1"}\\
-	If you experience serious delays in moving the crossmarks in the fvw by clicking close to the track, you may increase this number to a larger integer
+	If you experience serious delays in moving the crossmarks by clicking close to the track, you may increase this number to a larger integer
 
 \item \texttt{waypoint\_linewidth    "3"}
 \item \texttt{wind\_analysis "1"} \\
