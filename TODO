@@ -1,3 +1,4 @@
 red and green box in debugging mode not updated properly when resizing.
 
-waypoints append with "a" behaves strangely
+waypoints append with "a" behaves strangely (wenn keine WPs da sind.
+splice beyond end?)
