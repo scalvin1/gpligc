@@ -1,6 +1,3 @@
-%$Id: maps.tex 3 2014-07-31 09:59:20Z kruegerh $
-%;;; Local IspellDict: "british"
-
 \subsubsection{Setting up digitised maps}
 \label{maps}
 
@@ -41,12 +38,12 @@ You need to have a section (as follows) for \emph{each} map-tile:
 \end{verbatim}
 
 The maps can be grouped in sets. You may want to have a map-set for each airfield you fly from.
-Another way to use this feature would be to spilt large areas into multiple map sets, if you don't have enough video memory to display all maps at the same time.
+Another way to use this feature would be to split large areas into multiple map sets, if you don't have enough video memory to display all maps at the same time.
 
 Exampls: You have 20 sections for 20 map-tiles in your configuration file.
 Now you can put a \texttt{MAP\_CUT} between the first 10 and the second 10
 map-tile sections to split into two map-sets.
-In ogie you can switch between multiple map-sets by using the "c" and "x" keys.
+In ogie you can switch between multiple map-sets by using the \keys{c} and \keys{x} keys.
 You may specify more than two map sets by using multiple \texttt{MAP\_CUT}.
 
 Every map-set can be named with \texttt{MAP\_SET\_NAME name} to select it at startup with \texttt{--map-set-name name}, or by its name from the menu.
@@ -62,10 +59,10 @@ is set to zero or to another value.
 
 
 \paragraph{rgb-format maps}
-This shouldn't be used anymore... except you want to use your old maps,
+This shouldn't be used anymore, except you want to use your old maps,
 or you don't like lossy compression.
 Every map-tile can be in a headerless .rgb (3 byte per pixel) data-format (I
-use Image Magick's "convert" to create that format). The size has to
+use Image Magick's \emph{convert} to create that format). The size has to
 be $2^n$ x $2^n$. That means   you have to scale the image before. Width and height
 should be a power of 2 (pixels).
 Because the rgb-format is headerless it cannot contain the information about the size
@@ -75,9 +72,3 @@ There is a limit for the maximum pixels for each dimension (width and height).
 You can query this limit by executing \texttt{ogie -q}.
 Look for \texttt{GL\_MAX\_TEXTURE\_SIZE} [both values (width and height) have to be less or equal
 to \texttt{GL\_MAX\_TEXTURE\_SIZE}].
-
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "GPLIGC_manual.tex"
-%%% End:

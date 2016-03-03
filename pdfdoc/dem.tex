@@ -1,7 +1,3 @@
-%$Id: dem.tex 3 2014-07-31 09:59:20Z kruegerh $
-%;;; Local IspellDict: "british"
-
-
 \subsection{Digital Elevation Model}
 \label{dem}
 
@@ -11,7 +7,7 @@ GTOPO30, SRTM30 (Plus) and GLOBE have a resolution of 30 arc-seconds, 1km.
 ETOPO2 has a 2-minute grid (4km), but also covers the oceans.
 SRTM-3 is 3 arc-seconds (90m) and SRTM-1 (only available for U.S.) is 1 arc-second (30m).
 
-The "Shuttle Radar Topography Mission" (SRTM) topographic data
+The Shuttle Radar Topography Mission (SRTM) topographic data
 with resolution 1 arc-second (for USA) and 3 arc-second for almost the rest of the world
 is available, but due to the high resolution not very good for regular flight-analysis. (Graphics
 hardware won't handle larger areas).
@@ -33,7 +29,7 @@ Little endian data can be used with the config option: \texttt{BIGENDIAN false}.
 
 \subsubsection{GTOPO30, SRTM30}
 The worldwide GTOPO30 \cite{gtopo30} elevation model is split up in 33 pieces (tiles).
-Get the "tile" you need and put the full path to the *.DEM file into the
+Get the tile you need and put the full path to the *.DEM file into the
 configuration-file (see \ref{demconf}). You also need to set the rows and columns
 and minima and maxima and grid resolution.
 
@@ -42,7 +38,7 @@ get all (33) tiles (about 280~MB compressed) and use the \texttt{createworld}
 tool to generate a \texttt{WORLD.DEM} (single file containing worldwide elevation data, really cool!) file:
 
 \begin{enumerate}
-\item "\texttt{tar xvzf}"  all tiles into one directory (taht will need more than 2 GB).
+\item \texttt{tar xvzf}  all tiles into one directory (taht will need more than 2 GB).
       You only need to extract the *.DEM files from the *.tar.gz archives
       downloaded from GTOPO. Use the following cmdline (in the directory with
       all archives) to extract *.DEM files only: \\
@@ -66,7 +62,7 @@ tiles from GTOPO30, the remaining 27 from SRTM30.
 
 \subsubsection{ETOPO2 (and merging it into the GTOPO30)}
 If you have created a \texttt{WORLD.DEM} (1.8GB) datafile as described above, you can merge it with the bathymetry(sea-depth)-data from etopo20 \cite{etopo2}.
-Get the \texttt{etopo20.i2.gz} file from the web. "Gunzipped" it has 116.672.402 bytes.
+Get the \texttt{etopo20.i2.gz} file from the web. `Gunzipped' it has 116.672.402 bytes.
 Put the \texttt{WORLD.DEM} and the \texttt{etopo2.i2} in the same directory and call (within that directory) \texttt{etopo2merger}, which will merge them into a \texttt{WORLD3.DEM} file.
 Because the ETOPO2 resolution is lower than the resolution from GTOPO30, the additional data-points are obtained by interpolation.
 
@@ -156,9 +152,3 @@ And the resolution (0.00833333 for GTOPO30 and GLOBE)\\
 Divide by 10 for SRTM-3.
 
 For other config-file options see \ref{config}.
-
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "GPLIGC_manual.tex"
-%%% End:

@@ -1,8 +1,3 @@
-%$Id: gpligc.tex 3 2014-07-31 09:59:20Z kruegerh $
-%last spellchecked: 1.21->1.22
-%;;; Local IspellDict: "british"
-
-
 \section{GPLIGC}
 
 \subsection{How to start gpligc}
@@ -62,9 +57,7 @@ Select points by clicking in the barograph or the track, crossmarks will move to
 A list of the most important key-shortcuts can be accessed from the info menu.
 
 \subsubsection{Layout}
-%\red{not yet sure about this, after 2.0?!}
 The layout of the main window can be changed in the following ways:
-%(1) the help screen at the lower part can be disabled, if you don't need it any loger (set \texttt{fvw\_show\_help} "0").
 the ratio of the heights of the track area and the barogramm area can be changed.
 The config-key \texttt{fvw\_baro\_fraction "$n$"}, with $2 \le n \le 10$ sets the height of the barogramm to $\frac{1}{n}$ of the height of the track area.
 
@@ -183,17 +176,17 @@ If any GPS tag is found (GPSAltitude, GPSLatitude, GPSLongitude or GPSTimeStamp)
 If you want to overwrite existing GPS tags you have to set the configuration key \texttt{geotag\_force\_overwrite} to `1'.
 
 
-\textbf{Important!}  IGC files use UTC. Your camera probably uses local time. Therefore, gpligc has to know about your local time. The offset should be set in \texttt{.gpligcrc} (key "timezone"). The timezone offset can be set independently for each IGC-file using the \emph{additional flight info dialog} (see section~\ref{add_info}).
+\textbf{Important!}  IGC files use UTC. Your camera probably uses local time. Therefore, gpligc has to know about your local time. The offset should be set in \texttt{.gpligcrc} (key \texttt{timezone}). The timezone offset can be set independently for each IGC-file using the \emph{additional flight info dialog} (see section~\ref{add_info}).
 Once a calibration has been done, the calibration shift and time-zone offset will be saved in \texttt{.GPLIGC-timeshift} for that specific folder of pictures. In order to override the timezone from \texttt{.gpligcrc} one can create an \texttt{.GPLIGC-timeshift} in the directory with the pictures, containing two lines: line 1 should only contain 0 (thats the timeshift without timezone), line 2 should contain the timezone.
 If your time-zone offset is so large, that the photos cannot be located on your tracklog, you should create \texttt{.GPLIGC-timeshift} file manually, containing a suitable time-zone offset and reload the picture-folder.
 
 
 \subsubsection{Photo locator}
-If the Image::ExifTool module is installed and the configuration key "photos" is active (=1, this is the default),
+If the Image::ExifTool module is installed and the configuration key \texttt{photos} is active (=1, this is the default),
 gpligc can locate pictures and show them next to the track, which allows you to identify the places where these pictures have been taken. Pictures not featuring an Exif header, may be located by the files timestamp, if thats retained.
 When opening a igc file, gpligc will look for JPEG photos in the same directory, if there are none, gpligc will look in the
-"photo\_path" directory (as set in .gpligcrc). The third and best method to tell gpligc where the pictures are, is to use the
-"open photo directory" from the file menu. Just select one of the JPEGS there.
+\texttt{photo\_path} directory (as set in .gpligcrc). The third and best method to tell gpligc where the pictures are, is to use the
+\menu{File>Open photo/multimedia directory}. Just select one of the JPEGS there.
 Since there is no date in igc files, you should point gpligc to photos from the same day. For more details about time-zone, and time offsets see \ref{photo_time}.
 
 
@@ -287,7 +280,7 @@ This also affects the size of the view in flight-view-window (if zoomed).
 Options are 1, 3, 5 oder 10km. (In the flight-view-window the side length
 is used in y-direction (latitude), the x-direction is scaled automatically to
 prevent distortion).
-If you use "Set range" (\keys{r}) in the \emph{flight view window}, this value will be used to set the
+If you use \keys{r} in the \emph{flight view window}, this value will be used to set the
 Gnuplot plotting ranges.
 
 \paragraph{Set noise level limit}
@@ -322,10 +315,10 @@ This option allows you to change some configuration setting with an text editor 
 
 \subsubsection{Plots-2D, plots-3D}
 This options will produce plots using Gnuplot.
-Diagrams of the flight data will be written to 'term' (selected under "Set term").
-Directly to X11 or after "Save-File-Dialog" to a file.
+Diagrams of the flight data will be written to 'term' (selected in \menu{Options>Gnuplot settings>Gnuplot terminal}).
+Directly to X11 or after `save-File-Dialog' to a file.
 
-For changing the appearance of the output change the gnuplot-related options, or chose to open
+For changing the appearance of the output change the gnuplot-related options \menu{Options>Gnuplot settings}, or chose to open
 a gnuplot-shell for each plot for further processing.
 Gnuplot 4 also has some interactive features.
 
@@ -372,9 +365,9 @@ one (to close a triangular flight etc.)
 
 \subparagraph{Optimisations} \label{optimise} For all optimisations it is necessary to check that the begin and the end of the free (unpowered) flight is set correctly.
 Otherwise waypoints my be set at a part of your flight, where you have been towed or using a motor.
-To avoid that you need to set (or at least check the automatic detection) the "begin of unpowered flight time" to the beginning of the free flight (release point or engine-off point). The "end of unpowered flight time" needs to be set if you used an engine before landing.
+To avoid that you need to set (or at least check the automatic detection) the "begin of unpowered flight time" to the beginning of the free flight (release point or engine-off point). The `end of unpowered flight time' needs to be set if you used an engine before landing.
 
-The optimisation will only take the data between "begin of unpowered flight" and "end of unpowered flight" into account.
+The optimisation will only take the data between `begin of unpowered flight' and `end of unpowered flight' into account.
 GPLIGCs optimisation routines are based on \emph{Metropolis Monte Carlo} (MMC) and/or \emph{simulated annealing} (SA) methods.
 One of them can be chosen in the menu (the default can be set using the config key \texttt{optimizer\_method} to either "mmc" or "sa").
 
@@ -397,7 +390,7 @@ For brute-force calculation computers are still too slow, since a typical flight
 
 \subparagraph{Optimisation OLC-classic (rules oct/2007)}
 This will find the best task for OLC-classic (maximum points) and set it  as  the task.
-The OLC-classic optimisation will find the probably best task with 7 waypoints (6 legs). The value to be optimised is the raw scoring: 4 legs with 1 point per kilometre, leg number 5 with 0.8 points per kilometre and the last leg with 0.6 points per kilometre. The altitude limit of 1000~m between the lowest point between "begin of unpowered flight" and the starting point and the highest point between the end point and the "end of unpowered flight" will be accounted  for.
+The OLC-classic optimisation will find the probably best task with 7 waypoints (6 legs). The value to be optimised is the raw scoring: 4 legs with 1 point per kilometre, leg number 5 with 0.8 points per kilometre and the last leg with 0.6 points per kilometre. The altitude limit of 1000~m between the lowest point between `begin of unpowered flight' and the starting point and the highest point between the end point and the `end of unpowered flight' will be accounted  for.
 
 \subparagraph{Optimisation DMST 2005}
 This optimisation will find the best task according to the german DMSt 2005 rules. FAI tasks will be found, if possible.
@@ -435,27 +428,12 @@ For details on ogie read section~\ref{ogie}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%\paragraph{OLC Flight claim}
-%Online flight claims are no longer supported.
-%This button will bring up a dialog box, where some information can be entered, which are necessary
-%for the online contest. You have to choose the country for your olc flight claim. If you have used the optimisation before, you can
-%use the task optimised by GPLIGC, otherwise the olc server will have to do the optimisation. After clicking OK, a web-browser will be started
-%and you will be directed to the olc flight claim form with many values filled in already.
-%The most important thing is, that the start and end of the un powered flight is set correctly. GPLIGC will try to check these automatically
-%but sometimes the determination of the release time will fail! In the case you have used an engine after the flight and before landing
-%(for example to avoid an out-landing) GPLIGC will fail finding the real end of un powered flight. Use the flight-view-window to check the
-%begin and the end of the un powered flight and mark these points by \texttt{s} and \texttt{f}.
 
-%\emph{This is tested for the normal online contest (gliders) only! I'm not sure about the claiming process for holc and dmst...}
-
-
-%% MENU
 \subsubsection{About/Info}
 Copyright information and a link to the gpligc/ogie web-site
 
 
-
-\subsection{The gpligc configuration file (.gpligcrc)}
+\subsection{The gpligc configuration file (.gpligcrc / gpligc.ini)}
 This paragraph describes the new configuration file format of gpligc, which was introduced with gpligc 1.5.
 Internally, gpligc stores all changeable configuration parameters in a `perl-hash'.
 This is a data-structure, which is represented by pairs of keys and values.
@@ -467,11 +445,10 @@ The key is the first word, the value is enclosed in \texttt{"}.
 The value can be changed with a text editor.
 If you do this while gpligc is running, you need to select \emph{options/reread configuration} to trigger rereading of the changed configuration file.
 
-%On Windows systems this configuration file is named \texttt{gpligc.ini}
+On Windows systems this configuration file is named \texttt{gpligc.ini}
 
 Please refer to the section \ref{gpligcrc} to see what values are allowed.
 If illegal values are used, gpligc may behave unpredictable or just crash.
-
 
 %\subsection{Inter-process-communication with openGLIGCexplorer}
 %This is disabled in 1.4, because of serious rewriting... Will be back in...
@@ -482,9 +459,3 @@ If illegal values are used, gpligc may behave unpredictable or just crash.
 GPLIGC does not check the integrity of the data.
 Some calculations may not work as supposed, if there is more then one flight recorded in a in single IGC file
 (e.g. the times of take-off, landing and flight duration will be wrong (starttime=starttime of first flight, landingtime=time of last landing)
-
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "GPLIGC_manual.tex"
-%%% End:

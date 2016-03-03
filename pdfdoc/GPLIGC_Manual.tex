@@ -10,10 +10,12 @@
 %\usepackage[textwidth=16.0cm,textheight=21.5cm,centering]{gmeometric}
 \usepackage[textwidth=16.0cm,textheight=22cm,centering]{geometry}
 
+% nice key-buttons and menu items
 \usepackage[]{menukeys}
-\renewmenumacro{\menu}[>]{shadowedroundedkeys}
+\renewmenumacro{\keys}[+]{shadowedroundedkeys}
+\renewmenumacro{\menu}[>]{angularmenus}
 
-\hypersetup{pdftitle={GPLIGC OGIE Manual}, pdfauthor={Hannes Kruger}, pdfsubject={GPLIGC OGIE Manual}, pdfkeywords={manual GPLIGC OGIE openGL linux unix igc flight data recorder gliding soaring visualisation analysation} }
+\hypersetup{pdftitle={GPLIGC and OGIE Manual}, pdfauthor={Hannes Kruger}, pdfsubject={GPLIGC and OGIE Manual}, pdfkeywords={manual GPLIGC OGIE openGL linux unix igc flight data recorder gliding soaring visualisation analysation} }
 % HOWTO URL-Link :   \href{http:// .. .. }{name}
 
 \title{
@@ -29,9 +31,9 @@
 \pagestyle{headings}
 \hyphenation{open-GL-IGC-explorer GPL-IGC}
 
+% not compatible with menukeys...
 %\usepackage[usenames,dvipsnames]{color}
 %\newcommand{\red}[1]{\textbf{\textcolor{Red}{#1}}}
-
 
 \begin{document}
 

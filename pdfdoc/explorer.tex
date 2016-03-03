@@ -161,15 +161,15 @@ Three of them are \emph{runtime-options} and can be activated by menu.
 \paragraph{Double image}
 \texttt{--stereo} (or \texttt{STEREO true})
 will display 2 stereoscopic images. You can cross the optical axis of your eyes
-to get a "real" 3D image (squinting). (Left eye sees right image and vice versa).
-Maybe someone will use the "parallel" method (right eye sees right image, and left
-one left). Then you should swap the images (press "A").
+to get a real 3D image (squinting). (Left eye sees right image and vice versa).
+Maybe someone will use the parallel method (right eye sees right image, and left
+one left). Then you should swap the images (press \keys{A}).
 
 \paragraph{Anaglyphic modes}
 \texttt{--stereo-rg} (or \texttt{STEREO\_RG true})
 \texttt{--stereo-rb} (or \texttt{STEREO\_RB true})
 For these stereoscopic modes you will need either  red-green or  red-blue
-3D-glasses, if left eye is red, you need to swap the images (press "A").
+3D-glasses, if left eye is red, you need to swap the images (press \keys{A}).
 
 \paragraph{Hardware 3D with shutterglasses}
 If you own a  quadro-buffered openGL-card (like nVidia Quadro2, Quadro4...) and
@@ -181,7 +181,7 @@ This mode can be initialised at start time only.
 
 \paragraph{Eye distance}
 For adjusting the strength of the 3D-effect you can change the distance between
-the "virtual" eyes (\texttt{--eye-dist km}, "Q","W" or \texttt{EYE\_DIST value[km]})
+the virtual eyes (\texttt{--eye-dist km}, \keys{Q}, \keys{W} or \texttt{EYE\_DIST value[km]})
 
 
 \subsection{Projections}
@@ -206,7 +206,7 @@ The earth is assumed to be a perfect sphere with a radius of 6371km.
 
 \subsection{Screenshots}
 \label{screenshots}
-Screenshots can be made using the "p" key for a single shot, or "shift-P" for the continuous screenshot-mode. In the continuous mode every rendered frame is saved. The output format can be specified using the \texttt{--image-format format} option or the configuration file keyword \texttt{IMAGE\_FORMAT format}, where \texttt{format} is one of the following: \texttt{jpg, rgb}.
+Screenshots can be made using the \keys{p} key for a single shot, or \keys{\shift+P} for the continuous screenshot-mode. In the continuous mode every rendered frame is saved. The output format can be specified using the \texttt{--image-format format} option or the configuration file keyword \texttt{IMAGE\_FORMAT format}, where \texttt{format} is one of the following: \texttt{jpg, rgb}.
 The names of the image files will start with \emph{frame1000} and the numbers increase.
 A different basename can be specified by either \texttt{--basename string} or \texttt{BASENAME string}. Also a path can be given, where to save the screenshots (\texttt{--save-path string} or \texttt{SAVE\_PATH string})
 
@@ -224,8 +224,8 @@ While using the rgb format you should keep the information about the image sizes
 The offscreen rendering function via GLX is available, but requires GLX 1.3. Offscreen on windows and/or via mesa needs
 special compilation... \\
 
-\emph{OGIE} can be used as an offscreen 2D/3D renderer. As in the "onlineplotter", which can be tested on the GPLIGC website. With this function some contest results can be made more visible etc.
-
+\emph{OGIE} can be used as an offscreen 2D/3D renderer. 
+%As in the onlineplotter, which can be tested on the GPLIGC website. With this function some contest results can be made more visible etc.
 Single images can be rendered offscreen. Two modes are available. For image format related options see \ref{screenshots}.
 
 \paragraph{GLX offscreen (pbuffer)}
@@ -255,12 +255,12 @@ the interactive mode too).
 
 \subsection{Performance}
 
-Using the option \texttt{--verbose} (or "VERBOSE true"  in the configfile) will give you
+Using the option \texttt{--verbose} (or \texttt{VERBOSE true}  in the configfile) will give you
 the information how many triangles are used to build the surface. (if DEM is
 used) Check by yourself how many triangles you system can handle at a tolerable
 speed. The rendering time is also dependent on the quantity of textures used.
 
-In Movie-Mode ("I") with \texttt{--verbose} a framerate is displayed...
+In Movie-Mode \keys{I} with \texttt{--verbose} a framerate is displayed...
 
 A hardware accelerated OpenGL setup is recommended.
 
@@ -285,9 +285,9 @@ In markermode some more information is displayed. The units of speed, vertical s
 
 \subsection{Marker}
 \label{marker}
-F7 activates the "Marker". A huge red arrow pointing to a position of a logged datapoint.
-The arrow can be moved forward (F3), backward (F2) and fast forward (F4),
-fast backward (F1). If the info-mode is active, some data of the marked
+\keys{F7} activates the `marker'. A huge red arrow pointing to a position of a logged datapoint.
+The arrow can be moved forward (\keys{F3}), backward (\keys{F2}) and fast forward (\keys{F4}),
+fast backward (\keys{F1}). If the info-mode is active, some data of the marked
 position is displayed.
 
 
@@ -296,7 +296,7 @@ position is displayed.
 If your flighttrack crosses the same place several times, you may want a part of
 the flighttrack to be displayed only. With \texttt{--marker-ahead n}  and \texttt{--marker-back n}
 you specify how many datapoints before and after the marker will be plotted. Default values are
-50 back, and 0 ahead. To turn the marker-range-option on, press "shift-U" (\emph{not "u"}), or use
+50 back, and 0 ahead. To turn the marker-range-option on, press \keys{\shift+U}, or use
 cmdline-switch \texttt{--marker-range}. This may be turned on by default by using
 \texttt{MARKER\_RANGE true} in the configuration file (where the range-defaults can be defined
 also)
@@ -309,7 +309,7 @@ default, can be disabled by cmdline-switch \texttt{--no-follow} or \texttt{FOLLO
 
 \subsubsection{Movie-Mode}
 \label{movie}
-The Movie-Mode can be switched on by pressing "shift-I", selection from the menu, or with \texttt{--movie}.
+The Movie-Mode can be switched on by pressing \keys{\shift+I}, selection from the menu, or with \texttt{--movie}.
 The Marker position is continuously moved forward.
 Using this mode together with the follow-mode and marker gives a nice movie of the flight.
 
@@ -320,8 +320,3 @@ If it is too fast, you can define a \texttt{MOVIE\_REPEAT\_FACTOR int}, which wi
 A default delay can be set in the configurationfile:
 \texttt{MOVIE\_TIMER} the argument is in milliseconds. (compiled-in default is 1 msec).
 This introduces a `sleep' command, which reduces the responsiveness of the program. Not recommended.
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "GPLIGC_manual.tex"
-%%% End:

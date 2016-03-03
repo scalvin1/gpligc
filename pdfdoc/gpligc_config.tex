@@ -1,8 +1,4 @@
-%$Id: gpligc_config.tex 3 2014-07-31 09:59:20Z kruegerh $
-%;;; Local IspellDict: "british"
-
-
-\section{The .gpligcrc configuration file}
+\section{The .gpligcrc / gpligc.ini configuration file}
 \label{gpligcrc}
 The \emph{GPLIGC} configuration file.
 The keys and values in this configurationfile are \emph{case-sensitive!}.
@@ -10,7 +6,7 @@ The keys and values in this configurationfile are \emph{case-sensitive!}.
 The following list contains the config-keywords with default values and (for some)
 a short description including valid alternative values.
 
-%\textbf{Windows}: on windows platforms this file is named \texttt{gpligc.ini}
+\textbf{Windows}: on windows platforms this file is named \texttt{gpligc.ini}
 
 \begin{itemize}
 
@@ -38,11 +34,6 @@ defines, whether waypoint cylinders/sectors are drawn by default in flight-view-
 \item \texttt{fvw\_grid    "yes"}
 
 \item \texttt{fvw\_baro\_grid    "yes"}
-
-%not used any longer
-%\item \texttt{fvw\_show\_help "1"}\\
-%Setting this to 0 will stop showing the help in fvw. Saves quite a bit of space.
-
 
 \item \texttt{fvw\_baro\_fraction "3"}\\
 This determines, how large the barogramm area is compared to the track area (in fvw).
@@ -100,10 +91,6 @@ If an environment variable GPLIGCHOME is set, a "map" directory will be created 
 
 \item \texttt{open\_additional\_info    "0"}\\
     If set to 1, the `additional info dialog' is opened immediately in cases where no gpi-file is found.
-
-% before 1.10
-% \item \texttt{open\_flight\_view\_window    "1"}\\
-%     The flight-view-window will be opened for each igc file opened if set to 1.
 
 \item \texttt{optimizer\_cycles\_mmc    "20"} \\
 	For all of the \texttt{optimizer\_*} keys see section~\ref{optimise}
@@ -182,8 +169,3 @@ size of the plotting area of the main window (pixels)
 \item \texttt{zylinder\_wp\_type    "both"}
 
 \end{itemize}
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "GPLIGC_manual.tex"
-%%% End:
