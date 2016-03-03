@@ -1518,6 +1518,8 @@ sub Errorbox {
 
 sub Photodirselect {
 
+    if (!$config{'photos'}) {return;}
+
     my $initdir = $config{'working_directory'};
 
     if ($config{'photo_path'} ne "none") {
@@ -2284,12 +2286,12 @@ sub FlightView {
     # this is not needed.
     #$menu_file->command(-label=>"Close",-command=>sub{schliessen();});
 
-    if ($config{'photos'}) {
+#    if ($config{'photos'}) {
         $menu_file->command(-label=>"Open photo/multimedia directory", -command=>sub{
                 if ($filestat ne 'closed') {
                     Photodirselect();}
               });
-    }
+#    }
 
     $menu_file->separator();
     $menu_file->command(-label=>"Exit",-command=>\&gpligcexit);
