@@ -4157,6 +4157,9 @@ sub FVWresize {
 	  push(@debugboxlist, $barocanvas->createLine($config{'window_width'}-3,0,$config{'window_width'}-3, $baroheight-1, -fill=>"green"));
 	  push(@debugboxlist, $barocanvas->createLine(0,0,0,$baroheight-1,-fill=>"green"));
 	  push(@debugboxlist, $barocanvas->createLine(0,0,$config{'window_width'}-3,0, -fill=>"green"));
+	} else {
+	  $barocanvas->delete(@debugboxlist);
+	  $canvas->delete(@debugboxlist);
 	}
 
         baroplot();
