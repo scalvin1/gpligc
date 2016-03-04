@@ -2843,17 +2843,25 @@ sub FlightView {
     $FlightView->bind("<Key-a>", sub{
 	    if ($filestat eq 'closed') { return; }
             $FlightView->bell;
-            splice(@WPNAME, $AKTWP+1 , 0 , "WP$freeWP");
-            splice(@WPLAT, $AKTWP+1 , 0 , $DECLAT[$nr]);
-            splice(@WPLON, $AKTWP+1 , 0 , $DECLON[$nr]);
-            splice(@WPRADFAC, $AKTWP+1 , 0 , 1.0);
+            print "Bef: aktwp: $AKTWP + 1, maxwp $MAXWP, nowplat: $#WPLAT \n" if ($config{'DEBUG'});
+
+	    my $add = 1;
+	    if ($AKTWP == 1 && $MAXWP == 0) {$add = 0;}
+
+            splice(@WPNAME, $AKTWP+$add , 0 , "WP$freeWP");
+            splice(@WPLAT, $AKTWP+$add , 0 , $DECLAT[$nr]);
+            splice(@WPLON, $AKTWP+$add , 0 , $DECLON[$nr]);
+            splice(@WPRADFAC, $AKTWP+$add , 0 , 1.0);
             $freeWP++;
             $MAXWP++;
+
+	    print "Aft: aktwp: $AKTWP + 1, maxwp $MAXWP, nowplat: $#WPLAT \n" if ($config{'DEBUG'});
 
             WPPlotUpdate();
             baroplot();#_task();
             FSupdate();
             TaskUpdate();
+            FVWausg($nr);
 
             #if task changed since optimization loose ability to olc-file output
             undef $olcFirstWPindex;
@@ -2862,6 +2870,7 @@ sub FlightView {
 
     $FlightView->bind("<Key-b>", sub{
 	    if ($filestat eq 'closed') { return; }
+	    if ($AKTWP == 1 && $MAXWP == 0) {return;} #no other WPs yet
             $FlightView->bell;
             splice(@WPNAME, $AKTWP , 0 , "WP$freeWP");
             splice(@WPLAT, $AKTWP , 0 , $DECLAT[$nr]);
@@ -2885,6 +2894,7 @@ sub FlightView {
 
     $FlightView->bind("<Key-p>", sub{
 	    if ($filestat eq 'closed') { return; }
+	    if ($AKTWP == 1 && $MAXWP == 0) {return;} #no other WPs yet
             $FlightView->bell;
             splice(@WPNAME, $AKTWP , 1 , "WP$freeWP");
             splice(@WPLAT, $AKTWP , 1 , $DECLAT[$nr]);
@@ -4465,38 +4475,32 @@ sub WpPlot {
             if ($MAXWP > 0) {
                 $MAXWP--;
 
-                print "maxwp: $MAXWP  aktwp: $AKTWP  wplatNo: $#WPLAT \n" if ($config{'DEBUG'});
-
-                # WPIGC ... are never needed
-                #splice @WPIGCLAT, $AKTWP, 1 ;
-                #splice @WPIGCLON, $AKTWP, 1 ;
+                #removes 1 element at $AKTWP!
                 splice @WPNAME, $AKTWP, 1;
                 splice @WPLAT, $AKTWP, 1;
                 splice @WPLON, $AKTWP, 1;
 
-                #$myWPN=$WPNAME[$AKTWP];
-
-            #if task changed since optimization loose ability to olc-file output
+               #if task changed since optimization loose ability to olc-file output
                 undef $olcFirstWPindex;
                 $optimized_for = "none";
 
-                if   ($AKTWP > $MAXWP) {
-
-                    #print "aktwp > maxwp\n";
+                if ($AKTWP > $MAXWP) {
                     $AKTWP--;
                 }
 
                 if ($AKTWP == 0) {
-
-                    #print "null\n";
-                    $AKTWP++; $myWPN="All Waypoints deleted";
+                    $AKTWP++;
+                    $myWPN="All Waypoints deleted";
                     $wppwlat='-';
                     $wppwlon='-';
+                    $freeWP = 1;
                 } else {
                     $myWPN=$WPNAME[$AKTWP];
                     $wppwlat=GPLIGCfunctions::coorconvert($WPLAT[$AKTWP],'lat',$config{'coordinate_print_format'});
                     $wppwlon=GPLIGCfunctions::coorconvert($WPLON[$AKTWP],'lon',$config{'coordinate_print_format'});
                 }
+
+                print "No of WPs (maxwp): $MAXWP // Actual WP (aktwp): $AKTWP // Size of array (\$#WPLAT): $#WPLAT \n" if ($config{'DEBUG'});
 
                 FVWausg($nr);
                 FSupdate();
@@ -4506,6 +4510,7 @@ sub WpPlot {
           })->pack(-fill=>"x");
 
     my $last_first=$WPPlotWindow->Button(-text=>"Set last point same as first",-command=>sub{
+	    if ($MAXWP == 0) {return;}
             push @WPNAME, $WPNAME[1];
             push @WPLAT, $WPLAT[1];
             push @WPLON, $WPLON[1];
@@ -4539,7 +4544,7 @@ sub WpPlot {
 
 ########################################
 
-# this function updates the variables for  output in WpPlotWindow
+# this function updates the variables for output in WpPlotWindow
 sub WPPlotUpdate {
 
     #print "$myWPN $wppwlat  $wppwlon\n";
@@ -4571,9 +4576,7 @@ sub Ausschnitt {
 ################################################################################
 
 sub TaskUpdate {
-
     if (Exists($FlightView)) {
-
         if ($task_state == 1) { taskdraw(0); taskdraw(1);}
         if ($wpcyl_state == 1) { wpcyldraw(0); wpcyldraw(1); }
     }
@@ -4611,16 +4614,9 @@ sub elevationcalibration {
 
     if ($caltype eq "baro") {
 
-        #print "Not yet supported\n";
-        #print "alt at this point is: $BARO[$nr], but should be $elevation \n";
         my $p0 = GPLIGCfunctions::referencepressure($BARO[$nx], GPLIGCfunctions::pressure($elevation,$gpi{'qnh'}) );
 
-        #print "referencepressure: $p0 \n";
-
         for (my $z=0; $z <= $#BARO; $z++) {
-
-#my $new = GPLIGCfunctions::altitude(GPLIGCfunctions::pressure($BARO[$z],$p0),$gpi{'qnh'});
-#print "$BARO[$z]  ".($new-$BARO[$z])."\n";
             $BARO[$z] = GPLIGCfunctions::altitude(GPLIGCfunctions::pressure($BARO[$z],$p0),$gpi{'qnh'});
         }
 
@@ -4635,16 +4631,13 @@ sub elevationcalibration {
 
     if (Exists($FlightView)){
         updateFVW();
-
-        #FVWausg($nr);
     }
 
     tmpfileout();
     FSupdate();
-
-    ##########################################
-
 }
+
+#################################
 
 sub calibrationinput {
     my $input=$FlightView->Toplevel();
@@ -4804,25 +4797,15 @@ sub statistik {
         $cum_climb += $BARO[$z+1]-$BARO[$z]  if ($BARO[$z+1]-$BARO[$z] > 0);
         $cum_sink += $BARO[$z+1]-$BARO[$z]  if ($BARO[$z+1]-$BARO[$z] < 0);
 
-        # experimental ZZZZ
-        #if ($IASEXISTS eq "yes") {
-
         my $diff = $IAS[$z] - (($nonISPEED[$z]+$nonISPEED[$z+1])/2)  ;
 
-        #my $diff = $IAS[$z] - $nonISPEED[$z];
         my $kurs = GPLIGCfunctions::kurs($DECLAT[$z-1], $DECLON[$z-1], $DECLAT[$z+1], $DECLON[$z+1]);
         my $roundk = int($kurs+0.5);
 
         $wind{$roundk} += $diff;
         $windcount{$roundk} ++;
-
-        #print "$roundk : $diff :  $wind{$roundk} $windcount{$roundk} \n";
-        #}
-        # experimental YYYY
-
     }
 
-    # exper ZZZZZZZ
     foreach $key (keys %wind) {
         if ($windcount{$key} > 1) {$wind{$key} = $wind{$key}/$windcount{$key}}
     }
