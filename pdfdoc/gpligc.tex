@@ -133,7 +133,9 @@ The barometric option will use a barometric model, the shift will decrease with 
 Chose the model according to your suspected error. Use `constant', if you have a constant systematic error in your altimeter.
 Use `barometric' if the reference pressure is wrong.
 
-The calibration data is saved withing the additional info (see section~\ref{add_info}).
+The calibration data is saved with \menu{Tools>Flight info (additional)} (see section~\ref{add_info}).
+The altitude data in memory is irreversibly changed. For applying a different calibration or to clear the calibration you'll have to clear the calibration data in
+ \menu{Tools>Flight info (additional)}, save the information and then to reload the igc file.
 
 
 \subsubsection{QNH and reference pressure calibration}
@@ -141,7 +143,7 @@ If your recorded track has the altitude referenced to MSL, you can enter an QNH 
 (Using key \keys{n}, entering only pressure for QNH, leaving 0 for reference pressure).
 
 If you recorded track is referenced to a known pressure-level (e.g. 1013.25~hPa) you can change the reference to MSL by entering the reference-pressure and the QNH via \keys{n}.
-
+Saving, clearing, or changing the calibration can be done as described in the previous section.
 
 \subsubsection{View photos / multimedia}
 By pressing \keys{v}, the closest photo or multimedia file will be displayed, either in

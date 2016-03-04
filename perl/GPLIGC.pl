@@ -372,6 +372,8 @@ FlightView();
 # second time. after defaults were set in FlightView
 load_config();
 
+print "config loaded 2nd time\n" if ($config{'DEBUG'});
+
 $map_gms_v_min=10000;
 $map_gms_v_max=$config{'map_gms_v'};
 
@@ -753,6 +755,9 @@ sub oeffnen {      ### open a File
     $centrex = ($minlon + $maxlon)/2;
     $centrey = ($minlat + $maxlat)/2;
 
+
+    print "OEFFNEN: init maxlat minlat maxlon minlon: $maxlat  $minlat  $maxlon  $minlon\n" if ($config{'DEBUG'});
+
     # KMY and KMX are km distances in X ynd Y from refernece point
 
     for ($i=0; $i<=$#DECLAT; $i++){
@@ -993,6 +998,7 @@ sub oeffnen {      ### open a File
 
     if ($config{'DEBUG'}) {
 
+	print "Debugging in Oeffnen: max and min values\n";
         print	"baro	$BARO_max \n";#= $BARO[$i] if ($BARO[$i] > $BARO_max);
         print	"	$BARO_min \n";#= $BARO[$i] if ($BARO[$i] < $BARO_min);
         print	"gps	$GPSALT_max \n";#= $GPSALT[$i] if ($GPSALT[$i] > $GPSALT_max);
@@ -1360,14 +1366,15 @@ sub oeffnen {      ### open a File
     # if not
 
     my $gpifile = substr($file, 0, -3)."gpi";
-    if (-r $gpifile) {load_gpi();}
-    elsif ($config{'open_additional_info'} == 1) {
-        gpiinput();
-    }
 
-    if ($gpi{'altitude_calibration_type'} eq "baro") {elevationcalibration("baro",$gpi{'altitude_calibration_point_alt'},$gpi{'altitude_calibration_point'});}
-    if ($gpi{'altitude_calibration_type'} eq "constant") {elevationcalibration("constant",$gpi{'altitude_calibration_point_alt'},$gpi{'altitude_calibration_point'});}
-    if ($gpi{'altitude_calibration_type'} eq "refpress") {qnhcalibration($gpi{'qnh'},$gpi{'altitude_calibration_ref_press'});}
+    if (-r $gpifile) {load_gpi();}
+      elsif ($config{'open_additional_info'} == 1) {
+        gpiinput();
+      }
+
+    if ($gpi{'altitude_calibration_type'} eq "baro") {elevationcalibration("baro",$gpi{'altitude_calibration_point_alt'},$gpi{'altitude_calibration_point'},1);}
+    if ($gpi{'altitude_calibration_type'} eq "constant") {elevationcalibration("constant",$gpi{'altitude_calibration_point_alt'},$gpi{'altitude_calibration_point'},1);}
+    if ($gpi{'altitude_calibration_type'} eq "refpress") {qnhcalibration($gpi{'qnh'},$gpi{'altitude_calibration_ref_press'},1);}
 
     unzoomed();
 
@@ -1382,12 +1389,8 @@ sub oeffnen {      ### open a File
     $FlightView->configure(-title=>"$ofilename");#.$osuffix"); #<-- osuffix empty
     $busy=$FlightView->Unbusy;
 
-    #if ($config{'DEBUG'}) {
-    #print "   >>>$osuffix<<\n";
-    #}
-
+    print "sub oeffnen fertig\n" if ($config{'DEBUG'});
 }
-
 # oeffnen
 ###############################################################################
 
@@ -1682,39 +1685,9 @@ sub gpligcexit {
 ###############################################################################
 
 sub FVWsetInfo {
-    #set the logo pic in FVW
-    # jpg if Tk::JPEG availabel, otherwise gif
-
-#     my $pictype;
-#     my $picname = "logos";
-#     if ($have_jpeg) {
-#         $pictype = "jpg";
-#         print "Tk::JPEG available. Trying to use jpeg-logo!\n" if ($config{'DEBUG'});
-#     } else {
-#         $pictype = "gif";
-#         print "Tk::JPEG not available. Trying to use gif-logo!\n" if ($config{'DEBUG'});
-#     }
-
-#     my $pic=$canvas->Photo();
-
-#     # Look in install-directory AND in ./ for appropriate files...
-#     if(-f "$config{'datadir'}/$picname.$pictype"){
-#         $pic->configure(-file=>"$config{'datadir'}/$picname.$pictype");
-#     } elsif (-f "./$picname.$pictype"){
-#         $pic->configure(-file=>"./$picname.$pictype");
-#     } elsif(-f "${scriptpath}$picname.$pictype") {
-#         $pic->configure(-file=>"${scriptpath}$picname.$pictype");
-#     } else {
-
-#         print "Could not find \'$picname.$pictype\' in $config{'datadir'}/ and ./ and $scriptpath Fix this, please. Exiting now...\n";
-#         exit(1);
-#     }
-#     $initpic=$canvas->Label(-image=>$pic,-borderwidth=>0);
-#     $initpic->pack();
     @introtext=();
     push(@introtext, $canvas->createText(5,5, -anchor=>"nw", -text=>$text, -fill=>"black"));
     $canvas->update();
-
 }
 
 ### subroutine info
@@ -3369,6 +3342,8 @@ sub trackplot {
     $FlightView->Busy;
     my ($dxp, $dyp, $minlat, $minlon) =@_;
 
+    print "TRACKPLOT (dxp dyp minlat minlon): $dxp  $dyp  $minlat  $minlon\n" if ($config{'DEBUG'});
+
     if (@trackplot) {$canvas -> delete (@trackplot);}
     @trackplot =();
 
@@ -3891,6 +3866,8 @@ sub unzoomed {
 
     ($maxlat, $minlat)=GPLIGCfunctions::MaxKoor(\@DECLAT);
     ($maxlon, $minlon)=GPLIGCfunctions::MaxKoor(\@DECLON);
+
+    print "\nunzoomed $maxlat $minlat $maxlon $minlon \n" if ($config{'DEBUG'});
 
     $max_kmdist_x = GPLIGCfunctions::dist($centrey,$minlon,$centrey,$maxlon);
     $max_kmdist_y = GPLIGCfunctions::dist($minlat,$centrex,$maxlat,$centrex);
@@ -4592,12 +4569,13 @@ sub elevationcalibration {
     my $caltype= shift;
     my $elevation = shift;
     my $nx = shift;
+    my $initflag = shift; # =1 for initial call (file opening) to avoid trackplot
 
-    #calibrationinput();
 
     if (!defined $elevation) { Errorbox("cancelled");
         return;
     }
+
 
     if ($caltype eq "constant"){
         my $delta = $BARO[$nx] - ($elevation/$config{'altitude_unit_factor'});
@@ -4633,7 +4611,7 @@ sub elevationcalibration {
     }
 
     if (Exists($FlightView)){
-        updateFVW();
+        updateFVW() if (!$initflag);
     }
 
     tmpfileout();
@@ -4643,6 +4621,9 @@ sub elevationcalibration {
 #################################
 
 sub calibrationinput {
+
+    if ($gpi{'altitude_calibration_type'} ne "none") { Errorbox("applying another calibration may result in weird effects!");}
+
     my $input=$FlightView->Toplevel();
     my $elevation=0;
     my $caltype ="baro";
@@ -4662,7 +4643,7 @@ sub calibrationinput {
 
     $bfr->Button(-text=>"OK",-command=>sub{
             $input->destroy();
-            elevationcalibration($caltype, $elevation, $nr);
+            elevationcalibration($caltype, $elevation, $nr, 0);
           })->pack(-side=>"left");
     $bfr->Button(-text=>"cancel",-command=>sub{
             $input->destroy();
@@ -4675,9 +4656,11 @@ sub calibrationinput {
 
 sub qnhcalibration {
 
+    if ($gpi{'altitude_calibration_type'} ne "none") { Errorbox("applying another calibration may result in weird effects!");}
     #qnhcalibrationinput();
     my $newqnh=shift;
     my $newrefp=shift;
+    my $initflag = shift;
 
     if ($newqnh < 800 || $newqnh >1200) { Errorbox("cancelled");
         return;
@@ -4703,9 +4686,7 @@ sub qnhcalibration {
 
     tmpfileout();
     if (Exists($FlightView)){
-        updateFVW();
-
-        #FVWausg($nr);
+        updateFVW() if (!$initflag);
     }
     FSupdate();
 
@@ -4733,7 +4714,7 @@ sub qnhcalibrationinput {
 
     $bfr->Button(-text=>"OK",-command=>sub{
             $input->destroy();
-            qnhcalibration($newqnh,$newrefp);
+            qnhcalibration($newqnh,$newrefp,0);
             return;
           })->pack(-side=>"left");
     $bfr->Button(-text=>"cancel",-command=>sub{
