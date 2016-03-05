@@ -25,8 +25,6 @@ sub igc2dec {
 
     my $igck=shift;
 
-    #print "$igck ->";
-
     if (length($igck)==8) 	{               #Latitude DDMMMMM(N|S)
         my $D=substr($igck,0,2);
         my $M1=substr($igck,2,2);
@@ -36,7 +34,6 @@ sub igc2dec {
         my $latitude=($D+($M/60));
         if ($hemissphere eq 'S') {$latitude=$latitude*(-1);}
 
-        #print "Breite:".($D+($M/60))."\n";
         return ($latitude);
     }
 
@@ -49,7 +46,6 @@ sub igc2dec {
         my $longitude=($D+($M/60));
         if ($hemissphere eq 'W') {$longitude=$longitude*(-1);}
 
-        #print "Laenge:".($D+($M/60))."\n";
         return ($longitude);
     }
 
@@ -63,19 +59,16 @@ sub zan2dec {
 
     my $igck=shift;
 
-    #print "$igck ->";
 
     if (length($igck)==7) 	{               #Latitude DDMMSS(N|S)
         my $D=substr($igck,0,2);
         my $M=substr($igck,2,2);
         my $S=substr($igck,4,2);
 
-        #my $M=$M1.".".$M2;
         my $hemissphere=substr($igck,6,1);
         my $latitude=($D+($M/60)+($S/3600));
         if ($hemissphere eq 'S') {$latitude=$latitude*(-1);}
 
-        #print "Breite:".($D+($M/60))."\n";
         return ($latitude);
     }
 
@@ -84,12 +77,10 @@ sub zan2dec {
         my $M=substr($igck,3,2);
         my $S=substr($igck,5,2);
 
-        #my $M=$M1.".".$M2;
         my $hemissphere=substr($igck,7,1);
         my $longitude=($D+($M/60)+($S/3600));
         if ($hemissphere eq 'W') {$longitude=$longitude*(-1);}
 
-        #print "Laenge:".($D+($M/60))."\n";
         return ($longitude);
     }
 
@@ -115,7 +106,7 @@ sub MaxKoor {
 }
 
 
-### berechnet die entfernung zw. zwei punkten auf dem FAI-spheroid
+### calculates distance between two points on 'FAI-spheroid'
 sub dist {
     use Math::Trig;
     my ($lat1, $lon1, $lat2 ,$lon2) = @_;
@@ -126,10 +117,8 @@ sub dist {
 
 
 sub setpwd {
-
     use File::Basename;
     return File::Basename::dirname(shift);
-
 }
 
 #-------------------------------------------------------------------------------
@@ -162,7 +151,7 @@ sub pointdist {
 #-------------------------------------------------------------------------------
 
 sub zufall {
-### erzeugt zufallszahl (Ganzzahl) zwischen $min und $max
+### random integer between $min and $max
     my ($min, $max) = @_;
     return (int(rand $max-$min+1)+$min);
 }
@@ -170,12 +159,9 @@ sub zufall {
 #--------------------------------------------------------------------------------
 
 sub zufall2 {
-### erzeugt zufallszahlen zwischen min und max in devisor schritten
+### random integer between $min and $max (steps of devisor)
     my ($min, $max, $devisor) = @_;
-
-#print "  ".(          (int(rand(($max-$min+1)/$devisor))* $devisor)+$min )." \n";
-    return (          (int(rand(($max-$min+1)/$devisor))* $devisor)+$min );
-
+    return ( (int(rand(($max-$min+1)/$devisor))* $devisor)+$min );
 }
 
 #-------------------------------------------------------------------------------
@@ -201,10 +187,6 @@ sub takeoff_detect {
 
     if ($counter == 0) {print STDERR "GPLIGC: Warning: no data with speed between 5 and 500 km/h!\n"; $counter=1;}
     my $avspeed=$speedsum/$counter;
-
-    #print "Average speed = $avspeed \n";
-
-    # set speed limit.... (gliders/paragliders/etc needs different limits)
 
     my $limit = 2;
 
@@ -259,9 +241,6 @@ sub releaseDetect {
     my ($altarrayref, $takeoff_index) = @_;
     my $counter = $takeoff_index;
 
-    #print "$counter";
-    #exit(0);
-
     $takeoff_alt = $altarrayref->[$takeoff_index];
 
     # skip until we climbed at least 150m
@@ -275,7 +254,6 @@ sub releaseDetect {
         if ($altarrayref->[$c] < $altarrayref->[$c-1]) {$sinkcounter++;}
         else {$sinkcounter = 0;}
 
-        #print "sinkc: $sinkcounter\n";
         if ($sinkcounter == 2) {return $c-2;}
     }
 
@@ -433,8 +411,6 @@ sub zylinder2 {
         push(@dlat, cos($a)*$gpx);
         push(@dlon, sin($a)*$gpx*(1/cos(deg2rad($lat))));
     }
-
-    #print ZYLOUT $lon+$dlon[$i]," ",$lat+$dlat[$i]," $j \n";
 
     return (\@dlat, \@dlon);
 

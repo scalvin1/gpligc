@@ -2,7 +2,7 @@
 
 #no status platform  component description/testcase
 
-5   open   all?      gpligc    endless loop, when moving over the end while zoomed:
+5   fixed  all?      gpligc    endless loop, when moving over the end while zoomed:
                                 Deep recursion on subroutine "main::FVWausg" at /usr/local/bin/gpligc line 3940.
                                 Deep recursion on subroutine "main::zoom2" at /usr/local/bin/gpligc line 4339.
                                 ./GPLIGC.pl ~/Private/GPS/own_flights/2013/2013-06-30-GAR-000-01.igc
@@ -12,7 +12,7 @@
 
 3   open   win32     ogie      curtain invisible from one side
 
-2   open   pc12      ogie      white "spots" in terrain at flat dive angles
+2   closed pc12      ogie      white "spots" in terrain at flat dive angles
                                 Test: ./ogie --lat 47 --lon 11 --border 30 --colormap-max 5000 --init-pos-NE --init-alt 4500 --init-dive 0
                                 pc12: mesa 11.0.6 / nouveau:  does NOT occur
                                 pc12: mesa 10.0.4 / nouveau:  CONFIRMED  <<========
