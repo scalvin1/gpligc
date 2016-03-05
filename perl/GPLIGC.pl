@@ -143,28 +143,28 @@ ENDE
 $altmode = 'baro';
 $filestat='closed';
 $file='No file opened';
-$sigusr2flag=0;
+#$sigusr2flag=0;
 $optimized_for = "none";
 $zoom = 0;
-$cut_track=0;
+$cut_track = 0;
 $hide_mm = 0; 		# if 1 hide pictures and mm
 $delta_photo_time = 0;	# offset between GPS time and camera clock
-$savname='no';		# not set
+$savname = 'no';		# not set
 $zl = 0;
-$tiles=0;
+$tiles = 0;
 $map_reload = 0;
 
 # flag for Tk::JPEG  module
-my $have_jpeg=0;
+my $have_jpeg = 0;
 
 # flag for Image:ExifTool
-my $have_EXIF=0;
+my $have_EXIF = 0;
 
 # flag for Imager
-my $have_imager=0;
-my $have_png=0;
+my $have_imager = 0;
+my $have_png = 0;
 
-$gpi{'qnh'}=1013.25; 	# just to avoid an error if the pressure plot is issued without igc file
+$gpi{'qnh'} = 1013.25; 	# just to avoid an error if the pressure plot is issued without igc file
 
 # all temp-files to be cleaned later
 # these are the data files used for Gnuplot
@@ -178,15 +178,16 @@ $gpi{'qnh'}=1013.25; 	# just to avoid an error if the pressure plot is issued wi
 # use IPC::SysV qw(IPC_RMID IPC_CREAT S_IRWXU ftok);
 # use SysVIPC on non-windows platforms only
 # BEGIN {} is executed at compile time...
-BEGIN {
-    if ($^O ne "MSWin32") {
-        require IPC::SysV;
-        import IPC::SysV qw(IPC_RMID IPC_CREAT S_IRWXU ftok);
-    } else {
-        require Win32;
-        import Win32 qw(GetOSName);
-    }
-}
+# OLD CODE...
+#BEGIN {
+#    if ($^O ne "MSWin32") {
+#        require IPC::SysV;
+#        import IPC::SysV qw(IPC_RMID IPC_CREAT S_IRWXU ftok);
+#    } else {
+#        require Win32;
+#        import Win32 qw(GetOSName);
+#    }
+#}
 
 # Tk-Module is needed!
 use Tk;
@@ -453,11 +454,11 @@ sub updateFVW {
     if ($wpcyl_state == 1) {wpcyldraw(1);}
     if ($task_state == 1) {taskdraw(1);}
 
-    FVWausg($nr);
+    FVWausg();
 }
 
 sub updateCoor {
-    FVWausg($nr);
+    FVWausg();
     if (Exists($WPPlotWindow)) {WPPlotUpdate();}
 }
 
@@ -1859,7 +1860,7 @@ sub OpenGLexplorer {
           };
         #
         ## what to do on receiving sigusr2, sigusr2 is send by openGLIGCexplorer, when marker is moved...
-#$SIG{'USR2'} = sub {$sigusr2flag=1; print "got sigusr2.. (GPLIGC)\n"; FVWausg($nr);$FlightView->update;};
+#$SIG{'USR2'} = sub {$sigusr2flag=1; print "got sigusr2.. (GPLIGC)\n"; FVWausg();$FlightView->update;};
 #
         ## After we startet the explorer we can initialize the SysV IPC shared Memory.....
         ## 76 is a magic number
@@ -2237,7 +2238,7 @@ sub FlightView {
     $menu_file->command(-label=>"Open", -command=>sub{Fileselekt();});
 
     $menu_file->command(-label=>"Reload", -command=>sub{
-            if ($filestat ne 'closed') { oeffnen($file);FVWausg($nr);FSupdate();}
+            if ($filestat ne 'closed') { oeffnen($file);FVWausg();FSupdate();}
           });
 
     $menu_file->command(-label=>"Download track (gpsbabel)", -command=>sub{download_gpsbabel();});
@@ -2385,23 +2386,23 @@ sub FlightView {
     $menu_options->cascade(-label=>"Speed units", -menu=> $speed_menu);
     $speed_menu->radiobutton(-label=>"km/h", -variable=>\$config{'speed_unit_name'},-value=>"km/h",-command=>sub{
             $config{'speed_unit_factor'}=1.0;
-            FVWausg($nr);
+            FVWausg();
             FSupdate();
           });
     $speed_menu->radiobutton(-label=>"Knots", -variable=>\$config{'speed_unit_name'},-value=>"knots",-command=>sub{
             $config{'speed_unit_factor'}=0.539956803;
-            FVWausg($nr);
+            FVWausg();
             FSupdate();
           });
     $speed_menu->radiobutton(-label=>"Miles per hour", -variable=>\$config{'speed_unit_name'},-value=>"mph",-command=>sub{
             $config{'speed_unit_factor'}=0.621504;
-            FVWausg($nr);
+            FVWausg();
             FSupdate();
           });
 
     $speed_menu->radiobutton(-label=>"m/s", -variable=>\$config{'speed_unit_name'},-value=>"m/s",-command=>sub{
             $config{'speed_unit_factor'}=0.277777777;
-            FVWausg($nr);
+            FVWausg();
             FSupdate();
           });
 
@@ -2410,19 +2411,19 @@ sub FlightView {
     $menu_options->cascade(-label=>"Vertical speed units", -menu=> $vspeed_menu);
     $vspeed_menu->radiobutton(-label=>"m/s", -variable=>\$config{'vertical_speed_unit_name'},-value=>"m/s",-command=>sub{
             $config{'vertical_speed_unit_factor'}=1.0;
-            FVWausg($nr);
+            FVWausg();
           });
     $vspeed_menu->radiobutton(-label=>"Knots", -variable=>\$config{'vertical_speed_unit_name'},-value=>"knots",-command=>sub{
             $config{'vertical_speed_unit_factor'}=1.943844492;
-            FVWausg($nr);
+            FVWausg();
           });
     $vspeed_menu->radiobutton(-label=>"ft/min", -variable=>\$config{'vertical_speed_unit_name'},-value=>"ft/min",-command=>sub{
             $config{'vertical_speed_unit_factor'}=196.8;
-            FVWausg($nr);
+            FVWausg();
           });
     $vspeed_menu->radiobutton(-label=>"km/h", -variable=>\$config{'vertical_speed_unit_name'},-value=>"km/h",-command=>sub{
             $config{'vertical_speed_unit_factor'}=3.6;
-            FVWausg($nr);
+            FVWausg();
           });
 
     # ALTITUDE UNITS
@@ -2430,12 +2431,12 @@ sub FlightView {
     $menu_options->cascade(-label=>"Altitude units", -menu=> $alt_menu);
     $alt_menu->radiobutton(-label=>"m", -variable=>\$config{'altitude_unit_name'},-value=>"m",-command=>sub{
             $config{'altitude_unit_factor'}=1.0;
-            FVWausg($nr);
+            FVWausg();
             baroplot();
           });
     $alt_menu->radiobutton(-label=>"ft", -variable=>\$config{'altitude_unit_name'},-value=>"ft",-command=>sub{
             $config{'altitude_unit_factor'}=3.28;
-            FVWausg($nr);
+            FVWausg();
             baroplot();
           });
 
@@ -2444,23 +2445,23 @@ sub FlightView {
     $menu_options->cascade(-label=>"Distance units", -menu=> $dist_menu);
     $dist_menu->radiobutton(-label=>"km", -variable=>\$config{'distance_unit_name'},-value=>"km",-command=>sub{
             $config{'distance_unit_factor'}=1.0;
-            FVWausg($nr);
+            FVWausg();
             FSupdate();
           });
     $dist_menu->radiobutton(-label=>"Miles", -variable=>\$config{'distance_unit_name'},-value=>"miles",-command=>sub{
             $config{'distance_unit_factor'}=0.621504;
-            FVWausg($nr);
+            FVWausg();
             FSupdate();
           });
     $dist_menu->radiobutton(-label=>"Nautical Miles", -variable=>\$config{'distance_unit_name'},-value=>"NM",-command=>sub{
             $config{'distance_unit_factor'}=0.539956803;
-            FVWausg($nr);
+            FVWausg();
             FSupdate();
           });
 
     $menu_options->separator();
     $menu_options->checkbutton(-label =>"Show accuracy", -variable=>\$config{'draw_accuracy'},-command=>sub{
-            if (Exists($FlightView)) {FVWausg($nr);}
+            if (Exists($FlightView)) {FVWausg();}
 
           });
 
@@ -2656,17 +2657,17 @@ sub FlightView {
     $vertical=$canvas->createLine(0,0,0,0);
     $barovertical = $barocanvas->createLine(0,0,0,0);
 
-    FVWausg($nr);
+    FVWausg();
     marksdraw();
 
-    $FlightView->bind("<Key-F3>", sub {if ($filestat eq 'closed') { return; } $nr++ ; $nr=FVWausg($nr);});
-    $FlightView->bind("<Key-F4>", sub {if ($filestat eq 'closed') { return; } $nr=$nr+5 ; $nr=FVWausg($nr);});
-    $FlightView->bind("<Key-F1>", sub {if ($filestat eq 'closed') { return; } $nr=$nr-5 ; $nr=FVWausg($nr);});
-    $FlightView->bind("<Key-F2>", sub {if ($filestat eq 'closed') { return; } $nr-- ; $nr=FVWausg($nr);});
+    $FlightView->bind("<Key-F3>", sub {if ($filestat eq 'closed') { return; } $nr++ ; FVWausg();});
+    $FlightView->bind("<Key-F4>", sub {if ($filestat eq 'closed') { return; } $nr=$nr+5 ; FVWausg();});
+    $FlightView->bind("<Key-F1>", sub {if ($filestat eq 'closed') { return; } $nr=$nr-5 ; FVWausg();});
+    $FlightView->bind("<Key-F2>", sub {if ($filestat eq 'closed') { return; } $nr-- ; FVWausg();});
     $FlightView->bind("<Key-F5>", sub {
 	    if ($filestat eq 'closed') { return; }
 	    $stat_start=$nr;$FlightView->bell; baroplot();
-            if ($cut_track == 1) {trackplot($dxp, $dyp, $minlat, $minlon);FVWausg($nr);}
+            if ($cut_track == 1) {trackplot($dxp, $dyp, $minlat, $minlon);FVWausg();}
             marksdraw();
 
           });
@@ -2676,12 +2677,12 @@ sub FlightView {
 	    if ($filestat eq 'closed') { return; }
 	    $stat_start=0;$stat_end=$#BARO; $FlightView->bell;
             marksdraw();
-            $cut_track=0;trackplot($dxp, $dyp, $minlat, $minlon);baroplot();FVWausg($nr);
+            $cut_track=0;trackplot($dxp, $dyp, $minlat, $minlon);baroplot();FVWausg();
           });
     $FlightView->bind("<Key-F6>", sub {
 	    if ($filestat eq 'closed') { return; }
 	    $stat_end=$nr;$FlightView->bell; baroplot();
-            if ($cut_track == 1) {trackplot($dxp, $dyp, $minlat, $minlon);FVWausg($nr);}
+            if ($cut_track == 1) {trackplot($dxp, $dyp, $minlat, $minlon);FVWausg();}
             marksdraw();
           });
     $FlightView->bind("<Key-F7>", sub {if ($filestat eq 'closed') { return; }statistik($stat_start, $stat_end);});
@@ -2704,8 +2705,8 @@ sub FlightView {
 
     $FlightView->bind("<Key-F11>", sub {
 	    if ($filestat eq 'closed') { return; }
-            if ($cut_track == 0) {$cut_track=1;trackplot($dxp, $dyp, $minlat, $minlon);baroplot();FVWausg($nr);return;}
-            if ($cut_track == 1) {$cut_track=0;trackplot($dxp, $dyp, $minlat, $minlon);baroplot();FVWausg($nr);}
+            if ($cut_track == 0) {$cut_track=1;trackplot($dxp, $dyp, $minlat, $minlon);baroplot();FVWausg();return;}
+            if ($cut_track == 1) {$cut_track=0;trackplot($dxp, $dyp, $minlat, $minlon);baroplot();FVWausg();}
           });
 
     $FlightView->bind("<Key-s>", sub {
@@ -2834,7 +2835,7 @@ sub FlightView {
             baroplot();#_task();
             FSupdate();
             TaskUpdate();
-            FVWausg($nr);
+            FVWausg();
 
             #if task changed since optimization loose ability to olc-file output
             undef $olcFirstWPindex;
@@ -2857,7 +2858,7 @@ sub FlightView {
             baroplot();#_task();
             FSupdate();
 
-            FVWausg($nr);
+            FVWausg();
             TaskUpdate();
 
             #if task changed since optimization loose ability to olc-file output
@@ -2878,7 +2879,7 @@ sub FlightView {
             WPPlotUpdate();
             baroplot();#_task();
             FSupdate();
-            FVWausg($nr);
+            FVWausg();
             TaskUpdate();
 
             #if task changed since optimization loose ability to olc-file output
@@ -2972,7 +2973,7 @@ sub FlightView {
             if ($config{'maps'}) {
                 if ($zl < 18) {
                     $zl++;
-                    updateFVW(); #FVWausg($nr);
+                    updateFVW(); #FVWausg();
                 }
             }
           } );
@@ -2986,7 +2987,7 @@ sub FlightView {
             #trackplot($dxp, $dyp, $minlat, $minlon);
             #marksdraw();
             #baroplot();
-            #FVWausg($nr);
+            #FVWausg();
 
           } );
 
@@ -2995,7 +2996,7 @@ sub FlightView {
             if ($config{'maps'}) {
                 if ($zl > 0) {
                     $zl--;
-                    updateFVW(); #FVWausg($nr);
+                    updateFVW(); #FVWausg();
                 }
             }
           } );
@@ -3005,7 +3006,7 @@ sub FlightView {
 	if ($filestat eq 'closed') { return; }
             if ($config{'maps'}) {
                 $map_reload = 1;
-                updateFVW(); #FVWausg($nr);
+                updateFVW(); #FVWausg();
 
             }
           } );
@@ -3016,7 +3017,7 @@ sub FlightView {
             if ($config{'maps'}) {
                 $map_reload = 1;
                 $config{'map_gms_v'}++;
-                updateFVW(); #FVWausg($nr);
+                updateFVW(); #FVWausg();
 
             }
           } );
@@ -3814,7 +3815,7 @@ sub baroclick {
         $nr += $stat_start;
     }
 
-    FVWausg($nr);
+    FVWausg();
 }
 
 sub zoom {
@@ -3829,7 +3830,7 @@ sub zoom {
         if ($task_state == 1) {taskdraw(1);}
         if ($wpcyl_state == 1) {wpcyldraw(1);}
         marksdraw();
-        $nr=FVWausg($nr);
+        FVWausg();
         $zoom = 0;
         return;
     }
@@ -3852,7 +3853,7 @@ sub zoom {
         if ($task_state == 1) {taskdraw(1);}
         if ($wpcyl_state == 1) {wpcyldraw(1);}
         marksdraw();
-        $nr=FVWausg($nr);
+        FVWausg();
         $zoom=1;
     }
 }
@@ -3939,7 +3940,7 @@ sub zoom2 {
     if ($wpcyl_state == 1) {wpcyldraw(1);}
     marksdraw();
 
-    $nr=FVWausg($nr);
+    FVWausg();
 
     $zoom=2;
 }
@@ -4168,64 +4169,63 @@ sub FVWresize {
         if ($wpcyl_state == 1) {wpcyldraw(0);wpcyldraw(1);}
         marksdraw();
 
-        $nr=FVWausg($nr);
+        FVWausg();
   } else {
     print "nothing to resize\n" if ($config{'DEBUG'});
   }
 }
 
 
-
 # this function plots the markerlines  (crosshair and vertical line in baroview)
 # and updates info-text
-# ab jetzt (18.01.02) globales $nr! wg. deep recursion error
-# zoom2 benutzt $nr; muss schon angepasst sein! falls < 0 oder > last
+# wraps $nr if needed and changes shown area if marker outside
 sub FVWausg {
     if ($filestat eq 'closed') {
         return 0;
     }
     if (!Exists($FlightView)) {return;}
-#    if ($busy) {print "busy...\n"; return;}
-    #$busy=1;
 
     #$SIG{'USR2'} = IGNORE;
 
-    # falls ein anderes $nr uebergeben wird...
-    my $nr = shift;
+    # falls ein Wert uebergeben wird uebergeben wird...
+    # otherwise $nr is used as in global scope
+    if (@_ >= 1) {
+      $nr = shift;
+    }
 
     # wrap, if outside of range
     if ($nr > $#LAT-1){$nr=0;}
     if ($nr < 0) {$nr=$#LAT-1;}
 
-    ### here has something to be changed. .....
+    # OLD Code, maybe reactivated later
+#    if ($^O ne "MSWin32") {
+#        if (defined $oGLePID) {
+#            if (kill 0, $oGLePID) {
+#                if (defined $shm_id) {
+#
+#		    # if we havnt got sigusr2 from openGLIGCexplorer (FVWausg called from "inside-event")
+#                    if ($sigusr2flag == 0){
+#
+#                        #write data in SysV IPC shared memory
+#                        shmwrite($shm_id, pack("i", $nr) , 0, 4) || print "Error writing Shared Memory (SysV IPC)\n";
+#
+#                        #send USR1 to explorer (update signal)
+#                        system("kill -USR1 $oGLePID");
+#                    } else {
+#
+#			#print "Got SIGUSR2 from somewere... need to read shmem block here...\n";
+#                        shmread($shm_id, $getfromshmem, 0, 4) || print "Error reading Shared Memory (SysV IPC)\n";
+#                        $nr = unpack("i", $getfromshmem);
+#
+#                        #print "GPLIGC: $nr gelesen von shmem\n";
+#                        $sigusr2flag=0;
+#                    }
+#                }
+#            }
+#        }
+#    }
 
-    if ($^O ne "MSWin32") {
-        if (defined $oGLePID) {
-            if (kill 0, $oGLePID) {
-                if (defined $shm_id) {
-
-		    # if we havnt got sigusr2 from openGLIGCexplorer (FVWausg called from "inside-event")
-                    if ($sigusr2flag == 0){
-
-                        #write data in SysV IPC shared memory
-                        shmwrite($shm_id, pack("i", $nr) , 0, 4) || print "Error writing Shared Memory (SysV IPC)\n";
-
-                        #send USR1 to explorer (update signal)
-                        system("kill -USR1 $oGLePID");
-                    } else {
-
-			#print "Got SIGUSR2 from somewere... need to read shmem block here...\n";
-                        shmread($shm_id, $getfromshmem, 0, 4) || print "Error reading Shared Memory (SysV IPC)\n";
-                        $nr = unpack("i", $getfromshmem);
-
-                        #print "GPLIGC: $nr gelesen von shmem\n";
-                        $sigusr2flag=0;
-                    }
-                }
-            }
-        }
-    }
-
+    # formatted strings for output
     my $speed =   sprintf("%.0f",$nonISPEED[$nr]*$config{'speed_unit_factor'});
     my $aspeed = sprintf("%.0f",$IAS[$nr]*$config{'speed_unit_factor'});
 
@@ -4341,12 +4341,9 @@ sub FVWausg {
     if ($x > $config{'window_width'} || $x < 0) { if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } }
     if ($y > $trackheight || $y <0) {if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } }
 
-# return ist eigentlich berfluessig... aber (?)
-#$SIG{'USR2'} = sub {$sigusr2flag=1; print "sigusr2 got... (FVW)\n"; FVWausg($nr);$FlightView->update;};
 
-    #print "update... \n";
-#    $busy = 0;
-    return($nr);
+#$SIG{'USR2'} = sub {$sigusr2flag=1; print "sigusr2 got... (FVW)\n"; FVWausg();$FlightView->update;};
+
 }
 
 #############################################################################
@@ -4403,7 +4400,7 @@ sub WpPlot {
                 $myWPRF=$WPRADFAC[$AKTWP];
                 $wppwlat=GPLIGCfunctions::coorconvert($WPLAT[$AKTWP],'lat',$config{'coordinate_print_format'});
                 $wppwlon=GPLIGCfunctions::coorconvert($WPLON[$AKTWP],'lon',$config{'coordinate_print_format'});
-                FVWausg($nr);
+                FVWausg();
                 TaskUpdate();
             }
           });
@@ -4418,7 +4415,7 @@ sub WpPlot {
                 $myWPRF=$WPRADFAC[$AKTWP];
                 $wppwlat=GPLIGCfunctions::coorconvert($WPLAT[$AKTWP],'lat',$config{'coordinate_print_format'});
                 $wppwlon=GPLIGCfunctions::coorconvert($WPLON[$AKTWP],'lon',$config{'coordinate_print_format'});
-                FVWausg($nr);
+                FVWausg();
                 TaskUpdate();
             }
           });
@@ -4482,7 +4479,7 @@ sub WpPlot {
 
                 print "No of WPs (maxwp): $MAXWP // Actual WP (aktwp): $AKTWP // Size of array (\$#WPLAT): $#WPLAT \n" if ($config{'DEBUG'});
 
-                FVWausg($nr);
+                FVWausg();
                 FSupdate();
                 TaskUpdate();
                 baroplot();#_task();
