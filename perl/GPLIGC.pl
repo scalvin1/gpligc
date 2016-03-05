@@ -854,7 +854,7 @@ sub oeffnen {      ### open a File
                       ( ( (($IAS[$i-1]/3.6)**2) - ($IAS[$i]/3.6)**2) / 19.62) ) / ($delta_time*3600);
                 push(@compVARIO,$compvario);
 
-            } elsif ($config{'te_vario_fallback'}) { # ZZZZ ist das hier die richtige speed?
+            } elsif ($config{'te_vario_fallback'}) { # ist das hier die richtige speed?
                 my $compvario = ( ($BARO[$i]-$BARO[$i-1]) -
                       ( ( (($nonISPEED[$i-1]/3.6)**2) - ($nonISPEED[$i]/3.6)**2) / 19.62) ) / ($delta_time*3600);
                 push(@compVARIO,$compvario);
@@ -1710,7 +1710,6 @@ sub info {
     $infoFenster=$FlightView->Toplevel();
     $infoFenster->configure(-title=>"Information");
 
-    #iconload($infoFenster);
     setexit($infoFenster);
     my $pic=$infoFenster->Photo();
 
@@ -1744,7 +1743,6 @@ sub help {
     $helpFenster=$FlightView->Toplevel();
     $helpFenster->configure(-title=>"Help / Keys");
 
-    #iconload($helpFenster);
     setexit($helpFenster);
 
     my $labeltext= <<ENDE;
@@ -1820,7 +1818,6 @@ sub OpenGLexplorer {
     else {
         if ($config{'photos'} && !$hide_mm && $#PHOTO_FILES > 0) {
 
-            # ZZZh
             $pfile = substr($file, 0, -3)."photocoord";
             open (PF, ">$pfile");
 
@@ -1902,7 +1899,6 @@ sub FlightInfo {
     $FI=$FlightView->Toplevel();
     $FI->configure(-title=>"Flight information");
 
-    #iconload($FI);
     setexit($FI);
 
     $FDR = "unknown" if !defined $FDR;
@@ -1936,7 +1932,6 @@ sub FlightStatistics {
 
     $fstattext='';
 
-    #iconload($FF);
     setexit($FF);
 
     FSupdate();
@@ -2224,9 +2219,6 @@ sub FlightView {
 
     # this catches wm-exit-button, wm-exit...
     $FlightView->protocol('WM_DELETE_WINDOW', =>\&gpligcexit);
-
-    # load the icon
-    #iconload($FlightView);
 
     $FlightView->wm("iconname", "GPLIGC");
 
@@ -2580,20 +2572,6 @@ sub FlightView {
 
     $menu_stuff->pack(-side=>'left');
 
-    # FILE AND STATUS LINE
-    #my $statframe=$FlightView->Frame(-relief=>"ridge",-bd=>3);
-    #my $offrame=$statframe->Frame();
-    #my $opentext=$offrame->Label(-text=>"File: ");
-    #my $openfile=$offrame->Label(-textvariable=>\$file);
-    #$statframe->pack(-fill=>'x',-padx=>3,-pady=>3);
-    #$offrame->pack(-side=>'top',-fill=>'x');
-    #$opentext->pack(-side=>'left');
-    #$openfile->pack(-side=>'right');
-
-    #$FlightView=$Fenster->Toplevel();
-    #iconload($FlightView);
-    #$FlightView->configure(-title=>"FlightView Window");
-
     $zoom = 0;
 
     $fvwtext="\n\n\n\n";  # five lines
@@ -2607,7 +2585,7 @@ sub FlightView {
 
     $trackheight = int ((     (1-(1/$config{'fvw_baro_fraction'}))*$config{'window_height'}    )+0.5)-2;
 
-    # for some UNKNOWN reason the cavas is gonna be two pixels wider than requested !!!!!!!!!!!!!!!!!!
+    # for some UNKNOWN reason the canvas is gonna be two pixels wider than requested !!!!!!!!!!!!!!!!!!
     $canvas=$canvas_frame->Canvas(-height=>$trackheight, -width=>$config{'window_width'}-2, -background=>"white",-borderwidth=>0,
         -scrollregion=>[0,0,$config{'window_width'}-2,$trackheight]);
 
@@ -2758,7 +2736,6 @@ sub FlightView {
             $mmlist=$FlightView->Toplevel();
             $mmlist->configure(-title=>"Media List");
             setexit($mmlist);
-            #iconload($mmlist);
 
             $mm_list_box = $mmlist->ScrlListbox(-label=>"Media List", -selectmode=>"single",-height=>"0",-width=>"0")->pack(-side=>"left");
             $mm_list_box->bind("<Double-Button-1>" => \&mm_click);
@@ -2770,16 +2747,10 @@ sub FlightView {
             sub mm_click {
                 my $sel=$mm_list_box->curselection();
 
-                #$nr = $PHOTO_FILE_INDICES[@$sel[0]];
-
-                ### hier gibts manchmal komische medlungen
                 if (defined @$sel[0]) {
                     FVWausg($PHOTO_FILES_INDICES[@$sel[0]]);
                 }
 
-                #my @sel=$mm_list_box->curselection();
-                #$nr = $thermal_start_time_index[$sel[0]];
-                #FVWausg($thermal_start_time_index[$sel[0]]);
             }
           });
 
@@ -3034,7 +3005,7 @@ sub FlightView {
       print @marks_lines ." ml\n";
       print @wpcyl_lines ." wpcl\n";
 
-      # ZZZZZZZZZ
+      # ZZZZ
       #this is purely for debugging one memory leak
       # VERY STRANGE
       # symptoms:
@@ -4626,8 +4597,6 @@ sub calibrationinput {
     my $caltype ="baro";
     $input->configure(-title=>"Elevation input");
 
-    #iconload($input);
-
     my $eleframe=$input->Frame()->pack();
     my $radfr=$input->Frame()->pack;
     my $bfr=$input->Frame()->pack();
@@ -4697,8 +4666,6 @@ sub qnhcalibrationinput {
     my $newrefp=0;
 
     $input->configure(-title=>"Pressure calibration");
-
-    #iconload($input);
 
     my $eleframe=$input->Frame()->pack();
     my $elevf2=$input->Frame()->pack();
@@ -4896,7 +4863,6 @@ sub thermik_statistik {
     $thermal_statistik=$FlightView->Toplevel();
     $thermal_statistik->configure(-title=>"Thermals");
     setexit($thermal_statistik);
-    #iconload($thermal_statistik);
 
     $therm_list_box = $thermal_statistik->ScrlListbox(-label=>"Thermals", -selectmode=>"single",-height=>"0",-width=>"0")->pack(-side=>"left");
     $therm_list_box->bind("<Double-Button-1>" => \&therm_click);
@@ -5085,7 +5051,6 @@ sub glide_statistik {
     $glide_statistik=$FlightView->Toplevel();
     $glide_statistik->configure(-title=>"Glide");
     setexit($glide_statistik);
-    #iconload($glide_statistik);
 
     $glide_list_box = $glide_statistik->ScrlListbox(-label=>"Glide", -selectmode=>"single",-height=>"0",-width=>"0")->pack(-side=>"left");
     $glide_list_box->bind("<Double-Button-1>" => \&glide_click);
@@ -5166,7 +5131,6 @@ sub MessageFenster {
     my $MF=$FlightView->Toplevel();
     $MF->configure(-title=>$head);
 
-    #iconload($MF);
     setexit($MF);
 
     my $label=$MF->Message(-width=>"60c",-textvariable=>\$message);
@@ -5366,35 +5330,6 @@ sub load_gpi {
 
 ########################################
 
-#doesnt seem to work anymore (12/2013 v1.10x)
-sub iconload {
-
-    if ($^O eq "MSWin32") { return; }   # avtive perl doesnt support this...
-
-    my $widgetref = shift;
-
-    if (-f "$config{'datadir'}/gpligc.xbm"){
-
-        #$widgetref->wm("iconbitmap",'@'."$config{'datadir'}/gpligc.xbm");
-        $widgetref->iconbitmap('@'."$config{'datadir'}/gpligc.xbm");
-
-    } elsif (-f './gpligc.xbm'){
-
-        $widgetref->wm("iconbitmap",'@gpligc.xbm');
-
-    } elsif(-f "${scriptpath}gpligc.xbm") {
-
-        $widgetref->wm("iconbitmap",'@'."${scriptpath}gpligc.xbm");
-
-    } else {
-
-        print "Could not find \'gpligc.xbm\' in $config{'datadir'}/ , ./ and $scriptpath. Fix this, please. Exiting now...\n";
-        gpligcexit(1);
-    }
-
-}
-
-###########################################
 
 # this sets exit bindings q, esacpe for given widget
 sub setexit {
@@ -5607,7 +5542,6 @@ sub ReadLogger {
 
     $LoggerWindow=$FlightView->Toplevel();
     $LoggerWindow->configure(-title=>"Read Logger");
-    #iconload($LoggerWindow);
 
     # testing...
     $lcommand_options="-pANY"; #-d$config{'working_directory'}";
@@ -5681,12 +5615,7 @@ sub getWPreachedIndices {
         my $loopstart=1;
         for (my $z=1; $z <= $MAXWP; $z++) {
 
-            #my $limit = 0;
-            my $limit = $config{'zylinder_radius'};
-            #if ($config{'zylinder_radius'} eq "300m") {$limit = 0.3;}
-            #if ($config{'zylinder_radius'} eq "500m") {$limit = 0.5;}
-            #if ($config{'zylinder_radius'} eq "1km")   {$limit = 1.0;}
-            #if ($config{'zylinder_wp_type'} eq "sec") {$limit = 3.0;}
+        my $limit = $config{'zylinder_radius'};
 
             for (my $x=$loopstart; $x <= $#DECLAT; $x++) {
                 my $dist = GPLIGCfunctions::dist($DECLAT[$x], $DECLON[$x], $WPLAT[$z], $WPLON[$z]);
@@ -5845,11 +5774,6 @@ sub checkPhotos {
     @PHOTO_TIMES_tmp=();
     $delta_photo_time = 0 ;
 
-    #	foreach (@PHOTO) { print "$_ \n";}
-    #	foreach (@PHOTO_TIMES) { print "$_ \n";}
-    #	foreach (@PHOTO_FILES) { print "$_ \n";}
-    #	foreach (@PHOTO_FILES_INDICES) { print "$_ \n";}
-
     # Photo stuff
     # initialization
 
@@ -5885,15 +5809,11 @@ sub checkPhotos {
                     $time = GPLIGCfunctions::getFiletime($_);
                 }
 
-                #print "######### photo_timezone = $photo_timezone\n";
-
                 push (@PHOTO_TIMES_tmp, $time-$photo_timezone);
 
                 if ($config{'DEBUG'}){
                     print "$_ : $time - ($photo_timezone) \n";
                 }
-
-                #print "postFile >$_<\n";
 
             }
 
@@ -5954,11 +5874,6 @@ sub processPhotos {
             }
         }
 
-        # this triggers an error on initial opening a file---
-        # check20
-        #if (Exists($FlightView)) {
-        #trackplot($dxp, $dyp, $minlat, $minlon);
-        #}
     }
 
 }
@@ -5984,9 +5899,7 @@ sub getPhotos {
 
     foreach (@content) {
 
-        #	print $_."\n" if ($config{'DEBUG'});
-
-        if ( lc(substr($_,-3)) eq "jpg" || lc(substr($_,-4)) eq "jpeg"
+         if ( lc(substr($_,-3)) eq "jpg" || lc(substr($_,-4)) eq "jpeg"
             || lc(substr($_,-3)) eq "amr" || lc(substr($_,-3)) eq "ogg" || lc(substr($_,-3)) eq "mp3"
             || lc(substr($_,-3)) eq "avi" || lc(substr($_,-3)) eq "3gp"
           ) {
@@ -6009,10 +5922,6 @@ sub getPhotos {
         chomp($delta_photo_time = <TS>);
         chomp($photo_timezone = <TS>);
         close TS;
-
-        #	if (!defined $photo_timezone) {
-        #	 $photo_timezone = $config{'timezone'};
-        #	}
 
         print "read $dir/.GPLIGC-timeshift:  $delta_photo_time \n" if ($config{'DEBUG'});
         print "read $dir/.GPLIGC-timeshift (tz):  $photo_timezone \n" if ($config{'DEBUG'});
@@ -6067,8 +5976,6 @@ sub viewPhoto {
     my $viewer=$FlightView->Toplevel();
     $viewer->configure(-title=>"GPLIGC: $file");
 
-    #iconload($viewer);
-
     my $canvas = $viewer->Canvas();
     my $photo = $viewer->Photo();
     $canvas->create('image', 0, 0, -image=>$photo, -anchor =>'nw');
@@ -6100,8 +6007,6 @@ sub geotag_photos {
 
     my $resp=$FlightView->messageBox(-type=>'OkCancel', -default=>'Ok', -icon=>'question',
         -message=>"This will geo-tag all jpeg's of the media list (".($#PHOTO_FILES+1)." files)");
-
-    # Errorbox("This will geo-tag ".($#PHOTO_FILES+1)." files (only jpegs)");
 
     if (lc($resp) eq 'cancel') {return;}
 
@@ -6144,8 +6049,6 @@ sub phototimecalibration {
     my $input=$FlightView->Toplevel();
 
     $input->configure(-title=>"Photo time calibration");
-
-    #iconload($input);
 
     my $eleframe=$input->Frame()->pack();
     my $buttonfr=$input->Frame()->pack();
@@ -6273,7 +6176,7 @@ sub download_media {
 
         $com .= " ; umount -v $config{'mm_mountpoint'}  ";
 
-        #print "$com \n";
+        print "Media DL command: $com \n" if ($config{'DEBUG'});
 
         my $pid = fork();
 
@@ -6291,15 +6194,10 @@ sub download_garmin {
     my $file = save(GPLIGCfunctions::get_name_date()."-GAR-000-01.gpspoint");
     my $path = File::Basename::dirname($file);
 
-    #if (-e $file) {
-    #	Errorbox("File exists ($file)");
-    #	return;	} els
-
     if ($file ne "no") {
 
         my $com = " $config{'garmin_download'}  >$file && cd $path && gpsp2igcfile.pl <$file && echo \"finished\"";
-
-        #print "$com \n";
+        print "Garmin download command: $com \n" if ($config{'DEBUG'});
 
         my $pid = fork();
         if ($pid==0) {
@@ -6347,13 +6245,13 @@ sub download_gpsbabel {
 }
 
 #####
+
 sub gpiinput {
 
     if ($filestat eq 'closed') {$FlightView->bell; return;}
     my $input=$FlightView->Toplevel();
 
     $input->configure(-title=>"Additional flight information");
-    #iconload($input);
 
     my %oldgpi = %gpi;
 
@@ -6448,7 +6346,7 @@ sub check_config {
   # find outdated config-keys and inform user
   print "\ncheck_config\n" if ($config{'DEBUG'});
   my $YES = 0;
-  my $text = "The following configuration keys are outdated. They will be deleted now. Save the configuration to erase them permanently from the configuration file.\nKeys:\n";
+  my $text = "The following configuration keys are outdated. They will be deleted now. Save the configuration to erase them permanently from your configuration file.\nKeys:\n";
 
   my @old_keys = qw (optimizer_montecarlo optimizer_metropolis_montecarlo optimizer_cycles open_flight_view_window fvw_show_help
   flight_view_baro_grid flight_view_window_grid
@@ -6518,9 +6416,6 @@ sub olctaskinfo {
 
             for (my $e=$olcLastWPindex; $e <= $task_finish_time_index; $e++) {
                 if ($BARO[$e] > $BARO[$maximumheightindex]) {$maximumheightindex = $e;}
-
-#print "olcLast: $olcLastWPindex, * $task_finish_time_index,  * $e, * $#BARO\n" if ($config{'DEBUG'});
-
             }
 
             $finishtime = GPLIGCfunctions::time2human($TIME[$maximumheightindex],'t');
