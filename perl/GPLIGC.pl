@@ -179,15 +179,15 @@ $gpi{'qnh'} = 1013.25; 	# just to avoid an error if the pressure plot is issued 
 # use SysVIPC on non-windows platforms only
 # BEGIN {} is executed at compile time...
 # OLD CODE...
-#BEGIN {
-#    if ($^O ne "MSWin32") {
+BEGIN {
+    if ($^O ne "MSWin32") {
 #        require IPC::SysV;
 #        import IPC::SysV qw(IPC_RMID IPC_CREAT S_IRWXU ftok);
-#    } else {
-#        require Win32;
-#        import Win32 qw(GetOSName);
-#    }
-#}
+    } else {
+        require Win32;
+        import Win32 qw(GetOSName);
+    }
+}
 
 # Tk-Module is needed!
 use Tk;
