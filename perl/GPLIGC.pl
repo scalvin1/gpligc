@@ -444,6 +444,10 @@ sub updateFVW {
 	if (@introtext) {$canvas->delete(@introtext);}
     }
 
+    # task and cylinder have to be erased first! (fix for bug #6)
+    if ($task_state == 1) {taskdraw(0);}
+    if ($wpcyl_state == 1) {wpcyldraw(0);}
+
     mapplot($dxp, $dyp, $minlat, $minlon, $initflag);
     trackplot($dxp, $dyp, $minlat, $minlon);
     marksdraw();
@@ -879,7 +883,7 @@ sub oeffnen {      ### open a File
 
     # warning
     if ($IASEXISTS ne "yes" && $config{'te_vario_fallback'} == 1 && $config{'te_warning'})
-    {Errorbox("total energy compensation was calculated from gps groundspeed!");}
+    {Errorbox("total energy compensation was calculated from gps groundspeed!\nTo turn off this warning set te_warning = 0.\nAlso see te_vario_fallback");}
 
     # Maximum/minimum height:
     ($maxbaro, $minbaro)=GPLIGCfunctions::MaxKoor(\@BARO);
@@ -3022,6 +3026,8 @@ sub FlightView {
 sub mapplot {
     if ($filestat eq 'closed') { return; }
 
+    print "mapplot ---------\n" if ($config{'DEBUG'});
+
     if ($config{'maps'} && !($have_imager && $have_png)) {
         $config{'maps'}=0;
         Errorbox("You cant use maps without PNG and Imager modules!");
@@ -3309,6 +3315,9 @@ sub trackplot {
     if ($filestat eq 'closed') {
         return;
     }
+
+    print "trackplot ---------\n" if ($config{'DEBUG'});
+
     $FlightView->Busy;
     my ($dxp, $dyp, $minlat, $minlon) =@_;
 
@@ -3413,6 +3422,8 @@ sub trackplot {
 
 sub wpcyldraw {
     my $on_off= shift;
+
+    print "wpcyldraw (on/off = $on_off) ---------\n" if ($config{'DEBUG'});
 
     if ($on_off == 1) {
         if ($MAXWP >= 1) {
@@ -3534,7 +3545,7 @@ sub wpcyldraw {
 sub taskdraw {
     my $on_off = shift;
 
-    #print "TASKDRAW $on_off\n";
+    print "taskdraw (on/off = $on_off) ---------\n" if ($config{'DEBUG'});
 
     if ($on_off == 1) {
 
@@ -3561,6 +3572,8 @@ sub baroplot {
     if ($filestat eq 'closed') {
         return;
     }
+
+    print "baroplot ---------\n" if ($config{'DEBUG'});
 
         # erase all plotted stuff from previous and clean array!
     if (@baroplot){$barocanvas -> delete (@baroplot);}
@@ -3707,6 +3720,8 @@ sub baroplot_task {
 #    if (@baroplot_task){$barocanvas -> delete (@baroplot_task);}
 #    @baroplot_task =();
 
+    print "baroplot_task ---------\n" if ($config{'DEBUG'});
+
     my ($wpindicesref, $wpnamesref) = getWPreachedIndices();
 
     # DISPLAY lines in barogram, where wp were reached
@@ -3741,6 +3756,9 @@ sub marksdraw {
     if ($filestat eq 'closed') {
         return;
     }
+
+    print "marksdraw ---------\n" if ($config{'DEBUG'});
+
     if (@marks_lines) {$canvas->delete(@marks_lines);}
 
     @marks_lines=();
@@ -4154,10 +4172,14 @@ sub FVWausg {
     }
     if (!Exists($FlightView)) {return;}
 
+#    print "FVWausg ---------\n" if ($config{'DEBUG'});
+
     #$SIG{'USR2'} = IGNORE;
 
     # falls ein Wert uebergeben wird uebergeben wird...
     # otherwise $nr is used as in global scope
+
+#    print "FVWausg nr before $nr\n" if ($config{'DEBUG'});
     if (@_ >= 1) {
       $nr = shift;
     }
@@ -4165,6 +4187,8 @@ sub FVWausg {
     # wrap, if outside of range
     if ($nr > $#LAT-1){$nr=0;}
     if ($nr < 0) {$nr=$#LAT-1;}
+
+    print "FVWausg($nr) ----------- \n" if ($config{'DEBUG'});
 
     # OLD Code, maybe reactivated later
 #    if ($^O ne "MSWin32") {
@@ -4307,8 +4331,13 @@ sub FVWausg {
 
     }
 
-    if ($x > $config{'window_width'} || $x < 0) { if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } }
-    if ($y > $trackheight || $y <0) {if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } }
+#    if ($config{'DEBUG'}) {
+#      if ($x > $config{'window_width'} || $x < 0) { print "X is outside range ($x)!\n";}
+#      if ($y > $trackheight || $y <0) { print "Y is outside range ($y)!\n";}
+#    }
+
+    if ($x > $config{'window_width'} || $x < 0) { if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } return; }
+    if ($y > $trackheight || $y <0) {if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } return; }
 
 
 #$SIG{'USR2'} = sub {$sigusr2flag=1; print "sigusr2 got... (FVW)\n"; FVWausg();$FlightView->update;};
