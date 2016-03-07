@@ -2,6 +2,9 @@
 
 #no status platform  component description/testcase
 
+7   open   all?      gpligc    doubled plotting, when moving over edge, or jumping (zoomed)
+6   open   all?      gpligc    WP/sectors/cylinders stay in some conditions...
+
 5   fixed  all?      gpligc    endless loop, when moving over the end while zoomed:
                                 Deep recursion on subroutine "main::FVWausg" at /usr/local/bin/gpligc line 3940.
                                 Deep recursion on subroutine "main::zoom2" at /usr/local/bin/gpligc line 4339.
