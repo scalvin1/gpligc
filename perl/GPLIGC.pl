@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 # version and copyleft
-my $version='1.10';
+my $version='1.11';
 my $copyright_years="2000-2016";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
@@ -9,9 +9,7 @@ my $copyright="(c) $copyright_years by Hannes Krueger";
 my $new_version_message=<<ENDE;
 News for version $version
 
-- GUI simplified
-- map features improved
-- GPLv3 licensed
+ - nothing yet
 
 for details see ChangeLog and read the Manual
 
