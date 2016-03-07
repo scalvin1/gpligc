@@ -879,7 +879,7 @@ sub oeffnen {      ### open a File
 
     # warning
     if ($IASEXISTS ne "yes" && $config{'te_vario_fallback'} == 1 && $config{'te_warning'})
-    {Errorbox("total energy compensation was calculated from gps groundspeed!");}
+    {Errorbox("total energy compensation was calculated from gps groundspeed!\nTo turn off this warning set te_warning = 0.\nAlso see te_vario_fallback");}
 
     # Maximum/minimum height:
     ($maxbaro, $minbaro)=GPLIGCfunctions::MaxKoor(\@BARO);
