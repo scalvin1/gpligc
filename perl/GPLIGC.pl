@@ -4168,10 +4168,14 @@ sub FVWausg {
     }
     if (!Exists($FlightView)) {return;}
 
+#    print "FVWausg ---------\n" if ($config{'DEBUG'});
+
     #$SIG{'USR2'} = IGNORE;
 
     # falls ein Wert uebergeben wird uebergeben wird...
     # otherwise $nr is used as in global scope
+
+#    print "FVWausg nr before $nr\n" if ($config{'DEBUG'});
     if (@_ >= 1) {
       $nr = shift;
     }
@@ -4179,6 +4183,8 @@ sub FVWausg {
     # wrap, if outside of range
     if ($nr > $#LAT-1){$nr=0;}
     if ($nr < 0) {$nr=$#LAT-1;}
+
+    print "FVWausg($nr) ----------- \n" if ($config{'DEBUG'});
 
     # OLD Code, maybe reactivated later
 #    if ($^O ne "MSWin32") {
@@ -4321,8 +4327,13 @@ sub FVWausg {
 
     }
 
-    if ($x > $config{'window_width'} || $x < 0) { if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } }
-    if ($y > $trackheight || $y <0) {if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } }
+#    if ($config{'DEBUG'}) {
+#      if ($x > $config{'window_width'} || $x < 0) { print "X is outside range ($x)!\n";}
+#      if ($y > $trackheight || $y <0) { print "Y is outside range ($y)!\n";}
+#    }
+
+    if ($x > $config{'window_width'} || $x < 0) { if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } return; }
+    if ($y > $trackheight || $y <0) {if ($zoom==2) {zoom2(1);} else {$zoom=0; zoom(); } return; }
 
 
 #$SIG{'USR2'} = sub {$sigusr2flag=1; print "sigusr2 got... (FVW)\n"; FVWausg();$FlightView->update;};

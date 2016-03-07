@@ -2,7 +2,7 @@
 
 #no status platform  component description/testcase
 
-7   open   all?      gpligc    doubled plotting, when moving over edge, or jumping (zoomed)
+7   fixed  all?      gpligc    doubled plotting, when moving over edge, or jumping (zoomed)
 6   open   all?      gpligc    WP/sectors/cylinders stay in some conditions...
 
 5   fixed  all?      gpligc    endless loop, when moving over the end while zoomed:
