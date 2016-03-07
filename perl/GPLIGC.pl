@@ -3022,6 +3022,8 @@ sub FlightView {
 sub mapplot {
     if ($filestat eq 'closed') { return; }
 
+    print "mapplot ---------\n" if ($config{'DEBUG'});
+
     if ($config{'maps'} && !($have_imager && $have_png)) {
         $config{'maps'}=0;
         Errorbox("You cant use maps without PNG and Imager modules!");
@@ -3309,6 +3311,9 @@ sub trackplot {
     if ($filestat eq 'closed') {
         return;
     }
+
+    print "trackplot ---------\n" if ($config{'DEBUG'});
+
     $FlightView->Busy;
     my ($dxp, $dyp, $minlat, $minlon) =@_;
 
@@ -3413,6 +3418,8 @@ sub trackplot {
 
 sub wpcyldraw {
     my $on_off= shift;
+
+    print "wpcyldraw (on/off = $on_off) ---------\n" if ($config{'DEBUG'});
 
     if ($on_off == 1) {
         if ($MAXWP >= 1) {
@@ -3534,7 +3541,7 @@ sub wpcyldraw {
 sub taskdraw {
     my $on_off = shift;
 
-    #print "TASKDRAW $on_off\n";
+    print "taskdraw (on/off = $on_off) ---------\n" if ($config{'DEBUG'});
 
     if ($on_off == 1) {
 
@@ -3561,6 +3568,8 @@ sub baroplot {
     if ($filestat eq 'closed') {
         return;
     }
+
+    print "baroplot ---------\n" if ($config{'DEBUG'});
 
         # erase all plotted stuff from previous and clean array!
     if (@baroplot){$barocanvas -> delete (@baroplot);}
@@ -3707,6 +3716,8 @@ sub baroplot_task {
 #    if (@baroplot_task){$barocanvas -> delete (@baroplot_task);}
 #    @baroplot_task =();
 
+    print "baroplot_task ---------\n" if ($config{'DEBUG'});
+
     my ($wpindicesref, $wpnamesref) = getWPreachedIndices();
 
     # DISPLAY lines in barogram, where wp were reached
@@ -3741,6 +3752,9 @@ sub marksdraw {
     if ($filestat eq 'closed') {
         return;
     }
+
+    print "marksdraw ---------\n" if ($config{'DEBUG'});
+
     if (@marks_lines) {$canvas->delete(@marks_lines);}
 
     @marks_lines=();
