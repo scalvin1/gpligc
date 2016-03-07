@@ -444,6 +444,10 @@ sub updateFVW {
 	if (@introtext) {$canvas->delete(@introtext);}
     }
 
+    # task and cylinder have to be erased first! (fix for bug #6)
+    if ($task_state == 1) {taskdraw(0);}
+    if ($wpcyl_state == 1) {wpcyldraw(0);}
+
     mapplot($dxp, $dyp, $minlat, $minlon, $initflag);
     trackplot($dxp, $dyp, $minlat, $minlon);
     marksdraw();
