@@ -3437,19 +3437,19 @@ sub wpcyldraw {
                     # adding a very small value in the last line seems to circumvent some bug in perl?
                     # without it the result of zyl_rad * wprfac comes as integer wtf????
 
-                    if ($config{'DEBUG'}) {
-                     my $GGG1= $WPRADFAC[$zaehl] * $config{'zylinder_radius'};
-                     my $GGG2= ($WPRADFAC[$zaehl]+0.000000000001)* $config{'zylinder_radius'};
+#                    if ($config{'DEBUG'}) {
+#                     my $GGG1= $WPRADFAC[$zaehl] * $config{'zylinder_radius'};
+#                     my $GGG2= ($WPRADFAC[$zaehl]+0.000000000001)* $config{'zylinder_radius'};
 
-                     if (abs($GGG1-$GGG2) > 0.1) {
-                     print "IS THIS A BUG in Perl ???:\n";
-                     print 'This is the value of the hash/key >>> $config{\'zylinder_radius\'} :>>'.$config{'zylinder_radius'}."<<\n";
-                     print 'This is the value of the array/index >>> $WPRADFAC[$zaehl] :>>'.$WPRADFAC[$zaehl]."<<\n";
-                     print 'The product $WPRADFAC[$zaehl] * $config{\'zylinder_radius\'} = '.$GGG1."\n";
-                     print 'The product ($WPRADFAC[$zaehl]+0.000000000001) * $config{\'zylinder_radius\'} = '.$GGG2."\n";
-                     print "\n*******************\n  $GGG1 = $GGG2 \n*******************\n\n";
-                     }
-                    }
+#                     if (abs($GGG1-$GGG2) > 0.1) {
+#                     print "IS THIS A BUG in Perl ???:\n";
+#                     print 'This is the value of the hash/key >>> $config{\'zylinder_radius\'} :>>'.$config{'zylinder_radius'}."<<\n";
+#                     print 'This is the value of the array/index >>> $WPRADFAC[$zaehl] :>>'.$WPRADFAC[$zaehl]."<<\n";
+#                     print 'The product $WPRADFAC[$zaehl] * $config{\'zylinder_radius\'} = '.$GGG1."\n";
+#                     print 'The product ($WPRADFAC[$zaehl]+0.000000000001) * $config{\'zylinder_radius\'} = '.$GGG2."\n";
+#                     print "\n*******************\n  $GGG1 = $GGG2 \n*******************\n\n";
+#                     }
+#                    }
 
                     for  (my $xzaehl=0; $xzaehl<=$#$cylref_lat-1; $xzaehl++) {
 
@@ -3802,7 +3802,12 @@ sub baroclick {
         $nr += $stat_start;
     }
 
+    # Disable the calbacks until we're finisched. (fixes bug #6)
+    $barocanvas->CanvasBind('<B1-Motion>' , "");
+    $barocanvas->CanvasBind('<1>' , "");
     FVWausg();
+    $barocanvas->CanvasBind('<B1-Motion>' => \&baroclick);
+    $barocanvas->CanvasBind('<1>' => \&baroclick);
 }
 
 sub zoom {
