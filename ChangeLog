@@ -5,6 +5,7 @@ ChangeLog of the gpligc & ogie project
  Version 1.11  0x/201y
 
 GPLIGC
+- removed libdir and datadir from %config. not really needed and causing probl.
 
 ogie
 

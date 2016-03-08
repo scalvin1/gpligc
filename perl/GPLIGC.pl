@@ -102,8 +102,9 @@ $config{'draw_wpcyl'}=0;
 $config{'draw_accuracy'}=1;
 $config{'viewclick_res'}=1;
 $config{'timezone'} = "0"; 			# timzone offset from UTC to camera-time (and localtime?)
-$config{'libdir'} = "zzLIBDIRzz";  		# LIBDIR PATH will be changed by the installation
-$config{'datadir'} = "zzDATADIRzz";  		# DATADIR PATH will be changed by the installation
+# removed from config not really needed
+$libdir = "zzLIBDIRzz";  			# LIBDIR PATH will be changed by the installation
+$datadir = "zzDATADIRzz"; 	 		# DATADIR PATH will be changed by the installation
 $config{'gnuplot_draw_style'}="with lines";
 $config{'gnuplot_grid_state'}='set grid';
 $config{'gnuplot_terminal'}="x11";
@@ -233,11 +234,11 @@ if (defined $test_EXIF && $test_EXIF == 1) {
 # check environment vars on win
 if ($^O eq "MSWin32") {
     if (defined $ENV{'GPLIGCHOME'}) {
-        $config{'libdir'} = $ENV{'GPLIGCHOME'}."/";
-        $config{'datadir'} = $ENV{'GPLIGCHOME'}."/";
+        $libdir = $ENV{'GPLIGCHOME'}."/";
+        $datadir = $ENV{'GPLIGCHOME'}."/";
     } else {
-        $config{'libdir'} = ".";
-        $config{'datadir'} = ".";
+        $libdir = ".";
+        $datadir = ".";
         print "GPLIGCHOME is not defined !!!\n";
     }
 
@@ -248,15 +249,15 @@ if ($^O eq "MSWin32") {
 } else { # Unix-case: allow overriding libdir by GPLIGCHOME
     if (defined $ENV{'GPLIGCHOME'}) {
         print "GPLIGCHOME is defined: $ENV{'GPLIGCHOME'}\n";
-        print "previous content of $config{'libdir'}="."$config{'libdir'} will be overridden.\n";
-        $config{'libdir'} = $ENV{'GPLIGCHOME'}."/";
-        $config{'datadir'} = $ENV{'GPLIGCHOME'}."/";
+        print "previous content of $libdir="."$libdir will be overridden.\n";
+        $libdir = $ENV{'GPLIGCHOME'}."/";
+        $datadir = $ENV{'GPLIGCHOME'}."/";
     }
 }
 
 # add libdir to infotext
-$text .= "Library path: $config{'libdir'}\n";
-$text .= "Data path: $config{'datadir'}\n";
+$text .= "Library path: $libdir\n";
+$text .= "Data path: $datadir\n";
 
 use File::Spec;
 my $curdir = File::Spec->curdir;
@@ -266,8 +267,8 @@ my $scriptpath = File::Basename::dirname($0)."/";
 
 if ($config{'DEBUG'}) {
     print "$scriptpath $0\n";
-    print "libdir: $config{'libdir'} \n";
-    print "datadir: $config{'datadir'} \n";
+    print "libdir: $libdir \n";
+    print "datadir: $datadir \n";
     print "curdir: $curdir \n";
     print "scriptpath: $scriptpath \n";
 }
@@ -287,13 +288,13 @@ if ($^O eq "MSWin32") {
     }
 }
 
-unshift (@INC, $curdir, $scriptpath, $config{'libdir'});
+unshift (@INC, $curdir, $scriptpath, $libdir);
 
 # path seperator
 my $ps;
 if ($^O eq "MSWin32") { $ps =";";} else {$ps=":";}
 
-$ENV{'PATH'} = "$ENV{'PATH'}$ps$curdir$ps$config{'libdir'}$ps$scriptpath";
+$ENV{'PATH'} = "$ENV{'PATH'}$ps$curdir$ps$libdir$ps$scriptpath";
 
 #catch some signals for controlled shutdown.
 $SIG{'INT'} = \&gpligcexit;
@@ -1716,15 +1717,15 @@ sub info {
     my $pic=$infoFenster->Photo();
 
     # Look in install-directory AND in ./ for appropriate files...
-    if(-f "$config{'datadir'}/$picname.$pictype"){
-        $pic->configure(-file=>"$config{'datadir'}/$picname.$pictype");
+    if(-f "$datadir/$picname.$pictype"){
+        $pic->configure(-file=>"$datadir/$picname.$pictype");
     } elsif (-f "./$picname.$pictype"){
         $pic->configure(-file=>"./$picname.$pictype");
     } elsif(-f "${scriptpath}$picname.$pictype") {
         $pic->configure(-file=>"${scriptpath}$picname.$pictype");
     } else {
 
-        print "Could not find \'$picname.$pictype\' in $config{'datadir'}/ and ./ and $scriptpath Fix this, please. Exiting now...\n";
+        print "Could not find \'$picname.$pictype\' in $datadir/ and ./ and $scriptpath Fix this, please. Exiting now...\n";
         gpligcexit(1);
     }
 
@@ -6381,7 +6382,7 @@ sub check_config {
   my $text = "The following configuration keys are outdated. They will be deleted now. Save the configuration to erase them permanently from your configuration file.\nKeys:\n";
 
   my @old_keys = qw (optimizer_montecarlo optimizer_metropolis_montecarlo optimizer_cycles open_flight_view_window fvw_show_help
-  flight_view_baro_grid flight_view_window_grid
+  flight_view_baro_grid flight_view_window_grid datadir libdir
   );
   my $oc;
 
