@@ -30,7 +30,7 @@ in perl
 
 TEST the release tarball
 
-=> git commit, git -s tag VERSION (vX.Y)
+=> git commit, git tag -s VERSION (vX.Y)
 
 clean-up: (this should clean up everything down to the tracked files)
 => sh cleaner.sh
@@ -40,6 +40,6 @@ WINDOWS:
 cygwin:
   git pull
   autoreconf -iv
-  in pdfdoc sh copyfrompc12
+  in pdfdoc sh copyfrompc12 (make sure to checkout/build-pdf corresponding version on pc12)
 mingw:
   in win VERSION=xx.y-win32  makedist
