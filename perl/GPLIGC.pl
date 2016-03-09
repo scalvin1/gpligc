@@ -1440,7 +1440,8 @@ sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
             print BPIPE "set output "."\'".$savname."\'"."\n";}
         $w32_persist = "";
     } else {
-        print BPIPE "set term $config{'gnuplot_terminal'}\n";
+        # dont set term on windows
+        print BPIPE "set term $config{'gnuplot_terminal'}\n" if ($^O ne "MSWin32");
         $w32_persist = "-";
     }
 
