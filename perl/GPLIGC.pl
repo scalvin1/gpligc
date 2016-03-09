@@ -2564,14 +2564,7 @@ sub FlightView {
 
     $menu_stuff->command(-label=>"Task editor",-command=>\&WpPlot);
 
-# lol!
-#$menu_stuff->command(-label=>"Flight view window (fvw)", -command=>\&FlightView);
     $menu_stuff->command(-label=>"OGIE - 3d", -command=>\&OpenGLexplorer); #sub{system("ogie ${pfadftmp}km.dat");});
-
-    #Experimental Logger Window, for Windows-version...
-    if ($^O eq "MSWin32") {
-        $menu_stuff->command(-label=>"Read logger", -command=>\&ReadLogger);
-    }
 
     $menu_stuff->pack(-side=>'left');
 
@@ -5567,78 +5560,6 @@ sub optimizer {
 
 ######### END OPTIMIZER ##################################
 
-# this is experimental for windows version, only
-
-sub ReadLogger {
-
-    if (Exists($LoggerWindow)) {return;}
-
-    $LoggerWindow=$FlightView->Toplevel();
-    $LoggerWindow->configure(-title=>"Read Logger");
-
-    # testing...
-    $lcommand_options="-pANY"; #-d$config{'working_directory'}";
-    # -d$config{'working_directory'} ?gehts bei allen, -pANY bei allen?
-    # options-menu, add COM select?
-
-    my $cam2=$LoggerWindow->Button(-text=>"Camebridge 2",-command=>sub{
-            $lcommand="datacam2";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $cam=$LoggerWindow->Button(-text=>"Camebridge",-command=>sub{
-            $lcommand="data-cam";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $ewa=$LoggerWindow->Button(-text=>"Ewa",-command=>sub{
-            $lcommand="data-ewa";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $gcs=$LoggerWindow->Button(-text=>"Gcs",-command=>sub{
-            $lcommand="data-gcs";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $lxn=$LoggerWindow->Button(-text=>"LX",-command=>sub{
-            $lcommand="data-lxn";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $pes=$LoggerWindow->Button(-text=>"Peschges",-command=>sub{
-            $lcommand="data-pes";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $prt=$LoggerWindow->Button(-text=>"prt",-command=>sub{
-            $lcommand="data-prt";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $sch=$LoggerWindow->Button(-text=>"sch",-command=>sub{
-            $lcommand="data-sch";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $sdi=$LoggerWindow->Button(-text=>"SDI",-command=>sub{
-            $lcommand="data-sdi";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $zan=$LoggerWindow->Button(-text=>"Zander",-command=>sub{
-            $lcommand="data-zan";
-            exReader();
-          })->pack(-fill=>"x");
-
-    my $exb=$LoggerWindow->Button(-text=>"Exit",-command=>sub{$LoggerWindow->destroy();})->pack(-fill=>"x");
-
-    # execute the reader
-    sub exReader {
-        system("start $lcommand $lcommand_options");
-    }
-
-}
 
 sub getWPreachedIndices {
     my @wpindex = ();

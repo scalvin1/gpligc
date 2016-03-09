@@ -21,9 +21,6 @@ Let the script do the following work for you:
 a) copy all files to the install-location
 b) set some environment variables by adding them to the registry.
 
-% either by setting them in
-%\texttt{autoexec.bat} (Win95/98/ME) or
-
 \item If the installation script fails, and tells you to set the environment Variables
 by yourself:\\
 Make sure that an environment variable GPLIGCHOME is set,
@@ -35,23 +32,7 @@ How to set an environment variable: \\
 a) Windows NT, 2000, XP, Vista: \\
 \menu{Start>Settings>Control Panel>System>(Advanced)>Environment}
 
-
 \item You can remove the temporary directory, where the zipfile was extracted.
-
-% GNUPLOT 4.2.6. is included in the package from 1.10pre7.
-% seems to be the last available version with static wgnuplot.exe
-% from 4.4 wgnuplot needs a bunch of dlls.
-
-%\item If you do not have Gnuplot installed already, do so.
-%Get it from the gnuplot page \cite{gnuplot} (get the win32 zip, e.g. \texttt{gp425win32.zip}).
-%Installation is simple: just put the file \texttt{bin/wgnuplot.exe} in a location which is in the path
-%(or the gpligc install location) \\
-%\textbf{ATTENTION!} The executable file of the older gnuplot \emph{3.7.x} is named \texttt{wgnupl32.exe}. If you use
-%the older gnuplot, you have to change the setting for the configuration key \texttt{gnuplot\_win\_exec} to \texttt{wgnupl32.exe}
-%in \texttt{gpligc.ini} (for details see \ref{gpligcrc}).
-%However, you should consider updating to gnuplot 4.x, since there are new nice interactive features like zooming, rotating of 3d-plots etc.
-%The later gnuplot version (4.6) are shipped with an installer, which is easy use.
-
 
 \item Edit the configuration file \texttt{ogie.ini} if you like to use a digital
 elevation model, digitised maps, waypoints and/or airspace files.
@@ -61,18 +42,6 @@ For details read sections \ref{dem}, \ref{maps}, \ref{wp} and \ref{airspace}.
 \item Create a shortcut to \texttt{GPLIGC.pl} on your desktop if you like
 
 \end{enumerate}
-
-
-%\paragraph{Notes for Windows 95, Windows ME}
-%Support for these platforms is discontinued.
-
-%GPLIGC has not been tested with Windows 95 and ME. On Win95 you probably will need the OpenGL libraries from Microsoft, because the early win95 versions do not have OpenGL support. Windows ME should work (maybe someone
-%can verify that and write an email to me?)
-%\paragraph{Notes for Windows 95, 98 and ME}
-%These platforms will not be supported in the future.
-%The cygwin environment (which is used to build the package on windows systems) will soon be updated from version 1.5 to 1.7.
-%With that update support for the older windows systems will be discontinued.
-%If you want to use openGLIGCexplorer on old windows systems, you should maintain a working cygwin 1.5 installation to build openGLIGCexplorer.
 
 
 \subsubsection{Perl on Windows}
@@ -95,11 +64,3 @@ at the CPAN promt:\\
 \texttt{install Image::ExifTool}\\
 \texttt{install Imager}  $\leftarrow$ in recent strawberry perl this is included already.\\
 Anti virus software may need to be disabled during CPAN installs (caused errors on my system).
-
-
-%\paragraph{ActiveState ActivePerl}
-%You can't use the new cool map-feature of gpligc if you decide to use this one! (If you're a more experienced Perl/Windows user, you may try to fix the lack of png support in the Imager module, or maybe ActiveState will ship a proper-built Imager module one day... --- let me know).
-%Download and install the ActiveState ActivePerl from \cite{activeperl}.
-%If your Active State Perl version is later or equal 5.10, you have to open the Perl Package Manager and install the Tk (804.029) module.
-%Tk is not shown in the default list, you have chose `all packages' from the view menu.
-

@@ -1,0 +1,23 @@
+
+
+mesa osmesa kompilieren
+%\subparagraph{Mesa 7.0.3} works fine, as tested. If you need larger than 4096x4096 pictures (e.g. to create cool posters) you have to change
+%the maximum sizes in \texttt{src/mesa/main/config.h} (in the mesa source code, before compiling mesa):
+%\texttt{\#define~MAX\_WIDTH~32768} and \texttt{\#define~MAX\_HEIGHT~32768}.
+
+%\subparagraph{Mesa 7.4.1} tested in May 2009. It worked for me as follows: download and unpack MesaLib and MesaGLUT-7.4.1. Change the maximum width and height as described above. Use \texttt{make linux-x86-64-static} or a similar target. After Mesa compiled, \texttt{cp lib64/lib*.a \textasciitilde/lib/} to put the static mesa-libs in your private \textasciitilde/lib/.
+
+
+Windows:
+
+Gnuplot windows:
+% GNUPLOT 4.2.6. is included in the package from 1.10pre7.
+% seems to be the last available version with static wgnuplot.exe
+% from 4.4 wgnuplot needs a bunch of dlls.
+
+Active state Perl:
+%\paragraph{ActiveState ActivePerl}
+%You can't use the new cool map-feature of gpligc if you decide to use this one! (If you're a more experienced Perl/Windows user, you may try to fix the lack of png support in the Imager module, or maybe ActiveState will ship a proper-built Imager module one day... --- let me know).
+%Download and install the ActiveState ActivePerl from \cite{activeperl}.
+%If your Active State Perl version is later or equal 5.10, you have to open the Perl Package Manager and install the Tk (804.029) module.
+%Tk is not shown in the default list, you have chose `all packages' from the view menu.

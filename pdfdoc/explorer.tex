@@ -218,28 +218,23 @@ While using the rgb format you should keep the information about the image sizes
 \texttt{convert -size widhtxheight -depth 16 -endian lsb frame1001.rgb outfile.png}
 
 
-
 \subsection{Offscreen rendering}
 
-The offscreen rendering function via GLX is available, but requires GLX 1.3. Offscreen on windows and/or via mesa needs
-special compilation... \\
-
 \emph{OGIE} can be used as an offscreen 2D/3D renderer. 
-%As in the onlineplotter, which can be tested on the GPLIGC website. With this function some contest results can be made more visible etc.
-Single images can be rendered offscreen. Two modes are available. For image format related options see \ref{screenshots}.
+Single images can be rendered non interactively into files. Two modes are available. For image format related options see \ref{screenshots}.
 
 \paragraph{GLX offscreen (pbuffer)}
-%\emph{This doesn't work with any Windows! GLX is available on unix/linux only} \\
 Offscreen rendering is done using GLX pbuffers and requires GLX 1.3. Rendering is done hardware accelerated, but requires the X-server running and accessible.
 Commandlineswitch \texttt{--offscreen} is needed and
-a filename for the output can be given by \texttt{--os-outfile filename}
+a filename for the output can be given by \texttt{--os-outfile filename}.
+Availability of this feature depends on the openGL implementation.
+
 
 \paragraph{Mesa offscreen (osmesa)}
-%\emph{This doesn't work with the precompiled binaries. Special compilation is needed}
 Commandlineswitch \texttt{--os-mesa} is needed and
 a filename for the output can be given by \texttt{--os-outfile filename}
 In this mode the rendering is done with the mesa library, but it is hardware independent, no X-Server and no graphics hardware is needed.
-For mesa-support \emph{OGIE} has to be compiled as described in section \ref{linux_install}.
+For mesa-offscreen \emph{OGIE} has to be compiled with osmesa support.
 
 \paragraph{Viewpoint}
 All other Commandline parameters can be used and the configurationfile will be used.
@@ -248,9 +243,6 @@ Important are the \texttt{--init-...} parameters to set the viewpoint and viewdi
 of the borders or corners of the terrain. The view direction will be set to the
 centre, if not specified separately (can be used to set the initial position for
 the interactive mode too).
-
-
-
 
 
 \subsection{Performance}
@@ -263,9 +255,6 @@ speed. The rendering time is also dependent on the quantity of textures used.
 In Movie-Mode \keys{I} with \texttt{--verbose} a framerate is displayed...
 
 A hardware accelerated OpenGL setup is recommended.
-
-
-
 
 
 \subsection{GPS/Baro alt}
