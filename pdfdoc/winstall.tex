@@ -1,11 +1,8 @@
 \subsection{Windows XP/Vista/7/8}
 \label{windows_install}
-
-
 You'll need Perl. If unsure which Perl distribution to use, read section~\ref{perl}. But you need Perl before you proceed.
 
 \begin{enumerate}
-
 \item Unzip the GPLIGC-version-win32.zip archive to a temporary location
 (maybe you have done that already).
 Open this location in the Explorer and double-click the install-script: \\
@@ -44,6 +41,11 @@ For details read sections \ref{dem}, \ref{maps}, \ref{wp} and \ref{airspace}.
 \end{enumerate}
 
 
+\subsubsection{Gnuplot}
+The gpligc package contains a statically linked binary of gnuplot 4.2.6. 
+However, if you want to use a more recent version, just delete the \texttt{wgnuplot.exe} file from the GPLIGC folder.
+Another method is to set the full path to your wgnuplot.exe with \texttt{gnuplot\_win\_exec} in \texttt{gpligc.ini} (see section~\ref{gpligcrc}).
+
 \subsubsection{Perl on Windows}
 \label{perl}
 There are two (probably even more) important Perl distribution for windows systems:
@@ -51,6 +53,7 @@ There are two (probably even more) important Perl distribution for windows syste
 I personally use this and recommend its use for gpligc.
 (2) ActiveState ActivePerl~\cite{activeperl}, which is a closed-source distribution (but free for personal use).
 On ActiveState Perl you can use the ppm package manager to install the needed modules (Tk, Imager, Image::ExifTool).
+
 
 \paragraph{Strawberry Perl}
 After downloading the msi installer package of 32bit Strawberry Perl (see~\ref{requirements} for specific version),

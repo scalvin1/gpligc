@@ -9,9 +9,9 @@ GPLIGC can be started from the command line by typing \\
 or\\
 \texttt{gpligc  igcfile.igc}
 
-%\item{Windows}
-%From the command line (\texttt{cmd.exe} command prompt): \texttt{perl GPLIGC.pl} (from within the gpligc-directory)
-%or double-click \texttt{GPLIGC.pl} from windows explorer.
+\item{Windows}
+From the shell (\texttt{cmd.exe} command prompt): \texttt{perl GPLIGC.pl} (from within the gpligc-directory)
+or double-click \texttt{GPLIGC.pl} from windows explorer.
 %If windows asks you what application to open it with, you'll have to find your perl interpreter
 %(whereever/you/installed/perl/bin/perl.exe).
 
@@ -251,13 +251,12 @@ Don't change the names and folders there, since downloaded maps will be reused i
 Other map sources and map layers may become available later.
 
 
-
-
 \paragraph{
 \menu{Options>Gnuplot settings}}
-%This menu is available only on Unix-machines. With windows Gnuplot 4.x will be used by default, for Gnuplot 3.x you have to follow the instructions given in section \ref{windows_install}. The Gnuplot-shell is not available on windows, sorry.
-To use the new interactive features of Gnuplot 4.x you have to select the \emph{Gnuplot 4.x} option here. Highlights of these features are interactive zoom (right mouse-button) and interactive rotation of 3d plots.
+To use the new interactive features of Gnuplot 4.x you have to select the \emph{Gnuplot 4.x} option here. Highlights of these features are interactive zoom (right mouse-button) and interactive rotation of 3d plots (with Windows Gnuplot 4 is used by default, no choice here).
+
 The option \emph{Open Gnuplot-shell} will open a Gnuplot-shell for each plot, where you can do some more work on the plot. The  terminal application to be used can be changed by the configuration-key \texttt{gnuplot\_terminal\_app} the default is \emph{xterm -e} (see \ref{gpligcrc}).
+This option is not available on Windows.
 
 Grid on/off controls the use of grid lines in Gnuplot.
 
@@ -270,7 +269,10 @@ Chose between \emph{Lines}, \emph{Dots} and \emph{Linespoints}. These are Gnuplo
 \menu{Options>Gnuplot seetings>Gnuplot terminal}}
 Select the gnuplot-terminal (corresponds to \texttt{set term ...} in gnuplot).
 Some of the options may not be available in your gnuplot installation.
-The x11 (default) and qt options will put the plot on your screen.
+The provided gnuplot 4.2.6 on win32 platforms, for example, won't have the cairo terminals.
+
+The x11 (default) and qt options will put the plot on your screen (on win32 the choice is just `screen',
+which will use the default in gnuplot).
 All the others will write to a file. You will be asked for a filename (for
 every plot). Specify the file name and extension in the save file dialog.
 

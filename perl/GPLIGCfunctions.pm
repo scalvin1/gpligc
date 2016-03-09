@@ -49,7 +49,7 @@ sub igc2dec {
         return ($longitude);
     }
 
-    return ("Fehler in GPLIGCfunctions::igc2dec");
+    return ("Error in GPLIGCfunctions::igc2dec");
 }
 
 
@@ -84,18 +84,18 @@ sub zan2dec {
         return ($longitude);
     }
 
-    return ("Fehler in GPLIGCfunctions::zan2dec");
+    return ("Error in GPLIGCfunctions::zan2dec");
 }
 
 
 sub MaxKoor {
 
-    # gibt maximum und minimum des array (ref) zurueck
+    # returns maximum and minimum of array (ref)
 
     my $arrayref = shift;
 
     my $max=${$arrayref}[0];
-    my $min=$arrayref->[0];		#Verschiedene Moeglichkeiten auf Element eines Arrays ber Referenz zuzugreifen
+    my $min=$arrayref->[0];		# fyi: two different ways to access an element of arrayref
 
     foreach (@$arrayref) {
         if ($max < $_) {$max=$_;}
@@ -142,10 +142,11 @@ sub pointdist {
 #calculates triangular distance of 3 points given by number in arrays of coordinates
     my ($declat, $declon, $p1, $p2, $p3) = @_;
 
-    my $km=dist(${$declat}[$p1],${$declon}[$p1],${$declat}[$p2],${$declon}[$p2])+dist(${$declat}[$p2],${$declon}[$p2],${$declat}[$p3],${$declon}[$p3])+dist(${$declat}[$p3],${$declon}[$p3],${$declat}[$p1],${$declon}[$p1]);
+    my $km=dist(${$declat}[$p1],${$declon}[$p1],${$declat}[$p2],${$declon}[$p2])
+          +dist(${$declat}[$p2],${$declon}[$p2],${$declat}[$p3],${$declon}[$p3])
+          +dist(${$declat}[$p3],${$declon}[$p3],${$declat}[$p1],${$declon}[$p1]);
 
     return $km;
-
 }
 
 #-------------------------------------------------------------------------------
@@ -522,12 +523,9 @@ sub kurs {
     # calculates the heading from point 1 to point 2
     # at point 1
     #
-    #
-    #
-    #
     #          IV     I
     #       -------------
-    #           III    II
+    #          III    II
     #
 
     my ($lat1, $lon1, $lat2, $lon2) = @_;

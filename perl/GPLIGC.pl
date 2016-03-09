@@ -1398,8 +1398,8 @@ sub oeffnen {      ### open a File
 # oeffnen
 ###############################################################################
 
-# Give out plots via gnuplot
-sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
+# make plots with gnuplot
+sub Ausgabe {
     if ($filestat eq 'closed') {
         $FlightView->bell;
         return;
@@ -1415,17 +1415,18 @@ sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
 
     my $mode = shift;
 
-    $bereich='['.$xmin.':'.$xmax.']['.$ymin.':'.$ymax.']['.$zmin.':'.$zmax.']';
+    my $bereich='['.$xmin.':'.$xmax.']['.$ymin.':'.$ymax.']['.$zmin.':'.$zmax.']';
 
-    # Linux/Unix Gnupot 3.x
+    # Linux/Unix Gnuplot 3.x: in this case we'll write into the pipe to gnuplot
     if ( $^O ne "MSWin32"  &&  $config{'gnuplot_major_version'} != 4 ) {
-        open (BPIPE, "| gnuplot -persist");    ###oeffnen von GNUPLOT write-Pipe
-        print "using old gnuplot 3.x \n" if ($config{'DEBUG'});
+        open (BPIPE, "| gnuplot -persist");    ### open GNUPLOT write-Pipe
+        print "using old gnuplot 3.x: writing to pipe | gnuplot -persist\n" if ($config{'DEBUG'});
 
-    } else {
+    } else { # other (Win32 and/or gnuplot 4.x): we'll write commands into plot.gpl
+
         unlink ("${pfadftmp}plot.gpl");
         open (BPIPE, ">${pfadftmp}plot.gpl"); # command file for gnuplot
-        print "using new gnuplot 4.x \n" if ($config{'DEBUG'} && $config{'gnuplot_major_version'} == 4);
+        print "using new gnuplot 4.x : writing into plot.gpl\n" if ($config{'DEBUG'} && $config{'gnuplot_major_version'} == 4);
         print "using windows gnuplot: $config{'gnuplot_win_exec'} \n" if ($config{'DEBUG'} && $^O eq "MSWin32") ;
     }
 
@@ -1433,14 +1434,17 @@ sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
     my $linuxquiet = '';
     if ($^O ne "MSWin32") {$linuxquiet =' 2>/dev/null >&2';}
 
-    if ( ($config{'gnuplot_terminal'} ne 'x11') && ($config{'gnuplot_terminal'} ne 'qt')){
+    if ( ($config{'gnuplot_terminal'} ne 'x11') && ($config{'gnuplot_terminal'} ne 'qt')){ # plot goes to file
         if ($savname eq 'no'){$savname=save();}
         if ($savname eq 'no'){close BPIPE;return;}
-        if ($savname ne 'no'){print BPIPE "set term $config{'gnuplot_terminal'}\n";
-            print BPIPE "set output "."\'".$savname."\'"."\n";}
+        if ($savname ne 'no'){
+                 print BPIPE "set term $config{'gnuplot_terminal'}\n";
+                 print BPIPE "set output "."\'".$savname."\'"."\n";
+        }
         $w32_persist = "";
     } else {
-        # dont set term on windows
+        # plot goes to screen
+        # dont set term on windows (we're using the default on win32)
         print BPIPE "set term $config{'gnuplot_terminal'}\n" if ($^O ne "MSWin32");
         $w32_persist = "-";
     }
@@ -1461,9 +1465,6 @@ sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
     if ($config{'gnuplot_grid_state'} eq 'set grid')	{
         print BPIPE "set grid\n";
     }  ### grid on
-
-    #experimental
-    #print BPIPE "set mouse\n";
 
     print BPIPE "set title \"$file\"\n";
     print BPIPE $com1." $bereich ".$com2."\n";
@@ -1504,7 +1505,7 @@ sub Ausgabe {               ### Ausgabe der Plots mit Gnuplot
     }
 
     $savname='no'; ##nach ausgabe savname auf 'no' damit next time ein neuer name abgefragt wird
-    $bereich=''; ### bereich loeschen!
+    #$bereich=''; ### bereich loeschen!
     $busy=$FlightView->Unbusy;
 }
 
@@ -2316,8 +2317,12 @@ sub FlightView {
     $termmenu = $gpmenu->Menu();
     $gpmenu->cascade(-label=>"Gnuplot terminal", -menu=> $termmenu);
 
-    $termmenu->radiobutton(-label => "x11",-variable => \$config{'gnuplot_terminal'},-value => "x11");
-    $termmenu->radiobutton(-label => "qt",-variable => \$config{'gnuplot_terminal'},-value => "qt");
+    if ($^O ne "MSWin32") {
+     $termmenu->radiobutton(-label => "x11",-variable => \$config{'gnuplot_terminal'},-value => "x11");
+     $termmenu->radiobutton(-label => "qt",-variable => \$config{'gnuplot_terminal'},-value => "qt");
+    } else {
+     $termmenu->radiobutton(-label => "screen",-variable => \$config{'gnuplot_terminal'},-value => "x11"); # is being ignored. no 'set term' in win32
+    }
     $termmenu->radiobutton(-label => "pngcairo",-variable => \$config{'gnuplot_terminal'},-value => "pngcairo");
     $termmenu->radiobutton(-label => "epscairo",-variable => \$config{'gnuplot_terminal'},-value => "epscairo");
     $termmenu->radiobutton(-label => "pdfcairo",-variable => \$config{'gnuplot_terminal'},-value => "pdfcairo");

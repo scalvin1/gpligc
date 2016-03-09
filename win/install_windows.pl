@@ -15,7 +15,7 @@ print <<ENDE;
 GPLIGC and OGIE installation (Windows XP/Vista)
     should work on Win2003, Win2008 and Win7 too, but was not tested yet!
 
-(c) 2000-2014 by Hannes Krueger ($email)
+(c) 2000-2016 by Hannes Krueger ($email)
 read the GPLIGC_Manual.pdf for more information
 
 Enter installation directory. Press enter for default.
