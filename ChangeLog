@@ -6,6 +6,9 @@ ChangeLog of the gpligc & ogie project
 
 GPLIGC
 - removed libdir and datadir from %config. not really needed and causing probl.
++ if zoomed out a border is added. Its size can be configured with
+    $config{'zoom_border'} (in km, default is 3)
++ key T zooms out, including all WPs of the actual task (+border)
 
 ogie
 

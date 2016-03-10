@@ -19,7 +19,6 @@ package GPLIGCfunctions;
 #-------------------------------------------------------------------------------
 
 sub igc2dec {
-
  # converts igc-file-formatted coordinates (D)DDMMMMM(N|S|E|W) into decimal form
  # DD MM.MMM
 
@@ -89,7 +88,6 @@ sub zan2dec {
 
 
 sub MaxKoor {
-
     # returns maximum and minimum of array (ref)
 
     my $arrayref = shift;
@@ -106,8 +104,9 @@ sub MaxKoor {
 }
 
 
-### calculates distance between two points on 'FAI-spheroid'
+
 sub dist {
+    # calculates distance between two points on 'FAI-spheroid'
     use Math::Trig;
     my ($lat1, $lon1, $lat2 ,$lon2) = @_;
     my $rho = 6371;
@@ -373,12 +372,12 @@ sub dec2time {
 #-------------------------------------------------------------------------------
 
 sub Ausschnitt2 {
-
     # only for zoomfunction of FlightViewWindow!
+    # returns window boundaries for zoom (centred at lat/lon using zoom_sidelength (kl))
 
     use Math::Trig;
     my ($height, $width, $lat, $lon, $kl) = @_;
-    my $halbkilometer=0.004496608;
+    my $halbkilometer=0.004496608; # 1/2 km in deg on great circle
     my $sideratio=$width/$height;
 
     my $xmin=$lon-($kl*$halbkilometer* ( 1/cos(deg2rad($lat)) ));

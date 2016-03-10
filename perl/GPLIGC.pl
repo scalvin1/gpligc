@@ -113,6 +113,7 @@ $config{'zylinder_wp_type'}="both";
 $config{'starting_line'}=10;			# starting line length
 $config{'zylinder_names'}=1;
 $config{'zoom_sidelength'}="10";		# in km
+$config{'zoom_border'}="3";		# in km
 $config{'ENL_noise_limit'}=500;
 $config{'coordinate_print_format'}="igch"; 	# igch, zanh, deg
 $config{'DEBUG'} = 0;
@@ -756,8 +757,8 @@ sub oeffnen {      ### open a File
     # Find reference point (center between max and min lat/lon)
     my ($maxlat, $minlat)=GPLIGCfunctions::MaxKoor(\@DECLAT);
     my ($maxlon, $minlon)=GPLIGCfunctions::MaxKoor(\@DECLON);
-    $centrex = ($minlon + $maxlon)/2;
-    $centrey = ($minlat + $maxlat)/2;
+    $centrelon = ($minlon + $maxlon)/2;
+    $centrelat = ($minlat + $maxlat)/2;
 
 
     print "OEFFNEN: init maxlat minlat maxlon minlon: $maxlat  $minlat  $maxlon  $minlon\n" if ($config{'DEBUG'});
@@ -765,8 +766,8 @@ sub oeffnen {      ### open a File
     # KMY and KMX are km distances in X ynd Y from refernece point
 
     for ($i=0; $i<=$#DECLAT; $i++){
-        my $dist=GPLIGCfunctions::dist($centrey,$DECLON[$i],$DECLAT[$i],$DECLON[$i]);
-        if($centrey>$DECLAT[$i]){
+        my $dist=GPLIGCfunctions::dist($centrelat,$DECLON[$i],$DECLAT[$i],$DECLON[$i]);
+        if($centrelat>$DECLAT[$i]){
             $dist = -$dist;
         }
 
@@ -775,8 +776,8 @@ sub oeffnen {      ### open a File
     }
 
     for ($i=0; $i<=$#DECLON; $i++){
-        my $dist=GPLIGCfunctions::dist($DECLAT[$i],$centrex,$DECLAT[$i],$DECLON[$i]);
-        if($centrex>$DECLON[$i]){
+        my $dist=GPLIGCfunctions::dist($DECLAT[$i],$centrelon,$DECLAT[$i],$DECLON[$i]);
+        if($centrelon>$DECLON[$i]){
             $dist = -$dist;
         }
         push(@KMX, $dist);
@@ -1399,7 +1400,7 @@ sub oeffnen {      ### open a File
 ###############################################################################
 
 # make plots with gnuplot
-sub Ausgabe {
+sub gnuplot {
     if ($filestat eq 'closed') {
         $FlightView->bell;
         return;
@@ -1413,7 +1414,7 @@ sub Ausgabe {
         }
     }
 
-    my $mode = shift;
+    my $mode = shift;  #(2d or 3d)
 
     my $bereich='['.$xmin.':'.$xmax.']['.$ymin.':'.$ymax.']['.$zmin.':'.$zmax.']';
 
@@ -1509,7 +1510,7 @@ sub Ausgabe {
     $busy=$FlightView->Unbusy;
 }
 
-#  Ausgabe
+#  gnuplot
 ###############################################################################
 
 # give out an error message
@@ -1672,7 +1673,6 @@ sub gpligcexit {
         unlink($pfadftmp.$_);
     }
 
-    #system ("rm -r $pfadftmp");
     rmdir $pfadftmp;
 
     # remove the shared memory segment
@@ -1681,8 +1681,6 @@ sub gpligcexit {
     #			shmctl($shm_id, IPC_RMID, 0) || print "Error removing shared mem\n";
     #			}
     #	}
-
-    #print "ENDE!!!!!!!!!! GUT ALLES GUT! \n";
 
     exit;
 
@@ -1777,7 +1775,7 @@ Altitude:
     (e)levation calibration, Q(n)H calibration
 
 Drawing:
-    (g)rid on/off, (y) resize/redraw, (z)oom on/off,
+    (g)rid on/off, (y) resize/redraw, (z)oom on/off, zoom to (T)ask
     (M)aps on/off, (#)=re-download maps, (+)/(-) change map zoom level
     (F11)=zoom to selected
 
@@ -2489,59 +2487,59 @@ sub FlightView {
     # CREATE AND pack Plotting menus!
     my $menu_plot2d=$menuleiste->Menubutton(-text=>"Plots-2D");#, -underline=>0);
 
-    $menu_plot2d->command(-label=>"Barogramm", -command=>sub{$com1="set ylabel \"Altitude [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}baro.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Barogramm\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Barogramm", -command=>sub{$com1="set ylabel \"Altitude [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}baro.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Barogramm\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Altitude histogram (baro)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Altitude (baro) [$config{'altitude_unit_name'}]\" \n plot";$com2="\'${pfadftmp}barohisto.dat\' using (\$1*$config{'altitude_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Altitude histogram (baro)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Altitude (baro) [$config{'altitude_unit_name'}]\" \n plot";$com2="\'${pfadftmp}barohisto.dat\' using (\$1*$config{'altitude_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Baro / GPS",-command=>sub{$com1="set ylabel \"Altitude [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}baro.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Barogramm\""." ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}gpsalt.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"GPS Altitude\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Baro / GPS",-command=>sub{$com1="set ylabel \"Altitude [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}baro.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Barogramm\""." ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}gpsalt.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"GPS Altitude\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Pressure",-command=>sub{$com1="set key top center\nset ylabel \"Pressure [hPa] (QNH $gpi{'qnh'})\" \n set xlabel \"time \" \n f(x)=696.86\ng(x)=631.87\nh(x)=595.29\ni(x)=506.06\nj(x)=376.07\nplot";$com2="\'${pfadftmp}press.dat\' using (\$1):(\$2) title \"Pressure plot\""." ".$config{'gnuplot_draw_style'}.",f(x) title \"FL100\", g(x) title \"FL125\", h(x) title \"FL140\", i(x) title \"FL180\", j(x) title \"FL250\""; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Pressure",-command=>sub{$com1="set key top center\nset ylabel \"Pressure [hPa] (QNH $gpi{'qnh'})\" \n set xlabel \"time \" \n f(x)=696.86\ng(x)=631.87\nh(x)=595.29\ni(x)=506.06\nj(x)=376.07\nplot";$com2="\'${pfadftmp}press.dat\' using (\$1):(\$2) title \"Pressure plot\""." ".$config{'gnuplot_draw_style'}.",f(x) title \"FL100\", g(x) title \"FL125\", h(x) title \"FL140\", i(x) title \"FL180\", j(x) title \"FL250\""; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Variogramm (baro)",-command=>sub{$com1="set ylabel \"Vertical speed (baro) [$config{'vertical_speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}vario.dat\' using (\$1):(\$2*$config{'vertical_speed_unit_factor'})title \"Variogramm (baro)\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Variogramm (baro)",-command=>sub{$com1="set ylabel \"Vertical speed (baro) [$config{'vertical_speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}vario.dat\' using (\$1):(\$2*$config{'vertical_speed_unit_factor'})title \"Variogramm (baro)\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Vario histogram (baro)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"vertical speed (baro) [$config{'vertical_speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}vhisto.dat\' using (\$1*$config{'vertical_speed_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Vario histogram (baro)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"vertical speed (baro) [$config{'vertical_speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}vhisto.dat\' using (\$1*$config{'vertical_speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Speedogramm",-command=>sub{$com1="set ylabel \"(10 fixes mean) ground speed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}speed.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"Speedogramm\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Speedogramm",-command=>sub{$com1="set ylabel \"(10 fixes mean) ground speed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}speed.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"Speedogramm\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Indicated air speed",-command=>sub{$com1="set ylabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}ias.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"Indicated Airspeed\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Indicated air speed",-command=>sub{$com1="set ylabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}ias.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"Indicated Airspeed\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
     $menu_plot2d->command(-label=>"Engine noise level / RPM",-command=>sub{$com1="set ylabel \"Noise Level / RPM\" \n set xlabel \"time \" \n plot";
             $com2="\'${pfadftmp}enl.dat\' title \"Engine noise level\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}enl.dat\' using 1:3 title \"RPM\" ".$config{'gnuplot_draw_style'};
-            Ausgabe("2d");});
+            gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Satellites used",-command=>sub{$com1="set ylabel \"Satellites used\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}sat.dat\' title \"Satellites used\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Satellites used",-command=>sub{$com1="set ylabel \"Satellites used\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}sat.dat\' title \"Satellites used\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Projection lat (gps)",-command=>sub{$com1="set xlabel \"Latitude []\" \n set ylabel \"Altitude (gps) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}latproj.dat\' using (\$1):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Projection lat (gps)",-command=>sub{$com1="set xlabel \"Latitude []\" \n set ylabel \"Altitude (gps) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}latproj.dat\' using (\$1):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Projection lon (gps)",-command=>sub{$com1="set xlabel \"Longitude []\" \n set ylabel \"Altitude (gps) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}lonproj.dat\' using (\$1):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Projection lon (gps)",-command=>sub{$com1="set xlabel \"Longitude []\" \n set ylabel \"Altitude (gps) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}lonproj.dat\' using (\$1):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
     $menu_plot2d->command(-label=>"GPS altitude",-command=>sub{
             $com1="set ylabel \"Altitude [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";
             $com2="\'${pfadftmp}gpsalt.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"GPS Altitude\" ".$config{'gnuplot_draw_style'};
             $com2.=", \'${pfadftmp}gpsalt.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}):(\$3*$config{'altitude_unit_factor'}) title \"Accuracy\" with yerrorbars" if ($VXAEXISTS eq "yes" && $config{'draw_accuracy'});
-            Ausgabe("2d");
+            gnuplot("2d");
           });
 
-    $menu_plot2d->command(-label=>"Altitude histogram (gps)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Altitude (gps) [$config{'altitude_unit_name'}]\" \n plot";$com2="\'${pfadftmp}gpshisto.dat\' using (\$1*$config{'altitude_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Altitude histogram (gps)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Altitude (gps) [$config{'altitude_unit_name'}]\" \n plot";$com2="\'${pfadftmp}gpshisto.dat\' using (\$1*$config{'altitude_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Baro-GPS",-command=>sub{$com1="set ylabel \"Difference [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}deltah.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Difference (Baro-GPS)\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Baro-GPS",-command=>sub{$com1="set ylabel \"Difference [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}deltah.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Difference (Baro-GPS)\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Variogramm (gps)",-command=>sub{$com1="set ylabel \"Vertical speed (gps) [$config{'vertical_speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}gpsvario.dat\' using (\$1):(\$2*$config{'vertical_speed_unit_factor'})title \"Variogramm (gps)\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Variogramm (gps)",-command=>sub{$com1="set ylabel \"Vertical speed (gps) [$config{'vertical_speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}gpsvario.dat\' using (\$1):(\$2*$config{'vertical_speed_unit_factor'})title \"Variogramm (gps)\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Vario histogram (gps)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"vertical speed (gps) [$config{'vertical_speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}vhistogps.dat\' using (\$1*$config{'vertical_speed_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Vario histogram (gps)", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"vertical speed (gps) [$config{'vertical_speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}vhistogps.dat\' using (\$1*$config{'vertical_speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Groundspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"ground speed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}shisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Groundspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"ground speed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}shisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Indicated airspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}iashisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Indicated airspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}iashisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
     $menu_plot2d->command(-label=>"Accuracy",-command=>sub{$com1="set ylabel \"Position Accuracy [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";
-            $com2="\'${pfadftmp}sat.dat\' using 1:(\$3*$config{'altitude_unit_factor'}) title \"Horizontal Accuracy\" $config{'gnuplot_draw_style'}, \'${pfadftmp}sat.dat\' using 1:(\$4*$config{'altitude_unit_factor'}) title \"Vertical Accuracy\" $config{'gnuplot_draw_style'} "; Ausgabe("2d");});
+            $com2="\'${pfadftmp}sat.dat\' using 1:(\$3*$config{'altitude_unit_factor'}) title \"Horizontal Accuracy\" $config{'gnuplot_draw_style'}, \'${pfadftmp}sat.dat\' using 1:(\$4*$config{'altitude_unit_factor'}) title \"Vertical Accuracy\" $config{'gnuplot_draw_style'} "; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Track plot",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude [] \" \n plot";$com2="\'$pfadftmp$datfile\' title \"Flightpath\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Track plot",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude [] \" \n plot";$com2="\'$pfadftmp$datfile\' title \"Flightpath\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Projection lat (baro)",-command=>sub{$com1="set xlabel \"Latitude []\" \n set ylabel \"Altitude (baro) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}latproj.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Projection lat (baro)",-command=>sub{$com1="set xlabel \"Latitude []\" \n set ylabel \"Altitude (baro) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}latproj.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"Projection lon (baro)",-command=>sub{$com1="set xlabel \"Longitude []\" \n set ylabel \"Altitude (baro) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}lonproj.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"Projection lon (baro)",-command=>sub{$com1="set xlabel \"Longitude []\" \n set ylabel \"Altitude (baro) [$config{'altitude_unit_name'}] \" \n plot";$com2="\'${pfadftmp}lonproj.dat\' using (\$1):(\$2*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
     #$menuleiste->pack(-side=>'top', -fill=>'x',-padx=>3);
     $menu_plot2d->pack(-side=>'left');
@@ -2550,10 +2548,10 @@ sub FlightView {
     # CREATE AND pack Plotting menus!
     my $menu_plot3d=$menuleiste->Menubutton(-text=>"Plots-3D");#, -underline=>0);
 
-    $menu_plot3d->command(-label=>"3D View (baro)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (baro)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; Ausgabe("3d");});
-    $menu_plot3d->command(-label=>"3D View (gps)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (gps)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$4*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; Ausgabe("3d");});
-    $menu_plot3d->command(-label=>"3D View + groundtrack (baro)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (baro)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\""." ".$config{'gnuplot_draw_style'}.", \'$pfadftmp$datfile\' using (\$1):(\$2):(\$3*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}; Ausgabe("3d");});
-    $menu_plot3d->command(-label=>"3D View + groundtrack (gps)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (gps)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$4*$config{'altitude_unit_factor'}) title \"Flightpath\""." ".$config{'gnuplot_draw_style'}.", \'$pfadftmp$datfile\' using (\$1):(\$2):(\$4*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}; Ausgabe("3d");});
+    $menu_plot3d->command(-label=>"3D View (baro)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (baro)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; gnuplot("3d");});
+    $menu_plot3d->command(-label=>"3D View (gps)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (gps)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$4*$config{'altitude_unit_factor'}) title \"Flightpath\" ".$config{'gnuplot_draw_style'}; gnuplot("3d");});
+    $menu_plot3d->command(-label=>"3D View + groundtrack (baro)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (baro)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$3*$config{'altitude_unit_factor'}) title \"Flightpath\""." ".$config{'gnuplot_draw_style'}.", \'$pfadftmp$datfile\' using (\$1):(\$2):(\$3*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}; gnuplot("3d");});
+    $menu_plot3d->command(-label=>"3D View + groundtrack (gps)",-command=>sub{$com1="set ylabel \"Latitude []\" \n set xlabel \"Longitude []\" \n set zlabel \"Altitude (gps)[$config{'altitude_unit_name'}]\" \n splot";$com2="\'$pfadftmp$datfile\' using (\$1):(\$2):(\$4*$config{'altitude_unit_factor'}) title \"Flightpath\""." ".$config{'gnuplot_draw_style'}.", \'$pfadftmp$datfile\' using (\$1):(\$2):(\$4*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}; gnuplot("3d");});
 
     $menu_plot3d->command(-label=>"Clear ranges",-command=>sub{$xmin='';$xmax='';$ymin='';$ymax='';$zmin='0';$zmax='';});
 
@@ -2765,6 +2763,20 @@ sub FlightView {
 	    if ($filestat eq 'closed') { return; }
             if ($task_state == 0) {taskdraw(1);$task_state=1;return;}
             if ($task_state == 1) {taskdraw(0);$task_state=0;}
+          });
+
+    $FlightView->bind("<Key-T>", sub{
+	    if ($filestat eq 'closed') { return; }
+	    unzoomed(1);
+	    if ($task_state == 1) {taskdraw(0);}
+            if ($wpcyl_state == 1) {wpcyldraw(0);}
+            mapplot($dxp, $dyp, $minlat, $minlon,"z");
+            trackplot($dxp, $dyp, $minlat, $minlon);
+            if ($task_state == 1) {taskdraw(1);}
+            if ($wpcyl_state == 1) {wpcyldraw(1);}
+            marksdraw();
+            FVWausg();
+	    $zoom=0;
           });
 
     $FlightView->bind("<Key-w>", sub{
@@ -3855,15 +3867,43 @@ sub unzoomed {
         return;
     }
 
-    print "\nunzoomed()\n" if ($config{'DEBUG'});
+    my $trackzoom = 0; # 1 -> unzoom to track boundaries
+    if (@_ >= 1) {
+      $trackzoom = shift;
+    }
 
-    ($maxlat, $minlat)=GPLIGCfunctions::MaxKoor(\@DECLAT);
-    ($maxlon, $minlon)=GPLIGCfunctions::MaxKoor(\@DECLON);
+    print "\nunzoomed($trackzoom)\n" if ($config{'DEBUG'});
 
-    print "\nunzoomed $maxlat $minlat $maxlon $minlon \n" if ($config{'DEBUG'});
+    if (!$trackzoom) {
+      ($maxlat, $minlat)=GPLIGCfunctions::MaxKoor(\@DECLAT);
+      ($maxlon, $minlon)=GPLIGCfunctions::MaxKoor(\@DECLON);
+    } else {
+      $WPLAT[0]=$WPLAT[1]; # fox for stupidity
+      $WPLON[0]=$WPLON[1]; # fox for stupidity  WPLAT arrays start at 1. elem 0 is otherwise undef
+      my @alllat =();
+      push (@alllat, @WPLAT);
+      push (@alllat, @DECLAT);
+      my @alllon =();
+      push (@alllon, @WPLON);
+      push (@alllon, @DECLON);
 
-    $max_kmdist_x = GPLIGCfunctions::dist($centrey,$minlon,$centrey,$maxlon);
-    $max_kmdist_y = GPLIGCfunctions::dist($minlat,$centrex,$maxlat,$centrex);
+      ($maxlat, $minlat)=GPLIGCfunctions::MaxKoor(\@alllat);
+      ($maxlon, $minlon)=GPLIGCfunctions::MaxKoor(\@alllon);
+    }
+
+    #now we add  $bord km borders, to include all sectors
+    my $bordlat = $config{'zoom_border'} * 0.008993216;
+    my $bordlon = ($config{'zoom_border'} * 0.008993216) / cos(deg2rad($centrelat));
+
+    $maxlat += $bordlat;
+    $minlat -= $bordlat;
+    $minlon -= $bordlon;
+    $maxlon += $bordlon;
+
+    print "\nunzoomed($trackzoom) $maxlat $minlat $maxlon $minlon \n" if ($config{'DEBUG'});
+
+    $max_kmdist_x = GPLIGCfunctions::dist($centrelat,$minlon,$centrelat,$maxlon);
+    $max_kmdist_y = GPLIGCfunctions::dist($minlat,$centrelon,$maxlat,$centrelon);
 
     $fvw_side_ratio=$trackheight/($config{'window_width'});
 
@@ -3880,7 +3920,7 @@ sub unzoomed {
 
 	# -3 avoids plotting over the edge (rounding)
         $dxp = ($delta_lon)/($config{'window_width'}-3); 	#degrees x per pixel (usually > $dyp)
-        $dyp = $dxp * (cos(deg2rad($centrey))); 		#degrees y per pixel
+        $dyp = $dxp * (cos(deg2rad($centrelat))); 		#degrees y per pixel
 
 	# what the heck subtract was good for?!
         my $subtract = $dyp * ($trackheight - (($config{'window_width'}) * $task_side_ratio))/2;
@@ -3894,7 +3934,7 @@ sub unzoomed {
         if ($delta_lat == 0) {$delta_lat = 0.5;}
 
         $dyp = ($delta_lat)/($trackheight-1); 	#degrees y per pixel
-        $dxp = $dyp*(1/cos(deg2rad($centrey))); #degrees x per pixel (usually > $dyp)
+        $dxp = $dyp*(1/cos(deg2rad($centrelat))); #degrees x per pixel (usually > $dyp)
 
         my $subtract = $dxp * (($config{'window_width'}) - (($trackheight)/$task_side_ratio))/2;
 
@@ -4368,7 +4408,7 @@ sub WpPlot {
                 zylinder($WPLAT[$AKTWP],$WPLON[$AKTWP],$config{'zylinder_radius'}*($WPRADFAC[$AKTWP]+0.000000000001),"1000");
                 $com1="plot";
                 $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}*$WPRADFAC[$AKTWP]) $WPNAME[$AKTWP] "."\" with lines, \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
-                Ausgabe("2d");
+                gnuplot("2d");
                 $xmin = $xmax = $ymin = $ymax = $zmax = ''; $zmin = 0;
             }
           });
@@ -4381,7 +4421,7 @@ sub WpPlot {
                 zylinder($WPLAT[$AKTWP],$WPLON[$AKTWP],$config{'zylinder_radius'}*($WPRADFAC[$AKTWP]+0.000000000001),"1000");
                 $com1="splot";
                 $com2="\'${pfadftmp}zyl.dat\' title \"Zylinder"."($config{'zylinder_radius'}*$WPRADFAC[$AKTWP]) $WPNAME[$AKTWP]"."\" with dots, \'${pfadftmp}3d.dat\' using (\$1):(\$2):(\$3*0) title \"Groundtrack\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}3d.dat\' title \"Flightpath\" ".$config{'gnuplot_draw_style'};
-                Ausgabe("3d");
+                gnuplot("3d");
                 $xmin = $xmax = $ymin = $ymax = $zmax = ''; $zmin = 0;
             }
           });
@@ -4802,7 +4842,7 @@ sub statistik {
         $com1.= "set label 2 \"amplitude = %.1f km/h\",a at graph 0.02, graph 0.90\n";
         $com1.= "set label 3 \"direction = %.1f\",b+90 at graph 0.02, graph 0.85\n plot ";
         $com2="\'${pfadftmp}wind.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"windplot from last f5f6f7\" ".$config{'gnuplot_draw_style'}.",f(x), g(x) \n print \"Speed offset: \", c,\" km/h\"\n print \"Maxima \", b+90, \" grad\"\n print \"Speed \", a, \" km/h\"";
-        Ausgabe("2d");
+        gnuplot("2d");
     }
 
     $message .= sprintf("\nCumulated climb: %.0f $config{'altitude_unit_name'}", $cum_climb * $config{'altitude_unit_factor'});
