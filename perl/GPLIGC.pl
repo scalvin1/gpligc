@@ -1319,14 +1319,14 @@ sub oeffnen {      ### open a File
         }
     }
 
-    #if there is no task in the igc-file set some, to prevent errors
+    #if there is no waypoint/task in the igc-file, we set a single WP in the centre
     if ($TASKEXISTS eq "no" ) {
         $MAXWP =1;
 
-        # canberra
-        $WPIGCLAT[1]="3515690S";
-        $WPIGCLON[1]="14908123E";
-        $WPNAME[1]="GPLIGC Headquarter";
+        # define in igc format, conversion is done latr (for all WPs)
+        $WPIGCLAT[1]=GPLIGCfunctions::coorconvert($centrelat, "lat", "igc");
+        $WPIGCLON[1]=GPLIGCfunctions::coorconvert($centrelon, "lon", "igc");
+        $WPNAME[1]="Centre";
         $WPRADFAC[1]=1.0;
     }
 
@@ -1336,21 +1336,12 @@ sub oeffnen {      ### open a File
         $WPLON[$i]=GPLIGCfunctions::igc2dec($WPIGCLON[$i]);
     }
 
-# set start and finish time (for task_speed) initially to takeoff and landing time
-# also the unpowered flight window
-#$task_start_time_index = GPLIGCfunctions::takeoff_detect(\@nonISPEED,'s');
+    # set start and finish time (for task_speed) initially to takeoff and landing time
+    # also the unpowered flight window
     $task_finish_time_index = GPLIGCfunctions::takeoff_detect(\@nonISPEED,'l');
-
     $task_start_time_index = GPLIGCfunctions::releaseDetect(\@BARO,GPLIGCfunctions::takeoff_detect(\@nonISPEED,'s'));
 
-    ###test triangle
-    #GPLIGCfunctions::bestriangle(\@DECLAT, \@DECLON, 1, $#DECLAT, 'x', 100000);
-    #print "hannes routine..... is working\n";
-    #GPLIGCfunctions::bestrecurse(\@DECLAT, \@DECLON);
-    #print "ready \n";
-
     foreach (@HEADER) {
-
         # i have to chop off trailing garbage first
         $_ =~  s/\s+$// ;
         if (/^FPLT[\w\d\s]+:(.+)$/) {$gpi{'pilot'} = $1}
@@ -1361,7 +1352,6 @@ sub oeffnen {      ### open a File
                 if ($gpi{'year'} > 90) {$gpi{'year'} +=1900} else {$gpi{'year'} +=2000}
             }
         }
-
     }
 
     $stat_start =0;
