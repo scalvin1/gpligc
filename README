@@ -14,7 +14,16 @@ Mailing list
 Documentation:
     For detailed information read the manual (GPLIGC_Manual.pdf)
 
-Installation instructions:
+Requirements/Dependencies
+    Make sure you have all dependencies installed:
+     - libjpeg
+     - freeglut
+     - Perl/Tk
+     - Perl/Imager
+    Ubuntu users, try following packages:
+     libjpeg-dev, freeglut3-dev, perl-tk, libimager-perl
+
+Installation instructions (very short version, for datails see GPLIGC_Manual.pdf):
     tar xvzf gpligc-version.tar.gz
     cd gpligc-version
     ./configure
