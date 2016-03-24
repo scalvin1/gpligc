@@ -34,7 +34,7 @@ TEST the release tarball
 
 clean-up: (this should clean up everything down to the tracked files)
 => sh cleaner.sh
-
+ or  git clean -d -x -f
 
 WINDOWS:
 cygwin:
