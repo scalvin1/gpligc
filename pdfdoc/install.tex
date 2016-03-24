@@ -40,17 +40,18 @@ GPLIGC will also work without Gnuplot,  but you will not be able to use the plot
 
 \subsubsection{Dependencies on ubuntu}
 As I get many questions from ubuntu users because of missing dependencies, here is a list of
-packages, which may need to be installed (maybe some more experienced ubuntu user can verify this list?).
+packages, which may need to be installed (maybe some more experienced ubuntu user can verify this list and narrow it down to what is really needed...)
 
+To compile the package the following packages may be needed:
 \texttt{libjpeg-dev}, \texttt{freeglut3-dev},
 \texttt{libgl1-mesa-dev},
-\texttt{libglu1-mesa-dev},
-\texttt{libosmesa-dev},
-\texttt{libgps-dev},
-\texttt{libqgpsmm-dev},
-\texttt{gpsd},
-\texttt{perl-tk},
-\texttt{gnuplot (gnuplot-x11, gnuplot-qt)}
+\texttt{libglu1-mesa-dev}. For osmesa-support add \texttt{libosmesa-dev}.
+
+For gpsd-support add \texttt{libgps-dev}, \texttt{libqgpsmm-dev} and \texttt{gpsd}.
+
+To run GPLIGC \texttt{perl-tk}, \texttt{libimager-perl}, \texttt{libimage-exiftool-perl}.
+
+Gnuplot: \texttt{gnuplot (gnuplot-x11, gnuplot-qt)}.
 
 
 %\input{mcinstall.tex}
