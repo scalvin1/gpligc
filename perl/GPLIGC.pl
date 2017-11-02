@@ -170,7 +170,7 @@ $gpi{'qnh'} = 1013.25; 	# just to avoid an error if the pressure plot is issued 
 # these are the data files used for Gnuplot
 @clearlist=qw(zyl.dat speed.dat press.dat plot.bat vario.dat gpsvario.dat deltah.dat
   baro.dat gpsalt.dat 3d.dat lonproj.dat latproj.dat befehl.dat
-  km.dat lonlat.dat enl.dat ias.dat iashisto.dat shisto.dat vhisto.dat
+  km.dat lonlat.dat enl.dat ias.dat tas.dat iashisto.dat tashisto.dat shisto.dat vhisto.dat
   vhistogps.dat plot.gpl plot.bat barohisto.dat gpshisto.dat wind.dat sat.dat tmp.png);
 
 # ===16===  is this all needed... socket connection!!!
@@ -555,12 +555,15 @@ sub oeffnen {      ### open a File
     @TASK=();
     @ENL=();	#noise level
     @IAS=();	#indicated airspeed
+    @TAS=();	#true airspeed
     @SIU=();	# satellites in used
     @FXA=();	# hor/vertical accuracy
     @VXA=();
     @RPM=();
     $IAS_max=-10000;
     $IAS_min=100000;
+    $TAS_max=-10000;
+    $TAS_min=100000;
     @ASPEED=();
 
     #	$ASPEED_max=-10000;
@@ -588,6 +591,8 @@ sub oeffnen {      ### open a File
     # I-extensions to the B-record
     $IASEXISTS =  "no";
     $IASLENGTH =  0;
+    $TASEXISTS =  "no";
+    $TASLENGTH =  0;
     $ENLEXISTS =  "no";
     $ENLLENGTH =  0;
     $SIUEXISTS =  "no";
@@ -645,7 +650,7 @@ sub oeffnen {      ### open a File
                 $IASSTART = $1 - 2;
                 $IASLENGTH = $2 - $1 +1;
                 $IASEXISTS = "yes";
-            }
+             }
             if ($izeile =~/(\d{2})(\d{2})SIU/) {
                 $SIUSTART = $1 - 2;
                 $SIULENGTH = $2 - $1 +1;
@@ -660,6 +665,11 @@ sub oeffnen {      ### open a File
                 $VXASTART = $1 - 2;
                 $VXALENGTH = $2 - $1 +1;
                 $VXAEXISTS = "yes";
+            }
+            if ($izeile =~/(\d{2})(\d{2})TAS/) {
+                $TASSTART = $1 - 2;
+                $TASLENGTH = $2 -$1 +1;
+                $TASEXISTS = "yes";
             }
         }
     }
@@ -713,6 +723,12 @@ sub oeffnen {      ### open a File
                 push(@IAS, substr($FIX[$z], $IASSTART, $IASLENGTH));
             } else {
                 push(@IAS, "0");
+            }
+
+            if ($TASEXISTS eq "yes") {
+                push(@TAS, substr($FIX[$z], $TASSTART, $TASLENGTH));
+            } else {
+                push(@TAS, "0");
             }
 
             if ($SIUEXISTS eq "yes") {
@@ -858,6 +874,11 @@ sub oeffnen {      ### open a File
                       ( ( (($IAS[$i-1]/3.6)**2) - ($IAS[$i]/3.6)**2) / 19.62) ) / ($delta_time*3600);
                 push(@compVARIO,$compvario);
 
+	    } elsif ($TASEXISTS eq "yes") {  ## XXX is this necessary for TAS?
+                my $compvario = ( ($BARO[$i]-$BARO[$i-1]) -
+                      ( ( (($TAS[$i-1]/3.6)**2) - ($TAS[$i]/3.6)**2) / 19.62) ) / ($delta_time*3600);
+                push(@compVARIO,$compvario);
+
             } elsif ($config{'te_vario_fallback'}) { # ist das hier die richtige speed?
                 my $compvario = ( ($BARO[$i]-$BARO[$i-1]) -
                       ( ( (($nonISPEED[$i-1]/3.6)**2) - ($nonISPEED[$i]/3.6)**2) / 19.62) ) / ($delta_time*3600);
@@ -877,14 +898,14 @@ sub oeffnen {      ### open a File
             push(@nonISPEED, 0);
             push(@nonIVARIO, 0);
             push(@nonIVARIOGPS, 0);
-            if ($IASEXISTS eq "yes" || $config{'te_vario_fallback'} == 1) {
+            if ($IASEXISTS eq "yes" || $TASEXISTS eq "yes" || $config{'te_vario_fallback'} == 1) {
                 push(@compVARIO,0);
             }
         }
     }
 
     # warning
-    if ($IASEXISTS ne "yes" && $config{'te_vario_fallback'} == 1 && $config{'te_warning'})
+    if (($IASEXISTS ne "yes" && $TASEXISTS ne "yes") && $config{'te_vario_fallback'} == 1 && $config{'te_warning'})
     {Errorbox("total energy compensation was calculated from gps groundspeed!\nTo turn off this warning set te_warning = 0.\nAlso see te_vario_fallback");}
 
     # Maximum/minimum height:
@@ -910,6 +931,7 @@ sub oeffnen {      ### open a File
         open (KM,">${pfadftmp}km.dat");
         open (ENL, ">${pfadftmp}enl.dat");
         open (IAS, ">${pfadftmp}ias.dat");
+        open (TAS, ">${pfadftmp}tas.dat");
         open (SAT, ">${pfadftmp}sat.dat");
 
      # ----------------- LOOP over all data-records (fixes) --------------------
@@ -945,6 +967,7 @@ sub oeffnen {      ### open a File
             }
             print ENL $DECTIME[$i], " ", $ENL[$i], " ", $RPM[$i], "\n";
             print IAS $DECTIME[$i], " ", $IAS[$i],"\n";
+            print TAS $DECTIME[$i], " ", $TAS[$i],"\n";
             print SPACE $DECLON[$i]," ",$DECLAT[$i]," ",$BARO[$i]," ",$GPSALT[$i],"\n";
             print LATPROJ $DECLAT[$i]," ",$BARO[$i]," ",$GPSALT[$i],"\n";
             print LONPROJ $DECLON[$i]," ",$BARO[$i]," ",$GPSALT[$i],"\n";
@@ -969,6 +992,9 @@ sub oeffnen {      ### open a File
 
             $IAS_max = $IAS[$i] if ($IAS[$i] > $IAS_max);
             $IAS_min = $IAS[$i] if ($IAS[$i] < $IAS_min);
+
+            $TAS_max = $TAS[$i] if ($TAS[$i] > $TAS_max);
+            $TAS_min = $TAS[$i] if ($TAS[$i] < $TAS_min);
 
             $nonIVARIO_max = $nonIVARIO[$i] if ($nonIVARIO[$i] > $nonIVARIO_max);
             $nonIVARIO_min = $nonIVARIO[$i] if ($nonIVARIO[$i] < $nonIVARIO_min);
@@ -996,6 +1022,7 @@ sub oeffnen {      ### open a File
         close (LONLAT);
         close (ENL);
         close (IAS);
+        close (TAS);
         close (KM);
         close (SAT);
 
@@ -1012,6 +1039,8 @@ sub oeffnen {      ### open a File
         print	"	$nonISPEED_min \n";#= $nonISPEED[$i] if ($nonISPEED[$i] < $nonISPEED_min);
         print	"IAS	$IAS_max \n";#= $IAS[$i] if ($IAS[$i] > $IAS_max);
         print	"	$IAS_min \n";#= $IAS[$i] if ($IAS[$i] < $IAS_min);
+        print	"TAS	$TAS_max \n";#= $TAS[$i] if ($TAS[$i] > $TAS_max);
+        print	"	$TAS_min \n";#= $TAS[$i] if ($TAS[$i] < $TAS_min);
         print	"nIV	$nonIVARIO_max \n";#= $nonIVARIO[$i] if ($nonIVARIO[$i] > $nonIVARIO_max);
         print	"	$nonIVARIO_min \n";#= $nonIVARIO[$i] if ($nonIVARIO[$i] < $nonIVARIO_min);
         print	"nIVgps	$nonIVARIOGPS_max \n";#= $nonIVARIOGPS[$i] if ($nonIVARIOGPS[$i] > $nonIVARIOGPS_max);
@@ -1091,6 +1120,41 @@ sub oeffnen {      ### open a File
 
     #output
     open (ASHISTO,">${pfadftmp}iashisto.dat");
+
+    #output in % of flighttime!
+    for (my $z=0; $z < $#speedHISTO; $z++) {
+
+        #print "$z   $#speedHISTO  \n";
+        print ASHISTO $speedBEREICH[$z]+($histo_intervall/2)."   ".(($speedHISTO[$z]/$decflighttime)*100)."\n";
+    }
+    close (ASHISTO);
+
+    ### AIRSPEED HISTOGRAM
+    # initialize arrays
+    @speedBEREICH=();
+    @speedHISTO=();
+    $i = 0;
+
+    # initialize the histo-arrays
+    for (my $bereich=$TAS_min; $bereich <= $TAS_max; $bereich+=$histo_intervall) {
+        push(@speedHISTO,0);
+        push(@speedBEREICH,$bereich);
+    }
+
+    # summieren der intervalle
+    for (my $z=$starttimeindex ; $z < $landtimeindex; $z++) {
+        my $index = int(($TAS[$z] - $TAS_min ) / $histo_intervall);
+
+        #print "$index \n";
+        if ($index >= 0 && $index < (($TAS_max-$TAS_min)/$histo_intervall)) {
+
+            #print "if $index\n";
+            $speedHISTO[$index]+=  $DECTIME[$z+1]-$DECTIME[$z];
+        }
+    }
+
+    #output
+    open (ASHISTO,">${pfadftmp}tashisto.dat");
 
     #output in % of flighttime!
     for (my $z=0; $z < $#speedHISTO; $z++) {
@@ -2493,6 +2557,8 @@ sub FlightView {
 
     $menu_plot2d->command(-label=>"Indicated air speed",-command=>sub{$com1="set ylabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}ias.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"Indicated Airspeed\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
+    $menu_plot2d->command(-label=>"True air speed",-command=>sub{$com1="set ylabel \"True Airspeed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}tas.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"True Airspeed\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+
     $menu_plot2d->command(-label=>"Engine noise level / RPM",-command=>sub{$com1="set ylabel \"Noise Level / RPM\" \n set xlabel \"time \" \n plot";
             $com2="\'${pfadftmp}enl.dat\' title \"Engine noise level\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}enl.dat\' using 1:3 title \"RPM\" ".$config{'gnuplot_draw_style'};
             gnuplot("2d");});
@@ -2521,6 +2587,8 @@ sub FlightView {
     $menu_plot2d->command(-label=>"Groundspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"ground speed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}shisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
     $menu_plot2d->command(-label=>"Indicated airspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}iashisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
+
+    $menu_plot2d->command(-label=>"True airspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"True Airspeed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}tashisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
 
     $menu_plot2d->command(-label=>"Accuracy",-command=>sub{$com1="set ylabel \"Position Accuracy [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";
             $com2="\'${pfadftmp}sat.dat\' using 1:(\$3*$config{'altitude_unit_factor'}) title \"Horizontal Accuracy\" $config{'gnuplot_draw_style'}, \'${pfadftmp}sat.dat\' using 1:(\$4*$config{'altitude_unit_factor'}) title \"Vertical Accuracy\" $config{'gnuplot_draw_style'} "; gnuplot("2d");});
@@ -4255,7 +4323,8 @@ sub FVWausg {
 
     # formatted strings for output
     my $speed =   sprintf("%.0f",$nonISPEED[$nr]*$config{'speed_unit_factor'});
-    my $aspeed = sprintf("%.0f",$IAS[$nr]*$config{'speed_unit_factor'});
+    my $iaspeed = sprintf("%.0f",$IAS[$nr]*$config{'speed_unit_factor'});
+    my $taspeed = sprintf("%.0f",$TAS[$nr]*$config{'speed_unit_factor'});
 
     # in GPS-mode IVARIO arrays are swapped with GPS arrays
     my $vario = sprintf("%.2f", $nonIVARIO[$nr]*$config{'vertical_speed_unit_factor'});
@@ -4307,7 +4376,7 @@ sub FVWausg {
     }
 
     $fvwtext = "Coordinates: $format_lat   $format_lon  Time (UTC): $htime  No.: $nr  $altmode_txt: $alt $config{'altitude_unit_name'}   GPS: $gpsalt $config{'altitude_unit_name'}\nPressure $press hPa  pO2 $opress hPa$pressline\n";
-    $fvwtext.= "Groundspeed: $speed $config{'speed_unit_name'}   Airspeed: $aspeed $config{'speed_unit_name'}  Heading: $heading";
+    $fvwtext.= "Groundspeed: $speed $config{'speed_unit_name'}   IAirspeed: $iaspeed $config{'speed_unit_name'}  TAirspeed: $taspeed $config{'speed_unit_name'}   Heading: $heading";
 
     if ($SIUEXISTS eq "yes") {
         $fvwtext .= "  Sats used: $SIU[$nr]";
@@ -4807,7 +4876,13 @@ sub statistik {
         $cum_climb += $BARO[$z+1]-$BARO[$z]  if ($BARO[$z+1]-$BARO[$z] > 0);
         $cum_sink += $BARO[$z+1]-$BARO[$z]  if ($BARO[$z+1]-$BARO[$z] < 0);
 
-        my $diff = $IAS[$z] - (($nonISPEED[$z]+$nonISPEED[$z+1])/2)  ;
+	my $diff;
+	if ($TASEXISTS eq "yes") {
+	    $diff = $TAS[$z] - (($nonISPEED[$z]+$nonISPEED[$z+1])/2)  ;
+	} else {
+	    $diff = $IAS[$z] - (($nonISPEED[$z]+$nonISPEED[$z+1])/2)  ;
+	};
+
 
         my $kurs = GPLIGCfunctions::kurs($DECLAT[$z-1], $DECLON[$z-1], $DECLAT[$z+1], $DECLON[$z+1]);
         my $roundk = int($kurs+0.5);
