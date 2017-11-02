@@ -5,6 +5,7 @@ ChangeLog of the gpligc & ogie project
  Version 1.11  0x/201y
 
 GPLIGC
++ patch for TAS in flytec 6030 units (thanks to Solomon Peachy)
 - removed libdir and datadir from %config. not really needed and causing probl.
 + if zoomed out a border is added. Its size can be configured with
     $config{'zoom_border'} (in km, default is 3)

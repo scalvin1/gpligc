@@ -2,7 +2,7 @@
 
 # version and copyleft
 my $version='1.11';
-my $copyright_years="2000-2016";
+my $copyright_years="2000-2017";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
 # new version welcome message
@@ -2557,7 +2557,7 @@ sub FlightView {
 
     $menu_plot2d->command(-label=>"Indicated air speed",-command=>sub{$com1="set ylabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}ias.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"Indicated Airspeed\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"True air speed",-command=>sub{$com1="set ylabel \"True Airspeed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}tas.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"True Airspeed\" ".$config{'gnuplot_draw_style'}; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"True air speed",-command=>sub{$com1="set ylabel \"True Airspeed [$config{'speed_unit_name'}]\" \n set xlabel \"time \" \n plot";$com2="\'${pfadftmp}tas.dat\' using (\$1):(\$2*$config{'speed_unit_factor'}) title \"True Airspeed\" ".$config{'gnuplot_draw_style'}; gnuplot("2d");});
 
     $menu_plot2d->command(-label=>"Engine noise level / RPM",-command=>sub{$com1="set ylabel \"Noise Level / RPM\" \n set xlabel \"time \" \n plot";
             $com2="\'${pfadftmp}enl.dat\' title \"Engine noise level\" ".$config{'gnuplot_draw_style'}.", \'${pfadftmp}enl.dat\' using 1:3 title \"RPM\" ".$config{'gnuplot_draw_style'};
@@ -2588,7 +2588,7 @@ sub FlightView {
 
     $menu_plot2d->command(-label=>"Indicated airspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"Indicated Airspeed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}iashisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
-    $menu_plot2d->command(-label=>"True airspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"True Airspeed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}tashisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; Ausgabe("2d");});
+    $menu_plot2d->command(-label=>"True airspeed histogram", -command=>sub{$com1="set nokey\n set ylabel \"% of flighttime\" \n set xlabel \"True Airspeed [$config{'speed_unit_name'}]\" \n plot";$com2="\'${pfadftmp}tashisto.dat\' using (\$1*$config{'speed_unit_factor'}):(\$2) with boxes fs solid 1 "; gnuplot("2d");});
 
     $menu_plot2d->command(-label=>"Accuracy",-command=>sub{$com1="set ylabel \"Position Accuracy [$config{'altitude_unit_name'}]\" \n set xlabel \"time \" \n plot";
             $com2="\'${pfadftmp}sat.dat\' using 1:(\$3*$config{'altitude_unit_factor'}) title \"Horizontal Accuracy\" $config{'gnuplot_draw_style'}, \'${pfadftmp}sat.dat\' using 1:(\$4*$config{'altitude_unit_factor'}) title \"Vertical Accuracy\" $config{'gnuplot_draw_style'} "; gnuplot("2d");});
