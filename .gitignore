@@ -27,6 +27,7 @@ stamp-h1
 pdfdoc/GPLIGC_Manual.tex
 pdfdoc/cleaner.sh
 pdfdoc/compileit.sh
+pdfdoc/*.bak
 images/logo.jpg
 images/logos.gif
 images/logos.jpg
