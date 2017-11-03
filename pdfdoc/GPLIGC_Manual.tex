@@ -3,7 +3,13 @@
 \usepackage[pdftex]{graphicx}
 \usepackage[numbers,comma,sort&compress]{natbib}
 %\usepackage{url}
-\usepackage[pdftex, colorlinks, bookmarksnumbered=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
+% removed pdftex, because this creates an "option clash" because of some catoptions misbehaviour
+% catoptions used by menukeys
+% output seems to be ok 
+%\usepackage[pdftex, colorlinks, bookmarksnumbered=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage[colorlinks, bookmarksnumbered=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+
 %\usepackage{thumbpdf}
 
 % a new version of gmeometric seems to be incompatible with something else...
