@@ -2,14 +2,14 @@
 
 # version and copyleft
 my $version='1.11';
-my $copyright_years="2000-2017";
+my $copyright_years="2000-2019";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
 # new version welcome message
 my $new_version_message=<<ENDE;
 News for version $version
 
- - nothing yet
+ - google satellite layers fixed (URL updated)
 
 for details see ChangeLog and read the Manual
 
@@ -57,7 +57,7 @@ $config{'optimizer_verbose'} = 0;
 $config{'optimizer_debug'} = 0;
 $config{'maps'} = "1";
 $config{'map_type'}= "osm";
-$config{'map_gms_v'}=130;			# as of 12/2013 v132 seems to be the lowest number
+#$config{'map_gms_v'}=130;			# as of 12/2013 v132 seems to be the lowest number # 2019/04 not needed anymore, URL changed, no v parameter any more
 $map_gms_v_min=10000;
 $map_gms_v_max=$config{'map_gms_v'};
 $config{'maps_zoomlevel'}= 8;
@@ -3248,7 +3248,13 @@ sub mapplot {
             }
 
 	    # for sat and hybrid load sat layer
-            $dladdr = "http://khm$rand.google.com/kh/v=".($config{'map_gms_v'}+$retry_gms_counter)."&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh" );
+
+            # this old URL seems not to works anymore, in 2019
+            # or I cant find out what the valid "version" is...
+            #$dladdr = "http://khm$rand.google.com/kh/v=".($config{'map_gms_v'}+$retry_gms_counter)."&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh" );
+
+            # new 2019! seems like the satellite imagery comes from mt{n}. with lyrs=s, without version number now.
+            $dladdr = "http://mt$rand.google.com/vt/lyrs=s&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh" );
 
             $dladdr = "http://mt$rand.google.com/vt/lyrs=h&hl=en&x=$xt&y=$yt&z=$zl" if ($addlayer == 1);
 
@@ -4853,7 +4859,7 @@ sub statistik {
     $distance *= $config{'distance_unit_factor'};
     $speed *= $config{'speed_unit_factor'};
 
-    $message .= sprintf("\nDistance: %.1f $config{'distance_unit_name'} \nSpeed: %.0f $config{'speed_unit_name'}", $distance, $speed);
+    $message .= sprintf("\nDistance: %.3f $config{'distance_unit_name'} \nSpeed: %.0f $config{'speed_unit_name'}", $distance, $speed);
     $message .= sprintf("\nGlide ratio: %.1f", $glide);
 
     my $head = GPLIGCfunctions::kurs($DECLAT[$start], $DECLON[$start], $DECLAT[$end], $DECLON[$end]);
@@ -4912,7 +4918,7 @@ sub statistik {
 
     $message .= sprintf("\nCumulated climb: %.0f $config{'altitude_unit_name'}", $cum_climb * $config{'altitude_unit_factor'});
     $message .= sprintf("\nCumulated sink: %.0f $config{'altitude_unit_name'}", $cum_sink * $config{'altitude_unit_factor'});
-    $message .= sprintf("\nCumulated distance: %.1f $config{'distance_unit_name'}", $cum_dist * $config{'distance_unit_factor'});
+    $message .= sprintf("\nCumulated distance: %.3f $config{'distance_unit_name'}", $cum_dist * $config{'distance_unit_factor'});
 
     my $speed_cum_dist = $cum_dist / $delta_t;
 
