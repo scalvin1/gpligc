@@ -10,7 +10,10 @@ GPLIGC
 + if zoomed out a border is added. Its size can be configured with
     $config{'zoom_border'} (in km, default is 3)
 + key T zooms out, including all WPs of the actual task (+border)
-+ google sat URL fixed
++ google sat URL fixed (Map-version stuff removed)
+
+docs
++ added comment that ActivePerls Imager modules is broken
 
 ogie
 

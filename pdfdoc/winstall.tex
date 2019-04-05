@@ -53,17 +53,20 @@ There are two (probably even more) important Perl distribution for windows syste
 I personally use this and recommend its use for gpligc.
 (2) ActiveState ActivePerl~\cite{activeperl}, which is a closed-source distribution (but free for personal use).
 On ActiveState Perl you can use the ppm package manager to install the needed modules (Tk, Imager, Image::ExifTool).
+However, the Imager module shipped with ActivePerl is currently \textbf{broken and does not work}.
 
 
 \paragraph{Strawberry Perl}
 After downloading the msi installer package of 32bit Strawberry Perl (see~\ref{requirements} for specific version),
-the installation is straight forward (unfortunately, there are no package repositories for 64bit stuff, consequently the 64bit installation does \emph{not} have ppm. You'll have to use the 32bit version. On 64bit perl, the only option to install additional modules is CPAN).
-Then, open a cmd.exe command-window (or perl commandline from the strawberry program folder) and enter the following
-command to install perl Tk:\\
-\texttt{ppm install Tk}\\
+the installation is straight forward.
+% (unfortunately, there are no package repositories for 64bit stuff, consequently the 64bit installation does \emph{not} have ppm. You'll have to use the 32bit version. On 64bit perl, the only option to install additional modules is CPAN).
+%Then, open a cmd.exe command-window (or perl commandline from the strawberry program folder) and enter the following
+%command to install perl Tk:\\
+%\texttt{ppm install Tk}\\
 %You can also use CPAN to install Tk, like the other modules below (however, this will take a couple of minutes more, as it will compile the Tk module from scratch).
 To install the additional modules use the CPAN client (strawberry perl / tools) and enter the following commands
 at the CPAN promt:\\
+\texttt{install Tk}\\
 \texttt{install Image::ExifTool}\\
 \texttt{install Imager}  $\leftarrow$ in recent strawberry perl this is included already.\\
 Anti virus software may need to be disabled during CPAN installs (caused errors on my system).

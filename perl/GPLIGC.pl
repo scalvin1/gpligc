@@ -58,8 +58,8 @@ $config{'optimizer_debug'} = 0;
 $config{'maps'} = "1";
 $config{'map_type'}= "osm";
 #$config{'map_gms_v'}=130;			# as of 12/2013 v132 seems to be the lowest number # 2019/04 not needed anymore, URL changed, no v parameter any more
-$map_gms_v_min=10000;
-$map_gms_v_max=$config{'map_gms_v'};
+#$map_gms_v_min=10000;
+#$map_gms_v_max=$config{'map_gms_v'};
 $config{'maps_zoomlevel'}= 8;
 $config{'map_max_scalesize'}=750;
 $config{'map_max_tiles'}=30;
@@ -375,8 +375,8 @@ load_config();
 
 print "config loaded 2nd time\n" if ($config{'DEBUG'});
 
-$map_gms_v_min=10000;
-$map_gms_v_max=$config{'map_gms_v'};
+#$map_gms_v_min=10000;
+#$map_gms_v_max=$config{'map_gms_v'};
 
 if ($config{'maps'} && !($have_imager && $have_png)) {
     Errorbox("The config{'maps'} is set, but imager and/or png modules are not available. I'll disable maps\n");
@@ -3055,15 +3055,15 @@ sub FlightView {
           } );
 
     # undocumented! increase gmaps version number and reload maps
-    $FlightView->bind("<Control-numbersign>", sub{
-	if ($filestat eq 'closed') { return; }
-            if ($config{'maps'}) {
-                $map_reload = 1;
-                $config{'map_gms_v'}++;
-                updateFVW(); #FVWausg();
+    #$FlightView->bind("<Control-numbersign>", sub{
+	#if ($filestat eq 'closed') { return; }
+    #        if ($config{'maps'}) {
+    #            $map_reload = 1;
+    #            $config{'map_gms_v'}++;
+    #            updateFVW(); #FVWausg();
 
-            }
-          } );
+   #         }
+   #       } );
 
     $FlightView->bind("<Key-H>", sub{
       print "$config{'fvw_grid'}=fvw_grid   $config{'fvw_baro_grid'}=fvw_baro_grid\n";
@@ -3217,9 +3217,9 @@ sub mapplot {
             @textplot=();
             my $dlplottext="DOWNLOADING MAP TILE ($config{'map_type'} $zl $xt $yt";
 
-            if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh") {
-                $dlplottext .= " v=$config{'map_gms_v'}";
-            }
+            #if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh") {
+            #    $dlplottext .= " v=$config{'map_gms_v'}";
+            #}
 
             $dlplottext .= ")";
             push (@textplot, $canvas->createText(20,20, -anchor=>"w", -text=>$dlplottext, -fill=>"red"));
@@ -3263,19 +3263,19 @@ sub mapplot {
             print "$resp DOWNLOAD: \"$dladdr\" ==> $osmpath/$zl/$xt/$yt.png\n" if ($config{'DEBUG'});
 
             if ($resp != 200) {print "$resp error: $dladdr\n" if ($config{'DEBUG'}); }
-             else {
+        #     else {
 		#if success, record min/max
-	       if (($config{'map_gms_v'}+$retry_gms_counter) < $map_gms_v_min) {$map_gms_v_min = $config{'map_gms_v'}+$retry_gms_counter;}
-	       if (($config{'map_gms_v'}+$retry_gms_counter) > $map_gms_v_max) {$map_gms_v_max = $config{'map_gms_v'}+$retry_gms_counter;}
+	     #  if (($config{'map_gms_v'}+$retry_gms_counter) < $map_gms_v_min) {$map_gms_v_min = $config{'map_gms_v'}+$retry_gms_counter;}
+	      # if (($config{'map_gms_v'}+$retry_gms_counter) > $map_gms_v_max) {$map_gms_v_max = $config{'map_gms_v'}+$retry_gms_counter;}
 
-	      }
+	     # }
 
-            if ($resp == 404 && $addlayer == 0 && ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh")) {
-                print "$resp error: $dladdr - SAT v=".($config{'map_gms_v'}+$retry_gms_counter).". Retrying newer version \n" if ($config{'DEBUG'});
-                goto retry_gms;
-            }
+            #if ($resp == 404 && $addlayer == 0 && ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh")) {
+            #    print "$resp error: $dladdr - SAT v=".($config{'map_gms_v'}+$retry_gms_counter).". Retrying newer version \n" if ($config{'DEBUG'});
+            #    goto retry_gms;
+            #}
 
-            if ($retry_gms_counter > 0) {$config{'map_gms_v'} += $retry_gms_counter;  print "Map Version updated\n" if ($config{'DEBUG'}); }
+            #if ($retry_gms_counter > 0) {$config{'map_gms_v'} += $retry_gms_counter;  print "Map Version updated\n" if ($config{'DEBUG'}); }
 
           # not needed evt for later use by ogie?! solange er kein png versteht
           # system ("convert $osmpath/$zl/$xt/$yt.png $osmpath/$zl/$xt/$yt.jpg");
@@ -3375,9 +3375,9 @@ sub mapplot {
     #	}
 #######################################
 
-    if ($config{'DEBUG'}) {
-      print "gm-v  min: $map_gms_v_min   max: $map_gms_v_max\n";
-    }
+    #if ($config{'DEBUG'}) {
+     # print "gm-v  min: $map_gms_v_min   max: $map_gms_v_max\n";
+    #}
 
     $FlightView->Unbusy;
     $canvas -> delete (@textplot);
