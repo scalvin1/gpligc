@@ -1,4 +1,4 @@
-# (c) 2001-2016 Hannes Krueger
+# (c) 2001-2019 Hannes Krueger
 # This file is part of the GPLIGC/ogie package
 #
 # This program is free software: you can redistribute it and/or modify

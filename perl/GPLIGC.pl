@@ -1379,7 +1379,7 @@ sub oeffnen {      ### open a File
     }
 
     #if there is no waypoint/task in the igc-file, we set a single WP in the centre
-    if ($TASKEXISTS eq "no" ) {
+    if ($TASKEXISTS eq "no" || $j == 1) {  #j==1 -> no valid wp read!
         $MAXWP =1;
 
         # define in igc format, conversion is done latr (for all WPs)
