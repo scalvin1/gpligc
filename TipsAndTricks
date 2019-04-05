@@ -17,8 +17,8 @@ Gnuplot windows:
 
 Windows /MinGW32 msys platform setup:
 installieren von src:
- + freeglut-2.8.1  (./configure --prefix=/mingw)
- + jpegsrc.v9c        ... same ...
+ + freeglut-2.8.1  (./configure --without-x --prefix=/mingw)
+ + jpegsrc.v9c     (./configure --prefix=/mingw)
  
 gnuplot binaries: gp426win32.zip  -> gnuplot-4.2.6  
 

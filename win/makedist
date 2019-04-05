@@ -8,9 +8,9 @@
 # works on MinGW32/msys platform
 #  additionally installed:
 #  freeglut-2.8.1  ./configure --without-x --prefix=/mingw
-#  jpeg-9a  ./configure --prefix=/mingw
+#  jpeg-9c  ./configure --prefix=/mingw
 
-# we use and _ship_ gnuplot 4.2.6
+# we use and _ship_ gnuplot 4.2.6  (binary)
 
 # configure and build (only ogie/src)
 cd ..
