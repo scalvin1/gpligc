@@ -70,8 +70,10 @@ For each leg of the task the distance, speed, altitude gain/loss and the glide r
 
 
 \subsubsection{Maps}
-The usage of maps needs internet connection (if new map tiles have to be downloaded).
-Changing the zoom or positions, will trigger automatic download of map-tiles, the window will be busy for a few seconds.
+Gpligc may use maps from \emph{slippy map tile servers}, some of them are already implemented and can be choosen in the \menu{Options>Map settings}.
+
+The usage of online maps needs internet connection, if new map tiles will have to be downloaded. Once downloaded and cached internet connection is not needed any longer.
+Changing the zoom or positions, will trigger automatic download of missing map-tiles, the window will be busy for a few seconds.
 
 The display of maps can be activated or deactivated by key \keys{M}, or in \menu{Options>Map settings}.
 The status lines at the top of the window will show the zoom-level and the number of tiles used.
@@ -85,6 +87,21 @@ and \texttt{map\_max\_scalesize}, although not recommended.
 The default map zoom-level is set by \texttt{maps\_zoomlevel} (recommended: 8).
 
 Downloaded map tiles are stored in \texttt{.gpligc/maps}. Pressing the hash-key \keys{\#} re-downloads the displayed map tiles.
+
+\paragraph{Open flightmaps}
+is a rather new project \cite{ofm} providing flightmaps with current airspace data. Right now, there is no server providing \emph{slippy map tiles} on request. However, they can be downloaded as full regional sets and installed in the map directory of gpligc.
+Gpligc is set up to use three layers (ofm-aero, ofm-base, and ofm-merged), the files have to be placed in three directories (\texttt{ofm-a}, \texttt{ofm-b}, and \texttt{ofm-m}) located within the directory \texttt{.gpligc/maps}.
+After unzipping the downloaded set you'll have to copy the tiles for the three layers to the correct place.\\
+for example:\\
+\texttt{mkdir -p $\sim$/.gpligc/map/ofm-m}\\
+\texttt{mkdir -p $\sim$/.gpligc/map/ofm-a}\\
+\texttt{mkdir -p $\sim$/.gpligc/map/ofm-b}\\
+\texttt{cp -uvr clip/merged/512/latest/* $\sim$/.gpligc/map/ofm-m/}\\
+\texttt{cp -uvr clip/aero/512/latest/* $\sim$/.gpligc/map/ofm-a/}\\
+\texttt{cp -uvr clip/base/512/latest/* $\sim$/.gpligc/map/ofm-b/}\\
+
+
+
 
 
 \subsubsection{Postscript output}

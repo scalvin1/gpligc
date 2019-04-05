@@ -1,6 +1,7 @@
-\subsection{Windows XP/Vista/7/8}
+\subsection{Windows XP/Vista/7/8/10}
 \label{windows_install}
-You'll need Perl. If unsure which Perl distribution to use, read section~\ref{perl}. But you need Perl before you proceed.
+In order to install gpligc you'll need Perl. If unsure which Perl distribution to use, read section~\ref{perl}. 
+However, make sure Perl ist installed beore you proceed.
 
 \begin{enumerate}
 \item Unzip the GPLIGC-version-win32.zip archive to a temporary location
@@ -57,7 +58,7 @@ However, the Imager module shipped with ActivePerl is currently \textbf{broken a
 
 
 \paragraph{Strawberry Perl}
-After downloading the msi installer package of 32bit Strawberry Perl (see~\ref{requirements} for specific version),
+After downloading the msi installer package of Strawberry Perl (see~\ref{requirements} for specific version),
 the installation is straight forward.
 % (unfortunately, there are no package repositories for 64bit stuff, consequently the 64bit installation does \emph{not} have ppm. You'll have to use the 32bit version. On 64bit perl, the only option to install additional modules is CPAN).
 %Then, open a cmd.exe command-window (or perl commandline from the strawberry program folder) and enter the following
@@ -65,7 +66,7 @@ the installation is straight forward.
 %\texttt{ppm install Tk}\\
 %You can also use CPAN to install Tk, like the other modules below (however, this will take a couple of minutes more, as it will compile the Tk module from scratch).
 To install the additional modules use the CPAN client (strawberry perl / tools) and enter the following commands
-at the CPAN promt:\\
+at the CPAN prompt:\\
 \texttt{install Tk}\\
 \texttt{install Image::ExifTool}\\
 \texttt{install Imager}  $\leftarrow$ in recent strawberry perl this is included already.\\

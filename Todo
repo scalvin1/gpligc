@@ -1,4 +1,3 @@
-documentation for openflightmaps
 
 task save / and load  (maybe using same format as tasks in igc, + add radius fac)
 TESTING: zoom (further out, zoom to task)
