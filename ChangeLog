@@ -11,9 +11,12 @@ GPLIGC
     $config{'zoom_border'} (in km, default is 3)
 + key T zooms out, including all WPs of the actual task (+border)
 + google sat URL fixed (Map-version stuff removed)
++ openflightmaps.org may be used (locally, download and put tiles (512px) in
+    maps/ofm-a maps/ofm-b and maps/ofm-m
+    for "aero", "base" and "merged"   layers
 
 docs
-+ added comment that ActivePerls Imager modules is broken
++ added comment that ActivePerls Imager module is broken
 
 ogie
 

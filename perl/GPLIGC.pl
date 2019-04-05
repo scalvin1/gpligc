@@ -10,6 +10,7 @@ my $new_version_message=<<ENDE;
 News for version $version
 
  - google satellite layers fixed (URL updated)
+ - openflightmaps can be used (local installation of maps needed)
 
 for details see ChangeLog and read the Manual
 
@@ -57,9 +58,6 @@ $config{'optimizer_verbose'} = 0;
 $config{'optimizer_debug'} = 0;
 $config{'maps'} = "1";
 $config{'map_type'}= "osm";
-#$config{'map_gms_v'}=130;			# as of 12/2013 v132 seems to be the lowest number # 2019/04 not needed anymore, URL changed, no v parameter any more
-#$map_gms_v_min=10000;
-#$map_gms_v_max=$config{'map_gms_v'};
 $config{'maps_zoomlevel'}= 8;
 $config{'map_max_scalesize'}=750;
 $config{'map_max_tiles'}=30;
@@ -374,9 +372,6 @@ FlightView();
 load_config();
 
 print "config loaded 2nd time\n" if ($config{'DEBUG'});
-
-#$map_gms_v_min=10000;
-#$map_gms_v_max=$config{'map_gms_v'};
 
 if ($config{'maps'} && !($have_imager && $have_png)) {
     Errorbox("The config{'maps'} is set, but imager and/or png modules are not available. I'll disable maps\n");
@@ -2335,6 +2330,9 @@ sub FlightView {
     $mapmenu->checkbutton(-label =>"Use maps", -variable=>\$config{'maps'},-command=>sub{if (Exists($FlightView)) {updateFVW('i');}   });
     $mapmenu->radiobutton(-label => "Open street map",-variable => \$config{'map_type'},-value => "osm",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Open cycle map",-variable => \$config{'map_type'},-value => "osmC",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
+    $mapmenu->radiobutton(-label => "Open flight map (merged)",-variable => \$config{'map_type'},-value => "ofm-m",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
+    $mapmenu->radiobutton(-label => "Open flight map (aero)",-variable => \$config{'map_type'},-value => "ofm-a",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
+    $mapmenu->radiobutton(-label => "Open flight map (base)",-variable => \$config{'map_type'},-value => "ofm-b",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     #$mapmenu->radiobutton(-label => "Open Sea map",-variable => \$config{'map_type'},-value => "oseam",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps",-variable => \$config{'map_type'},-value => "gmm",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
     $mapmenu->radiobutton(-label => "Gmaps terrain",-variable => \$config{'map_type'},-value => "gmt",-command=>sub{if (Exists($FlightView)) {updateFVW();}   });
@@ -3054,16 +3052,6 @@ sub FlightView {
             }
           } );
 
-    # undocumented! increase gmaps version number and reload maps
-    #$FlightView->bind("<Control-numbersign>", sub{
-	#if ($filestat eq 'closed') { return; }
-    #        if ($config{'maps'}) {
-    #            $map_reload = 1;
-    #            $config{'map_gms_v'}++;
-    #            updateFVW(); #FVWausg();
-
-   #         }
-   #       } );
 
     $FlightView->bind("<Key-H>", sub{
       print "$config{'fvw_grid'}=fvw_grid   $config{'fvw_baro_grid'}=fvw_baro_grid\n";
@@ -3210,16 +3198,13 @@ sub mapplot {
         my $xsize = ($tlonmax-$tlonmin)/$dxp; #print "xsise $xsize\n";
         my $ysize = ($tlatmax-$tlatmin)/$dyp; #print "ysize $ysize\n";
 
-        # check if tile exists
-        if (!-e "$osmpath/$zl/$xt/$yt.png" || $map_reload == 1){
+        # check if tile exists and re-download  (not for openflightmap, which is installed locally)
+        if ( (!-e "$osmpath/$zl/$xt/$yt.png" || $map_reload == 1) && !($config{'map_type'} eq "ofm-b" || $config{'map_type'} eq "ofm-a" ||  $config{'map_type'} eq "ofm-m" )){
 
             $canvas -> delete (@textplot);
             @textplot=();
             my $dlplottext="DOWNLOADING MAP TILE ($config{'map_type'} $zl $xt $yt";
 
-            #if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh") {
-            #    $dlplottext .= " v=$config{'map_gms_v'}";
-            #}
 
             $dlplottext .= ")";
             push (@textplot, $canvas->createText(20,20, -anchor=>"w", -text=>$dlplottext, -fill=>"red"));
@@ -3249,10 +3234,6 @@ sub mapplot {
 
 	    # for sat and hybrid load sat layer
 
-            # this old URL seems not to works anymore, in 2019
-            # or I cant find out what the valid "version" is...
-            #$dladdr = "http://khm$rand.google.com/kh/v=".($config{'map_gms_v'}+$retry_gms_counter)."&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh" );
-
             # new 2019! seems like the satellite imagery comes from mt{n}. with lyrs=s, without version number now.
             $dladdr = "http://mt$rand.google.com/vt/lyrs=s&hl=en&x=$xt&y=$yt&z=$zl" if ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh" );
 
@@ -3263,21 +3244,8 @@ sub mapplot {
             print "$resp DOWNLOAD: \"$dladdr\" ==> $osmpath/$zl/$xt/$yt.png\n" if ($config{'DEBUG'});
 
             if ($resp != 200) {print "$resp error: $dladdr\n" if ($config{'DEBUG'}); }
-        #     else {
-		#if success, record min/max
-	     #  if (($config{'map_gms_v'}+$retry_gms_counter) < $map_gms_v_min) {$map_gms_v_min = $config{'map_gms_v'}+$retry_gms_counter;}
-	      # if (($config{'map_gms_v'}+$retry_gms_counter) > $map_gms_v_max) {$map_gms_v_max = $config{'map_gms_v'}+$retry_gms_counter;}
 
-	     # }
-
-            #if ($resp == 404 && $addlayer == 0 && ($config{'map_type'} eq "gms" || $config{'map_type'} eq "gmh")) {
-            #    print "$resp error: $dladdr - SAT v=".($config{'map_gms_v'}+$retry_gms_counter).". Retrying newer version \n" if ($config{'DEBUG'});
-            #    goto retry_gms;
-            #}
-
-            #if ($retry_gms_counter > 0) {$config{'map_gms_v'} += $retry_gms_counter;  print "Map Version updated\n" if ($config{'DEBUG'}); }
-
-          # not needed evt for later use by ogie?! solange er kein png versteht
+          # not needed yet. evtl. for later use by ogie?! solange er kein png versteht
           # system ("convert $osmpath/$zl/$xt/$yt.png $osmpath/$zl/$xt/$yt.jpg");
         }
 
@@ -3375,9 +3343,6 @@ sub mapplot {
     #	}
 #######################################
 
-    #if ($config{'DEBUG'}) {
-     # print "gm-v  min: $map_gms_v_min   max: $map_gms_v_max\n";
-    #}
 
     $FlightView->Unbusy;
     $canvas -> delete (@textplot);
