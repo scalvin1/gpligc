@@ -13,9 +13,9 @@ $close_delay = 60;
 print <<ENDE;
 
 GPLIGC and OGIE installation (Windows XP/Vista)
-    should work on Win2003, Win2008 and Win7 too, but was not tested yet!
+    should work on Win2003, Win2008 and Win7 trough Win10, but was not tested on all platforms yet!
 
-(c) 2000-2016 by Hannes Krueger ($email)
+(c) 2000-2019 by Hannes Krueger ($email)
 read the GPLIGC_Manual.pdf for more information
 
 Enter installation directory. Press enter for default.
