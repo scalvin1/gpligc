@@ -2,7 +2,7 @@
 
 # version and copyleft
 my $version='1.11';
-my $copyright_years="2000-2019";
+my $copyright_years="2000-2021";
 my $copyright="(c) $copyright_years by Hannes Krueger";
 
 # new version welcome message
