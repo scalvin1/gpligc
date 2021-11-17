@@ -24,7 +24,7 @@
 
 #include "cmdline.h"
 
-const char *gengetopt_args_info_purpose = "OGIE (c) 2002-2016 by Hannes Krueger <Hannes.Krueger@gmail.com>\nWeb: http://gpligc.sf.net\n\nopenGL viewer for igc flight data files and/or digital elevation data\nfrom SRTM30, GTOPO30, GLOBE, etc. Digitised maps and airspace data\nfiles can be used.\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions.\n\nThe full GPLv3 license is included in the manual\n";
+const char *gengetopt_args_info_purpose = "OGIE (c) 2002-2021 by Hannes Krueger <Hannes.Krueger@gmail.com>\nWeb: http://gpligc.sf.net\n\nopenGL viewer for igc flight data files and/or digital elevation data\nfrom SRTM30, GTOPO30, GLOBE, etc. Digitised maps and airspace data\nfiles can be used.\n\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions.\n\nThe full GPLv3 license is included in the manual\n";
 
 const char *gengetopt_args_info_usage = "Usage: OGIE [OPTIONS]...";
 

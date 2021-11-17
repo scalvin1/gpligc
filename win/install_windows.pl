@@ -15,7 +15,7 @@ print <<ENDE;
 GPLIGC and OGIE installation (Windows)
     should work on Win2003, Win2008 and Win7 through Win10, but was not tested on all platforms yet!
 
-(c) 2000-2019 by Hannes Krueger ($email)
+(c) 2000-2021 by Hannes Krueger ($email)
 read the GPLIGC_Manual.pdf for more information
 
 Enter installation directory. Press enter for default.

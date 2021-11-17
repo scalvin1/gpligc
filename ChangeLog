@@ -2,7 +2,7 @@ ChangeLog of the gpligc & ogie project
 
 ********************************************************************************
 
- Version 1.11  0x/201y
+ Version 1.11  11/2021
 
 GPLIGC
 + patch for TAS in flytec 6030 units (thanks to Solomon Peachy)
@@ -16,7 +16,7 @@ GPLIGC
     for "aero", "base" and "merged"   layers
 
 docs
-+ added comment that ActivePerls Imager module is broken
++ added comment that ActivePerls Imager module is broken (as of which date?)
 
 ogie
 

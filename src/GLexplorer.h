@@ -1,5 +1,5 @@
 /*
- * (c) 2002-2016 Hannes Krueger
+ * (c) 2002-2021 Hannes Krueger
  * This file is part of the GPLIGC/ogie package
  */
 
@@ -28,7 +28,7 @@ const std::string OGIE_VERSION = VERSION ;
 
 // DEVELOPEMENT and WEB2 can be erased, once all occurances checked and removed
 const std::string DEVELOPEMENT = "";
-const std::string COPYRIGHT = "(c) 2002-2016";
+const std::string COPYRIGHT = "(c) 2002-2021";
 const std::string AUTHOR = "Hannes Krueger";
 const std::string MAIL =  "<Hannes.Krueger@gmail.com>";
 const std::string WEB2 = ""; //"http://freshmeat.net/projects/gpligc";
