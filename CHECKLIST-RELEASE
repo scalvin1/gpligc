@@ -37,9 +37,12 @@ clean-up: (this should clean up everything down to the tracked files)
  or  git clean -d -x -f
 
 WINDOWS:
-cygwin:
+cygwin:  where is my cygwin?!
+      (or in linux working on the tree inside the win-partition!)
+               MinGW/msys/1.0/home/kruegerh/gplic
   git pull
   autoreconf -iv
   in pdfdoc sh copyfrompc12 (make sure to checkout/build-pdf corresponding version on pc12)
+          (or in linux sh compileit.sh)
 mingw:
   in win VERSION=xx.y-win32  makedist
