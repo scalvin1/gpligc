@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+//#define _FILE_OFFSET_BITS 64  //does not seem to be needed here-JMWK
 
 #include "landscape.h"
 #include "oglexfunc.h"
@@ -121,9 +122,10 @@ int Landscape::readDEM(string filename, int rows_lat, int colums_lon,
 
 	// check size of demfile:
 	demfile.seekg(0, ios::end);
-	int fsize = demfile.tellg();
-	if (fsize != rows_lat * colums_lon * 2 ) {
-		cerr << "Size of " << filename << " doesnt agree with definition in configuration file" << endl;
+	uint64_t fsize = demfile.tellg();
+	if (fsize != (uint64_t) rows_lat * colums_lon * 2 ) {
+		cerr << "Size of " << filename << " " << fsize << " doesnt agree with definition in configuration file " << 
+			(uint64_t) rows_lat * colums_lon * 2 << endl;
 		exit(1);
 	}
 	demfile.seekg(0, ios::beg);
@@ -239,8 +241,8 @@ calc_start:
 
 
 			if (conf_pointer->getupscalefactor() == 1) {
-			int verschieber =
-			    (colums_lon * upsteps + zeile * colums_lon +
+			uint64_t verschieber =
+			    ((uint64_t) colums_lon * upsteps + (uint64_t) zeile * colums_lon +
 			     leftsteps + spalte) * 2;
 
 			demfile.seekg(verschieber, ios::beg);
