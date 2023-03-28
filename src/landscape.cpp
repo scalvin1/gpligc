@@ -500,31 +500,36 @@ Timecheck normaltime("Calc Normalvectors",conf_pointer);
 //Calculation of normalvectors
 //resize the array for normal vectors
 	normalvectors = new float **[steps_lat];
+	int maxlat_ = 0;
+	int maxlon_ = 0;
 	for (int i = 0; i < steps_lat; i += downscalefactor)
 		normalvectors[i] = new float *[steps_lon];
 
-	for (int i = 0; i < steps_lat; i += downscalefactor)
-		for (int j = 0; j < steps_lon; j += downscalefactor)
+	for (int i = 0; i < steps_lat; i += downscalefactor){
+		maxlat_ = i;
+		for (int j = 0; j < steps_lon; j += downscalefactor){
+			maxlon_ = j;
 			normalvectors[i][j] = new float[3];
-
+		}
+	}
 	// reset normalvektor at the edges
 	for (int zeile = 0; zeile < steps_lat; zeile += downscalefactor) {
 
 	      normalvectors[zeile][0][0] = 0;
 	      normalvectors[zeile][0][1] = 0;
 	      normalvectors[zeile][0][2] = 1.;
-	      normalvectors[zeile][steps_lon-1][0] = 0;
-	      normalvectors[zeile][steps_lon-1][1] = 0;
-	      normalvectors[zeile][steps_lon-1][2] = 1.;
+	      normalvectors[zeile][maxlon_][0] = 0;
+	      normalvectors[zeile][maxlon_][1] = 0;
+	      normalvectors[zeile][maxlon_][2] = 1.;
 	}
 	for (int spalte = 0; spalte < steps_lon; spalte += downscalefactor) {
 
 	      normalvectors[0][spalte][0]=0;
 	      normalvectors[0][spalte][1]=0;
 	      normalvectors[0][spalte][2]=1.;
-              normalvectors[steps_lat-1][spalte][0]=0;
-	      normalvectors[steps_lat-1][spalte][1]=0;
-	      normalvectors[steps_lat-1][spalte][2]=1.;
+	      normalvectors[maxlat_][spalte][0]=0;
+	      normalvectors[maxlat_][spalte][1]=0;
+	      normalvectors[maxlat_][spalte][2]=1.;
 	}
 
 
