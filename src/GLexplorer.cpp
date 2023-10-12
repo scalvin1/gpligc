@@ -4327,7 +4327,7 @@ int main(int argc, char *argv[])
 			__GNUC_MINOR__, __GNUC_PATCHLEVEL__, __VERSION__);
 #endif
 
-		sprintf(build, "%s %s", __DATE__, __TIME__);
+//		sprintf(build, "%s %s", __DATE__, __TIME__);
 
 #ifdef __WIN32__
 		sprintf(system, "Windows (__WIN32__) is set");

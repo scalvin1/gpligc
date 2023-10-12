@@ -1380,9 +1380,9 @@ void InfoScreen(void) {
 	string EX = "OGIE (openGLIGCexplorer) ";
 	EX  += OGIE_VERSION;
 	EX += DEVELOPEMENT;
-	EX += " (build:";
-	EX += __DATE__;
-	EX += ")";
+//	EX += " (build:";
+//	EX += __DATE__;
+//	EX += ")";
 	infotext.push_back(EX);
                 EX = COPYRIGHT;
                 EX += " by ";
